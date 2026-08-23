@@ -18,16 +18,39 @@ const read = (relative: string) =>
 const siteConfig = read("src/config/site.ts");
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "";
 
-if (!siteUrl) {
+if (!siteUrl.trim()) {
   add(
     "blocker",
     "رابط الموقع",
-    "NEXT_PUBLIC_SITE_URL غير مضبوط. بدونه تُبنى الروابط الأساسية وخريطة الموقع وصور المشاركة على النطاق الافتراضي في الشيفرة.",
+    "NEXT_PUBLIC_SITE_URL غير مضبوط أو مضبوط بقيمة فارغة. البناء لا ينهار — يعود إلى النطاق الافتراضي في الشيفرة — لكن الروابط الأساسية وخريطة الموقع وصور المشاركة ستشير إلى نطاق لا تملكه.",
   );
 } else if (siteUrl.includes("localhost")) {
   add("blocker", "رابط الموقع", `القيمة «${siteUrl}» محلية ولا تصلح للنشر.`);
 } else {
-  add("ok", "رابط الموقع", siteUrl);
+  // نطبّق التصحيح نفسه الذي تطبّقه الإعدادات، لنُظهر ما سيُستعمل فعلًا لا ما كُتب.
+  let resolved = "";
+  try {
+    resolved = new URL(/^https?:\/\//i.test(siteUrl.trim()) ? siteUrl.trim() : `https://${siteUrl.trim()}`)
+      .origin;
+  } catch {
+    resolved = "";
+  }
+
+  if (!resolved) {
+    add(
+      "blocker",
+      "رابط الموقع",
+      `القيمة «${siteUrl}» ليست رابطًا صالحًا. سيعود الموقع إلى النطاق الافتراضي في الشيفرة.`,
+    );
+  } else if (resolved !== siteUrl.trim()) {
+    add(
+      "warn",
+      "رابط الموقع",
+      `صُحّحت «${siteUrl.trim()}» إلى «${resolved}». اكتبها هكذا في البيئة لتتطابق القيمتان.`,
+    );
+  } else {
+    add("ok", "رابط الموقع", resolved);
+  }
 }
 
 const contactEmail = process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "";
