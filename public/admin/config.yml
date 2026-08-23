@@ -8,7 +8,7 @@ local_backend: true
 
 backend:
   name: github
-  repo: manal-25othman/linkedin-automation
+  repo: manal-25othman/manal-blog
   branch: main
   # نقطة الاستيثاق مبنيّة داخل الموقع نفسه (src/app/api/oauth) — لا وسيط خارجي.
   base_url: https://istidlal.ai
@@ -18,14 +18,14 @@ backend:
 publish_mode: editorial_workflow
 
 locale: ar
-media_folder: istidlal/public/uploads
+media_folder: public/uploads
 public_folder: /uploads
 
 collections:
   - name: articles
     label: المقالات
     label_singular: مقال
-    folder: istidlal/content/articles
+    folder: content/articles
     create: true
     slug: "{{fields.slug}}"
     preview_path: articles/{{slug}}
@@ -90,7 +90,7 @@ collections:
   - name: tools
     label: الأدوات
     label_singular: أداة
-    folder: istidlal/content/tools
+    folder: content/tools
     create: true
     slug: "{{fields.slug}}"
     preview_path: tools/{{slug}}
@@ -156,7 +156,7 @@ collections:
   - name: pages
     label: الصفحات
     label_singular: صفحة
-    folder: istidlal/content/pages
+    folder: content/pages
     create: false
     delete: false
     preview_path: "{{slug}}"

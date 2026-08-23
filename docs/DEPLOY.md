@@ -9,7 +9,6 @@
 ## قبل أن تبدأ
 
 ```bash
-cd istidlal
 npm run prelaunch
 ```
 
@@ -22,12 +21,12 @@ npm run prelaunch
 Vercel من صانعي Next.js، وخطتها المجانية تكفي مدونة تمامًا: بناء تلقائي عند كل دفعة، وشهادة SSL، وشبكة توصيل عالمية.
 
 1. ادخل [vercel.com](https://vercel.com) وسجّل **بحساب GitHub**.
-2. **Add New → Project**، واختر مستودع `linkedin-automation`.
+2. **Add New → Project**، واختر مستودع `manal-blog`.
 3. **الإعداد الحاسم:** المستودع يضمّ أكثر من مشروع، فاضبط:
 
    | الحقل | القيمة |
    |---|---|
-   | **Root Directory** | `istidlal` ← **لا تتخطّى هذا** |
+   | **Root Directory** | `.` (الجذر — القيمة الافتراضية) |
    | Framework Preset | Next.js (يُكتشف تلقائيًّا) |
    | Build Command | `npm run build` (الافتراضي) |
 
@@ -129,7 +128,7 @@ Vercel ينشر من الفرع الرئيسي (`main`). العمل الحالي
 
 | العَرَض | السبب الغالب |
 |---|---|
-| البناء يفشل: `No Next.js version detected` | **Root Directory** ليس `istidlal` |
+| البناء يفشل: `No Next.js version detected` | **Root Directory** ليس جذر المستودع |
 | الروابط وخريطة الموقع تشير إلى `istidlal.ai` | `NEXT_PUBLIC_SITE_URL` غير مضبوط أو لم يُعد النشر بعد تغييره |
 | صور المشاركة لا تظهر | نفس السبب أعلاه — تُبنى من الرابط الأساسي |
 | الخطوط لا تُحمَّل | البناء لم يصل إلى Google Fonts؛ أعد النشر |

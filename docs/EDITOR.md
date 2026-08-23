@@ -33,7 +33,7 @@
 ## Pages CMS — بلا تنصيب
 
 1. افتح [app.pagescms.org](https://app.pagescms.org) وسجّل الدخول بحساب GitHub.
-2. امنح التطبيق صلاحية الوصول إلى مستودع `linkedin-automation` وحده.
+2. امنح التطبيق صلاحية الوصول إلى مستودع `manal-blog` وحده.
 3. اختر المستودع، فيقرأ `.pages.yml` من جذره ويعرض مجموعتين: **المقالات** (إنشاء وتعديل وحذف) و**الصفحات** (ثماني صفحات ثابتة للتعديل).
 
 كل حفظ كوميت في الفرع الذي تختاره من داخل المحرّر، وكل كوميت على فرع النشر يُطلق بناء الموقع.
@@ -90,7 +90,7 @@ GITHUB_OAUTH_SECRET=...
 
 ```yaml
 backend:
-  repo: manal-25othman/linkedin-automation   # المستودع
+  repo: manal-25othman/manal-blog   # المستودع
   branch: main                               # الفرع الذي ينشر منه الموقع
   base_url: https://istidlal.ai              # نطاقك بعد التسجيل
 ```
