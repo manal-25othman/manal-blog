@@ -118,7 +118,7 @@ export default function HomePage() {
       {/* ---------- التصنيفات ---------- */}
       <section className="border-y border-line bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <SectionHead title="ستة مسارات، تخصّص واحد" href="/categories" linkLabel="فهرس التصنيفات" />
+          <SectionHead title="من الأساسيات إلى الإنتاج" href="/categories" linkLabel="فهرس التصنيفات" />
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {categories.map((category) => (
               <Link
