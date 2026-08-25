@@ -60,7 +60,7 @@ export const siteConfig = {
   email: (process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "").trim(),
   editorialEmail: (process.env.NEXT_PUBLIC_EDITORIAL_EMAIL ?? "").trim(),
   author: {
-    name: "منال العرقي",
+    name: "منال عثمان",
     role: "مهندسة أنظمة ذكاء اصطناعي تطبيقية",
     bio: "تعمل على نقل الأنظمة المبنيّة على النماذج اللغوية من دفتر التجارب إلى الإنتاج: الاسترجاع، التقييم، والتكلفة. تكتب في استدلال ما تختبره فعلًا، وتنشر القياس مع النتيجة.",
     url: "/about",
