@@ -91,7 +91,7 @@ export async function POST(request: Request) {
         from: FROM_EMAIL,
         to: [TO_EMAIL],
         reply_to: email,
-        subject: singleLine(`[استدلال] ${subject}`, 150),
+        subject: singleLine(`[إسناد] ${subject}`, 150),
         text: plainBody({
           name: singleLine(name, 80),
           email: singleLine(email, 254),

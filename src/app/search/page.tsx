@@ -6,7 +6,7 @@ import { getSearchIndex } from "@/lib/articles";
 
 export const metadata: Metadata = {
   title: "البحث",
-  description: "ابحث في مقالات استدلال.",
+  description: "ابحث في مقالات إسناد.",
   // صفحات نتائج البحث الداخلي لا تُفهرَس.
   robots: { index: false, follow: true },
 };

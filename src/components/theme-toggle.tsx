@@ -9,7 +9,7 @@ export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme | null>(null);
 
   useEffect(() => {
-    const stored = window.localStorage.getItem("istidlal-theme") as Theme | null;
+    const stored = window.localStorage.getItem("isnad-theme") as Theme | null;
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     setTheme(stored ?? (prefersDark ? "dark" : "light"));
   }, []);
@@ -18,7 +18,7 @@ export function ThemeToggle() {
     const next: Theme = theme === "dark" ? "light" : "dark";
     setTheme(next);
     document.documentElement.dataset.theme = next;
-    window.localStorage.setItem("istidlal-theme", next);
+    window.localStorage.setItem("isnad-theme", next);
   }
 
   return (

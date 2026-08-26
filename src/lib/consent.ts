@@ -3,7 +3,7 @@
  * سكربت تحليلي أو إعلاني قبل موافقة صريحة — وهو ما تشترطه سياسات Google
  * لمستخدمي المنطقة الاقتصادية الأوروبية والمملكة المتحدة.
  */
-export const CONSENT_KEY = "istidlal-consent";
+export const CONSENT_KEY = "isnad-consent";
 /** رفع الإصدار يُعيد سؤال الزوّار السابقين بعد أي تغيير جوهري في السياسة. */
 export const CONSENT_VERSION = 1;
 
@@ -24,7 +24,7 @@ export const DENY_ALL: Omit<ConsentState, "decidedAt"> = {
 };
 
 /** حدث داخلي يفتح لوحة التفضيلات من أي مكان (رابط التذييل مثلًا). */
-export const OPEN_PREFERENCES_EVENT = "istidlal:open-consent";
+export const OPEN_PREFERENCES_EVENT = "isnad:open-consent";
 
 export function readConsent(): ConsentState | null {
   if (typeof window === "undefined") return null;
@@ -48,7 +48,7 @@ export function writeConsent(choice: { analytics: boolean; ads: boolean }): Cons
   };
   window.localStorage.setItem(CONSENT_KEY, JSON.stringify(state));
   applyToGoogleConsentMode(state);
-  window.dispatchEvent(new CustomEvent("istidlal:consent-changed", { detail: state }));
+  window.dispatchEvent(new CustomEvent("isnad:consent-changed", { detail: state }));
   return state;
 }
 

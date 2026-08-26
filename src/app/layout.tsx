@@ -87,7 +87,7 @@ export const viewport: Viewport = {
 };
 
 /** يضبط السمة قبل أول رسم لمنع وميض الوضع الفاتح على شاشة داكنة. */
-const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem("istidlal-theme");if(t){document.documentElement.dataset.theme=t;}}catch(e){}})();`;
+const THEME_BOOTSTRAP = `(function(){try{var t=localStorage.getItem("isnad-theme");if(t){document.documentElement.dataset.theme=t;}}catch(e){}})();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const organization = {

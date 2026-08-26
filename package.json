@@ -1,8 +1,8 @@
 {
-  "name": "istidlal",
+  "name": "isnad",
   "version": "0.1.0",
   "private": true,
-  "description": "استدلال — مدونة تقنية متخصصة في هندسة أنظمة الذكاء الاصطناعي التطبيقية",
+  "description": "إسناد — مدونة تقنية متخصصة في هندسة أنظمة الذكاء الاصطناعي التطبيقية",
   "scripts": {
     "predev": "node scripts/sync-cms.mjs",
     "dev": "next dev",

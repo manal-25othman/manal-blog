@@ -6,7 +6,7 @@ import { PageShell } from "@/components/page-shell";
 
 export const metadata: Metadata = {
   title: "النشرة البريدية",
-  description: "نشرة استدلال الأسبوعية: ورقة مشروحة، قياس عملي، وخطأ شائع في الإنتاج.",
+  description: "نشرة إسناد الأسبوعية: ورقة مشروحة، قياس عملي، وخطأ شائع في الإنتاج.",
   alternates: { canonical: "/newsletter" },
 };
 

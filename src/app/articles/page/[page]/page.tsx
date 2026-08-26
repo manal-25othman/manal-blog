@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { page } = await params;
   return {
     title: `المقالات — صفحة ${page}`,
-    description: `الصفحة ${page} من أرشيف مقالات استدلال في هندسة أنظمة الذكاء الاصطناعي التطبيقية.`,
+    description: `الصفحة ${page} من أرشيف مقالات إسناد في هندسة أنظمة الذكاء الاصطناعي التطبيقية.`,
     alternates: { canonical: `/articles/page/${page}` },
     // صفحات الأرشيف بعد الأولى محتواها مكرّر الطابع: تُتبَع ولا تُفهرَس.
     robots: { index: false, follow: true },

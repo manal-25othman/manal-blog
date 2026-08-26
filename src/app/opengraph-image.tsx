@@ -1,6 +1,6 @@
 import { OG_SIZE, renderOgImage } from "@/lib/og";
 
-export const alt = "استدلال — هندسة أنظمة الذكاء الاصطناعي التطبيقية";
+export const alt = "إسناد — هندسة أنظمة الذكاء الاصطناعي التطبيقية";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 

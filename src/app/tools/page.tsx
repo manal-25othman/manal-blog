@@ -35,7 +35,7 @@ export default function ToolsPage() {
           دليل الأدوات
         </h1>
         <p className="mt-4 text-lg leading-9 text-ink-muted">
-          ليس جردًا لكل ما في السوق. هذه الأدوات التي تظهر في مقالات استدلال، ولكل مدخل سؤالان:
+          ليس جردًا لكل ما في السوق. هذه الأدوات التي تظهر في مقالات إسناد، ولكل مدخل سؤالان:
           متى تناسبك، ومتى لا تناسبك.
         </p>
         <p className="mt-3 text-sm leading-7 text-ink-faint">

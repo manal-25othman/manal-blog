@@ -15,7 +15,7 @@ export function SiteFooter() {
         <div className="md:col-span-1">
           <div className="flex items-center gap-2.5">
             <LogoMark size={34} />
-            <span className="font-display text-lg font-bold text-ink">استدلال</span>
+            <span className="font-display text-lg font-bold text-ink">إسناد</span>
           </div>
           <p className="mt-4 text-sm leading-7 text-ink-muted">
             هندسة أنظمة الذكاء الاصطناعي التطبيقية بالعربية — بالقياس لا بالانطباع.
@@ -70,7 +70,7 @@ export function SiteFooter() {
 
       <div className="border-t border-line">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-xs text-ink-faint sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p className="numerals-latn">© {year} استدلال — جميع الحقوق محفوظة.</p>
+          <p className="numerals-latn">© {year} إسناد — جميع الحقوق محفوظة.</p>
           <p>
             للتواصل التحريري:{" "}
             <a className="text-signal hover:underline" href={`mailto:${siteConfig.email}`}>

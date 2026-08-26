@@ -17,7 +17,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ slu
   const category = categoryBySlug.get(article.category);
 
   return renderCoverImage({
-    eyebrow: category?.name ?? "استدلال",
+    eyebrow: category?.name ?? "إسناد",
     accent: category?.accent,
   });
 }

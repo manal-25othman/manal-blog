@@ -73,9 +73,9 @@ npm run dev     # ينسخ حزمة المحرّر تلقائيًّا ثم يش�
 
 | الحقل | القيمة |
 |---|---|
-| Application name | `محرّر استدلال` |
-| Homepage URL | `https://istidlal.ai` |
-| Authorization callback URL | `https://istidlal.ai/api/oauth/callback` |
+| Application name | `محرّر إسناد` |
+| Homepage URL | `https://manal-blog.vercel.app` |
+| Authorization callback URL | `https://manal-blog.vercel.app/api/oauth/callback` |
 
 **ب. اضبط متغيّرَي البيئة في الاستضافة**
 
@@ -92,7 +92,7 @@ GITHUB_OAUTH_SECRET=...
 backend:
   repo: manal-25othman/manal-blog   # المستودع
   branch: main                               # الفرع الذي ينشر منه الموقع
-  base_url: https://istidlal.ai              # نطاقك بعد التسجيل
+  base_url: https://manal-blog.vercel.app              # نطاقك بعد التسجيل
 ```
 
 نقطتا الاستيثاق مبنيّتان داخل الموقع (`src/app/api/oauth/`)، فلا يمرّ رمز الوصول بوسيط خارجي. من يملك إذن الكتابة على المستودع يستطيع الدخول — الصلاحيات تُدار من GitHub، لا من الموقع.

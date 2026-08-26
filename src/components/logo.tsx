@@ -1,6 +1,6 @@
 /**
- * شعار استدلال: رمز الاستلزام المنطقي (⊣) معكوسًا ليناسب اتجاه القراءة
- * من اليمين لليسار — «يُستدَل منه». يبقى مقروءًا عند ١٦ بكسل.
+ * شعار إسناد: عمود سند رأسي على اليمين، يمتدّ منه خطّ إلى نقطة على اليسار —
+ * «ادّعاء مسنَد إلى مصدره». يقرأ من اليمين لليسار ويبقى مقروءًا عند ١٦ بكسل.
  */
 export function LogoMark({ size = 36, className = "" }: { size?: number; className?: string }) {
   return (
@@ -29,9 +29,9 @@ export function LogoLockup({ size = 36 }: { size?: number }) {
     <span className="flex items-center gap-2.5">
       <LogoMark size={size} />
       <span className="flex flex-col leading-none">
-        <span className="font-display text-lg font-bold text-ink">استدلال</span>
+        <span className="font-display text-lg font-bold text-ink">إسناد</span>
         <span className="mt-0.5 text-[0.62rem] tracking-[0.22em] text-ink-faint numerals-latn">
-          ISTIDLAL.AI
+          ISNAD
         </span>
       </span>
     </span>

@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       type: "article",
       url: absoluteUrl(`/tools/${tool.slug}`),
-      title: `${tool.name} — دليل أدوات استدلال`,
+      title: `${tool.name} — دليل أدوات إسناد`,
       description: tool.description,
     },
   };
@@ -171,7 +171,7 @@ export default async function ToolPage({ params }: PageProps) {
 
       {articles.length > 0 && (
         <section className="mt-10 rounded-2xl border border-line bg-surface p-6">
-          <h2 className="font-display text-lg font-bold text-ink">من مقالات استدلال</h2>
+          <h2 className="font-display text-lg font-bold text-ink">من مقالات إسناد</h2>
           <ul className="mt-4 flex flex-col divide-y divide-line">
             {articles.map((article) => (
               <li key={article.slug}>

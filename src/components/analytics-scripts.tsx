@@ -17,8 +17,8 @@ export function AnalyticsScripts() {
   useEffect(() => {
     setConsent(readConsent());
     const onChange = (event: Event) => setConsent((event as CustomEvent<ConsentState>).detail);
-    window.addEventListener("istidlal:consent-changed", onChange);
-    return () => window.removeEventListener("istidlal:consent-changed", onChange);
+    window.addEventListener("isnad:consent-changed", onChange);
+    return () => window.removeEventListener("isnad:consent-changed", onChange);
   }, []);
 
   const ga4 = siteConfig.analytics.ga4;

@@ -11,7 +11,7 @@ content:
   # ─── المقالات ─────────────────────────────────────────────────
   - name: articles
     label: المقالات
-    description: مقالات استدلال التقنية. كل مقال ملف Markdown في المستودع.
+    description: مقالات إسناد التقنية. كل مقال ملف Markdown في المستودع.
     type: collection
     path: content/articles
     format: yaml-frontmatter
@@ -258,7 +258,7 @@ content:
     label: الصفحات
     type: group
     items:
-      - { name: page_about, label: عن استدلال, type: file, path: content/pages/about.md, format: yaml-frontmatter, fields: &page_fields [
+      - { name: page_about, label: عن إسناد, type: file, path: content/pages/about.md, format: yaml-frontmatter, fields: &page_fields [
             { name: title, label: العنوان, type: string, required: true },
             { name: description, label: وصف السيو, type: text, required: true },
             { name: lead, label: السطر الافتتاحي, type: text, required: false },

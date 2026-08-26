@@ -80,8 +80,8 @@ export function renderOgImage({ title, eyebrow }: { title: string; eyebrow: stri
       >
         <div style={{ display: "flex", alignItems: "center", gap: 20, alignSelf: "flex-end" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end" }}>
-            <span style={{ color: "#E8EDF5", fontSize: 36 }}>استدلال</span>
-            <span style={{ color: "#6b7c93", fontSize: 17, letterSpacing: 4 }}>ISTIDLAL.AI</span>
+            <span style={{ color: "#E8EDF5", fontSize: 36 }}>إسناد</span>
+            <span style={{ color: "#6b7c93", fontSize: 17, letterSpacing: 4 }}>ISNAD</span>
           </div>
           <Mark />
         </div>
@@ -196,7 +196,7 @@ export function renderCoverImage({
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ color: "#8fa3bd", fontSize: 20, letterSpacing: 3 }}>ISTIDLAL.AI</span>
+            <span style={{ color: "#8fa3bd", fontSize: 20, letterSpacing: 3 }}>ISNAD</span>
             <div style={{ width: 40, height: 40, borderRadius: 12, background: "#0E7C86" }} />
           </div>
 

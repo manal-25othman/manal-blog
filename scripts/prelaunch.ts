@@ -180,7 +180,7 @@ add("ok", "دليل الأدوات", `${tools.length} مدخلًا، ولكلٍ�
 const icon = { blocker: "✗", warn: "⚠︎", ok: "✓" } as const;
 const order: Level[] = ["blocker", "warn", "ok"];
 
-console.log("\nفحص ما قبل الإطلاق — استدلال\n" + "─".repeat(48));
+console.log("\nفحص ما قبل الإطلاق — إسناد\n" + "─".repeat(48));
 for (const level of order) {
   for (const item of results.filter((r) => r.level === level)) {
     console.log(`${icon[level]}  ${item.label}: ${item.detail}`);

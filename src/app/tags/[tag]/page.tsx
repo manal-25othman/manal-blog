@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const label = decodeURIComponent(tag);
   return {
     title: `وسم: ${label}`,
-    description: `كل مقالات استدلال الموسومة بـ«${label}».`,
+    description: `كل مقالات إسناد الموسومة بـ«${label}».`,
     alternates: { canonical: `/tags/${tag}` },
     // أرشيف الوسوم رقيق المحتوى — يُتبَع ولا يُفهرَس.
     robots: { index: false, follow: true },

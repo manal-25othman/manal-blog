@@ -198,7 +198,7 @@ export default async function ArticlePage({ params }: PageProps) {
               {siteConfig.author.role}. {siteConfig.author.bio}
             </p>
             <Link href="/about" className="mt-3 inline-block text-sm font-medium text-signal hover:underline">
-              اقرأ المزيد عن استدلال ←
+              اقرأ المزيد عن إسناد ←
             </Link>
           </aside>
         </div>
