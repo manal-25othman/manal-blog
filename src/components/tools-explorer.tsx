@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
+import { ToolLogo } from "@/components/tool-logo";
 import {
   hostingLabels,
   licenseLabels,
@@ -20,6 +21,8 @@ export type ToolCard = {
   license: ToolLicense;
   hosting: ToolHosting;
   hasTiktok: boolean;
+  logo?: string;
+  logoAlt?: string;
 };
 
 const ALL = "all";
@@ -115,11 +118,19 @@ export function ToolsExplorer({ tools }: { tools: ToolCard[] }) {
                 className="lift flex h-full flex-col rounded-2xl border border-line bg-surface p-6 hover:border-signal-line hover:shadow-[var(--shadow-card)]"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <h2 className="font-display text-lg font-bold text-ink">{tool.name}</h2>
-                    <p dir="ltr" className="mt-0.5 text-xs text-ink-faint">
-                      {tool.nameLatin}
-                    </p>
+                  <div className="flex items-start gap-3">
+                    <ToolLogo
+                      logo={tool.logo}
+                      logoAlt={tool.logoAlt}
+                      name={tool.name}
+                      nameLatin={tool.nameLatin}
+                    />
+                    <div>
+                      <h2 className="font-display text-lg font-bold text-ink">{tool.name}</h2>
+                      <p dir="ltr" className="mt-0.5 text-xs text-ink-faint">
+                        {tool.nameLatin}
+                      </p>
+                    </div>
                   </div>
                   {tool.hasTiktok && (
                     <span className="shrink-0 rounded-md border border-signal-line bg-signal-soft px-2 py-1 text-[0.7rem] font-medium text-signal">

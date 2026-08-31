@@ -27,6 +27,15 @@ export type ToolMeta = {
   hosting: ToolHosting;
   /** الموقع الرسمي للأداة. لا يُدرَج مدخل بلا رابط رسمي. */
   website: string;
+  /**
+   * صورة الأداة — شعارها أو لقطة من واجهتها. مسار داخل الموقع يبدأ بـ
+   * `/uploads/` لأن المحرّر يرفع إلى `public/uploads`. لا نقبل رابطًا
+   * خارجيًّا: الصورة المستضافة عند طرف آخر تنكسر حين يحذفها صاحبها،
+   * وتُسرّب زيارة القارئ إلى خادم لا نتحكّم فيه.
+   */
+  logo?: string;
+  /** بديل نصّي للصورة. يُشتقّ من الاسم إن تُرك فارغًا. */
+  logoAlt?: string;
   docs?: string;
   repo?: string;
   /**
@@ -58,6 +67,14 @@ function readRawTools() {
     });
 }
 
+/**
+ * الصور المقبولة محلّية فقط (`/uploads/…`): الصورة المستضافة عند طرف آخر
+ * تنكسر حين يحذفها صاحبها، وتُسرّب زيارة القارئ إلى خادم لا نتحكّم فيه.
+ */
+export function isLocalUpload(value: string): boolean {
+  return /^\/uploads\/[\w./-]+$/.test(value) && !value.includes("..");
+}
+
 function stringList(value: unknown): string[] {
   return Array.isArray(value) ? (value as string[]).map(String) : [];
 }
@@ -78,6 +95,18 @@ function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
     throw new Error(`الأداة «${slug}» بلا رابط رسمي صالح — لا يُدرج مدخل بلا مصدر.`);
   }
 
+  // الصورة اختيارية وتزيينية، فقيمتها الخاطئة لا تُسقط الموقع: تُتجاهَل
+  // فيظهر الحرف بدلًا منها. لكنها لا تمرّ صامتة — تُطبع في سجلّ البناء
+  // ويرفضها `npm run check:content`، فالخطأ يُرى ولا يُسكت عنه.
+  const rawLogo = String(data.logo ?? "").trim();
+  const logo = isLocalUpload(rawLogo) ? rawLogo : "";
+  if (rawLogo && !logo) {
+    console.warn(
+      `⚠︎ الأداة «${slug}»: قيمة الصورة «${rawLogo}» متجاهَلة — المسار يجب أن يبدأ بـ /uploads/. ` +
+        `ارفعي الصورة من المحرّر بدل لصق رابط خارجي.`,
+    );
+  }
+
   return {
     slug,
     name: String(data.name ?? ""),
@@ -87,6 +116,8 @@ function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
     license,
     hosting,
     website,
+    logo: logo || undefined,
+    logoAlt: data.logoAlt ? String(data.logoAlt) : undefined,
     docs: data.docs ? String(data.docs) : undefined,
     repo: data.repo ? String(data.repo) : undefined,
     tiktok: data.tiktok ? String(data.tiktok) : undefined,
@@ -159,6 +190,8 @@ export function getToolIndex() {
     license: tool.license,
     hosting: tool.hosting,
     hasTiktok: Boolean(tool.tiktok),
+    logo: tool.logo,
+    logoAlt: tool.logoAlt,
   }));
 }
 

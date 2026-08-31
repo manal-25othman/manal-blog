@@ -58,6 +58,7 @@ content:
         required: true
         options:
           values:
+            - { label: أساسيات الذكاء الاصطناعي, value: basics }
             - { label: الاسترجاع المعزّز (RAG), value: rag }
             - { label: الوكلاء والأدوات, value: agents }
             - { label: التقييم والقياس, value: evaluation }
@@ -196,6 +197,21 @@ content:
         pattern:
           regex: '^https://'
           message: رابط https حقيقي — لا يُدرج مدخل بلا مصدر رسمي.
+
+      - name: logo
+        label: صورة الأداة
+        type: image
+        required: false
+        description: >-
+          شعار الأداة أو لقطة من واجهتها. ارفعيها من هنا فتُخزَّن داخل الموقع.
+          مربّعة أفضل، وحوالي ٢٥٦ بكسل تكفي. المدخل بلا صورة يعرض حرف الأداة
+          الأول بدلًا منها، فلا تختلّ الشبكة.
+
+      - name: logoAlt
+        label: وصف الصورة (بديل نصّي)
+        type: string
+        required: false
+        description: لقارئ الشاشة. يُترك فارغًا فيُكتب «شعار <اسم الأداة>» تلقائيًّا.
 
       - name: docs
         label: التوثيق

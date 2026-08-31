@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { JsonLd } from "@/components/json-ld";
+import { ToolLogo } from "@/components/tool-logo";
 import { absoluteUrl, siteConfig } from "@/config/site";
 import {
   hostingLabels,
@@ -113,10 +114,21 @@ export default async function ToolPage({ params }: PageProps) {
           </span>
         </div>
 
-        <h1 className="mt-4 font-display text-3xl font-bold text-ink md:text-4xl">{tool.name}</h1>
-        <p dir="ltr" className="mt-1 text-sm text-ink-faint">
-          {tool.nameLatin}
-        </p>
+        <div className="mt-4 flex items-center gap-4">
+          <ToolLogo
+            logo={tool.logo}
+            logoAlt={tool.logoAlt}
+            name={tool.name}
+            nameLatin={tool.nameLatin}
+            size={64}
+          />
+          <div>
+            <h1 className="font-display text-3xl font-bold text-ink md:text-4xl">{tool.name}</h1>
+            <p dir="ltr" className="mt-1 text-sm text-ink-faint">
+              {tool.nameLatin}
+            </p>
+          </div>
+        </div>
         <p className="mt-4 text-lg leading-9 text-ink-muted">{tool.description}</p>
 
         <div className="mt-6 flex flex-wrap gap-3">
@@ -197,8 +209,17 @@ export default async function ToolPage({ params }: PageProps) {
                   href={`/tools/${item.slug}`}
                   className="lift block h-full rounded-xl border border-line bg-surface p-4 text-sm hover:border-signal-line"
                 >
-                  <span className="font-display font-bold text-ink">{item.name}</span>
-                  <span className="mt-1 block text-xs leading-6 text-ink-faint">
+                  <span className="flex items-center gap-2.5">
+                    <ToolLogo
+                      logo={item.logo}
+                      logoAlt={item.logoAlt}
+                      name={item.name}
+                      nameLatin={item.nameLatin}
+                      size={32}
+                    />
+                    <span className="font-display font-bold text-ink">{item.name}</span>
+                  </span>
+                  <span className="mt-2 block text-xs leading-6 text-ink-faint">
                     {item.description}
                   </span>
                 </Link>

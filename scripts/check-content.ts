@@ -6,7 +6,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { parseFrontmatter } from "../src/lib/frontmatter";
-import { categoryBySlug } from "../src/config/categories";
+import { categories, categoryBySlug } from "../src/config/categories";
+import { toolCategories } from "../src/config/tool-categories";
 import { todayIso } from "../src/lib/publication";
 
 const DIR = path.join(process.cwd(), "content", "articles");
@@ -69,6 +70,61 @@ for (const file of files) {
   if (words < 450) fail(`المقال قصير (${words} كلمة) — الحدّ ٤٥٠ كلمة`);
   else if (words < 600) warn(`${words} كلمة — المستهدف ٦٠٠+ لمقال يتنافس في البحث`);
 }
+
+/**
+ * تصنيف موجود في الشيفرة وغائب عن قوائم المحرّر يعني أن المقالات التي تحمله
+ * تفتح في المحرّر بحقل تصنيف فارغ ولا تُحفظ. حدث هذا فعلًا مع «الأساسيات»
+ * بعد إضافة ثمانية عشر مقالًا، فصار الفحص جزءًا من البوّابة.
+ */
+function checkEditorCategories() {
+  const configs = [
+    { file: ".pages.yml", label: "Pages CMS" },
+    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمج" },
+  ];
+
+  for (const { file, label } of configs) {
+    const full = path.join(process.cwd(), file);
+    if (!fs.existsSync(full)) {
+      errors.push(`${label}: ملف الإعدادات ${file} مفقود`);
+      continue;
+    }
+    const text = fs.readFileSync(full, "utf8");
+    for (const slug of [...categories.map((c) => c.slug), ...toolCategories.map((c) => c.slug)]) {
+      // القيمة تُكتب `value: slug` أو `value: "slug"` حسب أسلوب كل ملف.
+      if (!new RegExp(`value:\\s*"?${slug}"?\\s*[,}\\n]`).test(text)) {
+        errors.push(`${label} (${file}): التصنيف «${slug}» غير مدرج في قوائم المحرّر`);
+      }
+    }
+  }
+}
+
+checkEditorCategories();
+
+/**
+ * صور الأدوات. البناء يتجاهل الصورة الخاطئة كي لا يسقط الموقع بسبب صورة،
+ * فلولا هذا الفحص لمرّت الصورة المفقودة صامتة: المدخل يظهر بحرفه الأول
+ * والمحرّرة تظنّ أنها رفعت صورة.
+ */
+function checkToolImages() {
+  const dir = path.join(process.cwd(), "content", "tools");
+  if (!fs.existsSync(dir)) return;
+
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+    const { data } = parseFrontmatter(fs.readFileSync(path.join(dir, file), "utf8"));
+    const logo = String(data.logo ?? "").trim();
+    if (!logo) continue;
+
+    if (!/^\/uploads\/[\w./-]+$/.test(logo) || logo.includes("..")) {
+      errors.push(`${file}: مسار الصورة «${logo}» غير مقبول — ارفعيها من المحرّر ليبدأ بـ /uploads/`);
+      continue;
+    }
+    if (!fs.existsSync(path.join(process.cwd(), "public", logo))) {
+      errors.push(`${file}: الصورة «${logo}» غير موجودة في public — لن تظهر`);
+    }
+  }
+}
+
+checkToolImages();
 
 console.log(`فُحص ${files.length} مقالًا.`);
 for (const warning of warnings) console.log(`⚠︎  ${warning}`);
