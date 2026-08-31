@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CookiePreferencesLink } from "./cookie-consent";
 import { LogoMark } from "./logo";
 import { categories } from "@/config/categories";
-import { legalNav, primaryNav } from "@/config/nav";
+import { footerExtraNav, legalNav, primaryNav } from "@/config/nav";
 import { siteConfig } from "@/config/site";
 
 export function SiteFooter() {
@@ -46,7 +46,7 @@ export function SiteFooter() {
         </FooterColumn>
 
         <FooterColumn title="الموقع">
-          {primaryNav.map((item) => (
+          {[...primaryNav, ...footerExtraNav].map((item) => (
             <FooterLink key={item.href} href={item.href}>
               {item.label}
             </FooterLink>
