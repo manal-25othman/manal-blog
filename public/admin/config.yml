@@ -130,7 +130,13 @@ collections:
     fields:
       - { name: name, label: الاسم بالعربية, widget: string }
       - { name: nameLatin, label: الاسم كما يكتبه المنتج, widget: string }
-      - { name: slug, label: المسار, widget: string, pattern: ["^[a-z0-9-]+$", "حروف لاتينية صغيرة وأرقام وشرطات فقط"] }
+      - {
+          name: slug,
+          label: المعرّف اللاتيني (عنوان الصفحة),
+          widget: string,
+          pattern: ["^[a-z0-9-]+$", "حروف إنجليزية صغيرة وأرقام وشرطات فقط — بلا مسافات وبلا حروف كبيرة. مثال «Note Book LM» ← notebooklm"],
+          hint: "تصير الصفحة /tools/<المعرّف>. لا تغيّريه بعد النشر",
+        }
       - { name: description, label: الوصف, widget: text, hint: "سطر واحد: ما تفعله الأداة، لا لماذا هي رائعة" }
       - {
           name: category,

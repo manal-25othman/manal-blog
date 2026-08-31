@@ -95,13 +95,17 @@ content:
         description: ٥٠–٦٠ حرفًا، والكلمة المفتاحية في أوله.
 
       - name: slug
-        label: رابط المقال
+        label: المعرّف اللاتيني (عنوان الصفحة)
         type: string
         required: true
         pattern:
           regex: '^[a-z0-9-]+$'
-          message: حروف لاتينية صغيرة وأرقام وشرطات فقط — هذا هو عنوان الصفحة.
-        description: مثال rag-complete-guide. لا تغيّره بعد النشر إلا بضرورة.
+          message: >-
+            حروف إنجليزية صغيرة وأرقام وشرطات فقط — بلا مسافات وبلا حروف كبيرة
+            وبلا عربية. مثال «دليل RAG الكامل» ← rag-complete-guide
+        description: >-
+          بحروف إنجليزية صغيرة تفصلها شرطات. تصير الصفحة /articles/<المعرّف>.
+          لا تغيّريه بعد النشر: الرابط المنشور ينكسر وتضيع أرشفته في جوجل.
 
       - name: seoTitle
         label: عنوان السيو
@@ -210,12 +214,17 @@ content:
         required: true
 
       - name: slug
-        label: رابط الأداة
+        label: المعرّف اللاتيني (عنوان الصفحة)
         type: string
         required: true
         pattern:
           regex: '^[a-z0-9-]+$'
-          message: حروف لاتينية صغيرة وأرقام وشرطات فقط.
+          message: >-
+            حروف إنجليزية صغيرة وأرقام وشرطات فقط — بلا مسافات وبلا حروف كبيرة
+            وبلا عربية. مثال «Note Book LM» ← notebooklm
+        description: >-
+          بحروف إنجليزية صغيرة بلا مسافات — هذا هو عنوان الصفحة. مثال: «Note Book LM» ← notebooklm تصير الصفحة /tools/<المعرّف>. لا تغيّريه بعد النشر: الرابط
+          المنشور ينكسر.
 
       - name: description
         label: الوصف
