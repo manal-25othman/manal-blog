@@ -5,7 +5,7 @@ import path from "node:path";
 
 import { parseFrontmatter } from "./frontmatter";
 import { extractFaq, readingMinutes, renderMarkdown, type Heading } from "./markdown";
-import { categoryBySlug } from "@/config/categories";
+import { categoryBySlug, resolveCategory } from "@/config/categories";
 import {
   isPubliclyVisible,
   resolveStatus,
@@ -51,10 +51,10 @@ function readRawArticles() {
 }
 
 function toMeta(slug: string, data: Record<string, unknown>, body: string): ArticleMeta {
+  // تصنيف محذوف من المحرّر لا يُسقط البناء: يُعرض المقال كـ«غير مصنّف»
+  // ويُطبع التحذير، و`npm run check:content` يرفض الحالة صراحةً.
   const category = String(data.category ?? "");
-  if (!categoryBySlug.has(category)) {
-    throw new Error(`المقال «${slug}» يشير إلى تصنيف غير معرّف: «${category}»`);
-  }
+  if (!categoryBySlug.has(category)) resolveCategory(category);
   const title = String(data.title ?? "");
   const description = String(data.description ?? "");
   if (!title || !description) {

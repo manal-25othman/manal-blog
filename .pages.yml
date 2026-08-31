@@ -8,6 +8,72 @@ media:
   output: /uploads
 
 content:
+  # ─── التصنيفات ────────────────────────────────────────────────
+  # مصدر تصنيفات الموقع. إضافة ملف هنا تضيف تصنيفًا كاملًا: صفحة خاصة به،
+  # ومدخلًا في قوائم التصنيف، وخيارًا في حقل تصنيف المقال.
+  - name: categories
+    label: التصنيفات
+    description: >-
+      تصنيفات المقالات. اسم الملف هو معرّف التصنيف، وهو ما يُكتب في ترويسة
+      كل مقال — لا تغيّريه بعد نشر مقالات فيه، وإلّا فقدت المقالات تصنيفها.
+    type: collection
+    path: content/categories
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    view:
+      fields: [name, slug, order]
+      primary: name
+      sort: [order, name]
+    fields:
+      - name: name
+        label: اسم التصنيف
+        type: string
+        required: true
+        description: كما يظهر للقارئ. مثال «الاسترجاع المعزّز (RAG)».
+
+      - name: short
+        label: الاسم المختصر
+        type: string
+        required: true
+        description: يظهر في البطاقات الضيّقة وشارات المقالات. كلمة أو كلمتان.
+
+      - name: slug
+        label: معرّف التصنيف
+        type: string
+        required: true
+        pattern:
+          regex: '^[a-z0-9-]+$'
+          message: حروف لاتينية صغيرة وأرقام وشرطات فقط — هذا هو عنوان صفحة التصنيف.
+        description: >-
+          يصير رابط الصفحة /categories/<المعرّف>. لا تغيّريه بعد نشر مقالات
+          في التصنيف: المقالات تشير إليه بالاسم.
+
+      - name: accent
+        label: لون التصنيف
+        type: string
+        required: true
+        pattern:
+          regex: '^#[0-9a-fA-F]{6}$'
+          message: 'لون ست عشري من ستّة محارف، مثل #2AB7C4'
+        description: يميّز أغلفة مقالات التصنيف. اللون غير الصالح يُستبدل بمحايد.
+
+      - name: order
+        label: ترتيب العرض
+        type: number
+        required: true
+        description: الأصغر أوّلًا. اترك فجوات (١٠، ٢٠، ٣٠…) ليسهل الإدراج بينها.
+
+      - name: subtopics
+        label: المواضيع الفرعية
+        type: string
+        list: true
+        description: تظهر في صفحة التصنيف كخريطة للمجال.
+
+      - name: body
+        label: وصف التصنيف
+        type: text
+        description: فقرة تشرح ما يغطّيه التصنيف. تظهر أعلى صفحته وفي نتائج البحث.
+
   # ─── المقالات ─────────────────────────────────────────────────
   - name: articles
     label: المقالات
@@ -54,17 +120,16 @@ content:
 
       - name: category
         label: التصنيف
-        type: select
+        type: reference
         required: true
         options:
-          values:
-            - { label: أساسيات الذكاء الاصطناعي, value: basics }
-            - { label: الاسترجاع المعزّز (RAG), value: rag }
-            - { label: الوكلاء والأدوات, value: agents }
-            - { label: التقييم والقياس, value: evaluation }
-            - { label: الاستدلال والتكلفة, value: inference }
-            - { label: أمن تطبيقات LLM, value: security }
-            - { label: الحوكمة والامتثال, value: governance }
+          collection: categories
+          value: '{fields.slug}'
+          label: '{fields.name}'
+          search: [name, slug]
+        description: >-
+          القائمة تُقرأ من «التصنيفات» مباشرةً، فالتصنيف الذي تضيفينه هناك
+          يظهر هنا فورًا بلا تعديل إعدادات.
 
       - name: tags
         label: الوسوم

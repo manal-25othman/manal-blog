@@ -6,7 +6,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { parseFrontmatter } from "../src/lib/frontmatter";
-import { categories, categoryBySlug } from "../src/config/categories";
+import { categoryBySlug } from "../src/config/categories";
 import { toolCategories } from "../src/config/tool-categories";
 import { todayIso } from "../src/lib/publication";
 
@@ -16,6 +16,8 @@ const warnings: string[] = [];
 
 const files = fs.readdirSync(DIR).filter((file) => file.endsWith(".md"));
 const seenTitles = new Set<string>();
+/** تصنيف → المقالات التي تستعمله، لكشف تصنيف محذوف ما زال مستعملًا. */
+const usedCategories = new Map<string, Set<string>>();
 
 for (const file of files) {
   const slug = file.replace(/\.md$/, "");
@@ -40,7 +42,10 @@ for (const file of files) {
   if (description.length < 80) fail(`الوصف قصير (${description.length} حرفًا) — المطلوب ١٢٠–١٧٠`);
   if (description.length > 200) warn(`الوصف طويل (${description.length} حرفًا) وسيُقتطع في نتائج البحث`);
 
-  if (!categoryBySlug.has(String(data.category ?? ""))) fail("تصنيف غير معرّف");
+  const articleCategory = String(data.category ?? "");
+  if (!usedCategories.has(articleCategory)) usedCategories.set(articleCategory, new Set());
+  usedCategories.get(articleCategory)!.add(file);
+  if (!categoryBySlug.has(articleCategory)) fail("تصنيف غير معرّف");
   if (!Array.isArray(data.tags) || data.tags.length === 0) fail("لا وسوم");
   const published = String(data.published ?? "");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(published)) {
@@ -72,33 +77,73 @@ for (const file of files) {
 }
 
 /**
- * تصنيف موجود في الشيفرة وغائب عن قوائم المحرّر يعني أن المقالات التي تحمله
- * تفتح في المحرّر بحقل تصنيف فارغ ولا تُحفظ. حدث هذا فعلًا مع «الأساسيات»
- * بعد إضافة ثمانية عشر مقالًا، فصار الفحص جزءًا من البوّابة.
+ * تصنيفات المقالات صارت محتوى في `content/categories/`، ويقرأها المحرّران
+ * بالإسناد لا بقائمة منسوخة — فالفحص هنا يتأكّد أن الإسناد باقٍ. لو عاد
+ * أحدهم إلى قائمة ثابتة، رجع الخلل الذي أخفى ثمانية عشر مقالًا عن المحرّر.
+ *
+ * تصنيفات الأدوات تبقى في الشيفرة لأنها بنية الدليل لا محتواه، فتُقارن نصًّا.
  */
-function checkEditorCategories() {
+function checkEditorConfigs() {
   const configs = [
-    { file: ".pages.yml", label: "Pages CMS" },
-    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمج" },
+    { file: ".pages.yml", label: "Pages CMS", ref: /collection:\s*categories/ },
+    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمج", ref: /collection:\s*categories/ },
   ];
 
-  for (const { file, label } of configs) {
+  for (const { file, label, ref } of configs) {
     const full = path.join(process.cwd(), file);
     if (!fs.existsSync(full)) {
       errors.push(`${label}: ملف الإعدادات ${file} مفقود`);
       continue;
     }
     const text = fs.readFileSync(full, "utf8");
-    for (const slug of [...categories.map((c) => c.slug), ...toolCategories.map((c) => c.slug)]) {
-      // القيمة تُكتب `value: slug` أو `value: "slug"` حسب أسلوب كل ملف.
+
+    if (!ref.test(text)) {
+      errors.push(`${label} (${file}): حقل تصنيف المقال لا يُسند إلى مجموعة «categories»`);
+    }
+    if (!/(name:\s*categories|- name: categories)/.test(text)) {
+      errors.push(`${label} (${file}): مجموعة «التصنيفات» غير معرّفة — لن تُضاف تصنيفات من المحرّر`);
+    }
+    for (const slug of toolCategories.map((c) => c.slug)) {
       if (!new RegExp(`value:\\s*"?${slug}"?\\s*[,}\\n]`).test(text)) {
-        errors.push(`${label} (${file}): التصنيف «${slug}» غير مدرج في قوائم المحرّر`);
+        errors.push(`${label} (${file}): تصنيف الأدوات «${slug}» غير مدرج`);
       }
     }
   }
 }
 
-checkEditorCategories();
+/** كل تصنيف يشير إليه مقال موجود فعلًا، وكل تصنيف موجود صالح. */
+function checkCategoryFiles() {
+  const dir = path.join(process.cwd(), "content", "categories");
+  if (!fs.existsSync(dir)) {
+    errors.push("مجلّد content/categories مفقود — الموقع لا يقوم بلا تصنيفات");
+    return;
+  }
+
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+    const { data, body } = parseFrontmatter(fs.readFileSync(path.join(dir, file), "utf8"));
+    const slug = String(data.slug ?? "").trim();
+
+    if (slug !== file.replace(/\.md$/, "")) {
+      errors.push(`categories/${file}: المعرّف «${slug}» لا يطابق اسم الملف`);
+    }
+    if (!String(data.name ?? "").trim()) errors.push(`categories/${file}: بلا اسم`);
+    if (!String(data.short ?? "").trim()) errors.push(`categories/${file}: بلا اسم مختصر`);
+    if (!/^#[0-9a-fA-F]{6}$/.test(String(data.accent ?? ""))) {
+      errors.push(`categories/${file}: اللون «${String(data.accent ?? "")}» غير صالح`);
+    }
+    if (!body.trim()) errors.push(`categories/${file}: بلا وصف`);
+  }
+
+  // تصنيف حُذف وما زالت مقالاته تشير إليه: الموقع يعرضها «غير مصنّف».
+  for (const [slug, articles] of usedCategories) {
+    if (categoryBySlug.has(slug)) continue;
+    const owners = [...articles].slice(0, 3).join("، ");
+    errors.push(`التصنيف «${slug}» غير موجود في content/categories، وتشير إليه مقالات: ${owners}`);
+  }
+}
+
+checkEditorConfigs();
+checkCategoryFiles();
 
 /**
  * صور الأدوات. البناء يتجاهل الصورة الخاطئة كي لا يسقط الموقع بسبب صورة،

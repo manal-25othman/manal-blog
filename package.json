@@ -4,16 +4,17 @@
   "private": true,
   "description": "إسناد — مدونة تقنية متخصصة في هندسة أنظمة الذكاء الاصطناعي التطبيقية",
   "scripts": {
-    "predev": "node scripts/sync-cms.mjs",
+    "predev": "node scripts/sync-categories.mjs && node scripts/sync-cms.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/sync-cms.mjs",
+    "prebuild": "node scripts/sync-categories.mjs && node scripts/sync-cms.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "check:content": "tsx scripts/check-content.ts",
     "cms": "node scripts/sync-cms.mjs",
-    "prelaunch": "tsx scripts/prelaunch.ts"
+    "prelaunch": "tsx scripts/prelaunch.ts",
+    "categories": "node scripts/sync-categories.mjs"
   },
   "dependencies": {
     "next": "15.5.23",

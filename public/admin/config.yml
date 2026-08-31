@@ -24,6 +24,38 @@ media_folder: public/uploads
 public_folder: /uploads
 
 collections:
+  # ─── التصنيفات ────────────────────────────────────────────────
+  # إضافة تصنيف هنا تنشئ صفحته وتضيفه إلى قائمة تصنيف المقال تلقائيًّا.
+  - name: categories
+    label: التصنيفات
+    label_singular: تصنيف
+    folder: content/categories
+    create: true
+    slug: "{{fields.slug}}"
+    preview_path: categories/{{slug}}
+    summary: "{{name}} — {{slug}}"
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: اسم التصنيف, widget: string, hint: "كما يظهر للقارئ" }
+      - { name: short, label: الاسم المختصر, widget: string, hint: "كلمة أو كلمتان — يظهر في البطاقات الضيّقة" }
+      - {
+          name: slug,
+          label: معرّف التصنيف,
+          widget: string,
+          pattern: ["^[a-z0-9-]+$", "حروف لاتينية صغيرة وأرقام وشرطات فقط"],
+          hint: "يصير رابط /categories/<المعرّف>. لا تغيّريه بعد نشر مقالات فيه",
+        }
+      - {
+          name: accent,
+          label: لون التصنيف,
+          widget: string,
+          pattern: ["^#[0-9a-fA-F]{6}$", "لون ست عشري من ستّة محارف، مثل #2AB7C4"],
+          hint: "يميّز أغلفة مقالات التصنيف",
+        }
+      - { name: order, label: ترتيب العرض, widget: number, value_type: int, hint: "الأصغر أوّلًا — اترك فجوات ١٠، ٢٠، ٣٠ ليسهل الإدراج" }
+      - { name: subtopics, label: المواضيع الفرعية, widget: list, default: [], hint: "تظهر في صفحة التصنيف كخريطة للمجال" }
+      - { name: body, label: وصف التصنيف, widget: text, hint: "فقرة تشرح ما يغطّيه التصنيف" }
+
   - name: articles
     label: المقالات
     label_singular: مقال
@@ -43,20 +75,16 @@ collections:
           pattern: ['^.{80,200}$', 'المطلوب بين ٨٠ و٢٠٠ حرف'],
           hint: "يظهر في نتائج البحث وبطاقة المقال",
         }
+      # القائمة تُقرأ من مجموعة «التصنيفات» مباشرةً، فالتصنيف الجديد يظهر
+      # هنا فورًا بلا تعديل هذا الملف.
       - {
           name: category,
           label: التصنيف,
-          widget: select,
-          options:
-            [
-              { label: "أساسيات الذكاء الاصطناعي", value: basics },
-              { label: "الاسترجاع المعزّز (RAG)", value: rag },
-              { label: "الوكلاء والأدوات", value: agents },
-              { label: "التقييم والقياس", value: evaluation },
-              { label: "الاستدلال والتكلفة", value: inference },
-              { label: "أمن تطبيقات LLM", value: security },
-              { label: "الحوكمة والامتثال", value: governance },
-            ],
+          widget: relation,
+          collection: categories,
+          value_field: slug,
+          search_fields: [name, slug],
+          display_fields: [name],
         }
       - { name: tags, label: الوسوم, widget: list, default: [], hint: "٣–٦ وسوم" }
       - { name: published, label: تاريخ النشر, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
