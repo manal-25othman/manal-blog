@@ -1,17 +1,21 @@
 /**
  * تصنيفات دليل الأدوات. مستقلّة عن تصنيفات المقالات لأن السؤال مختلف:
  * المقال يسأل «كيف يعمل؟»، والأداة تسأل «بم أبنيه؟».
+ *
+ * المصدر ملفات `content/tool-categories/` — تُحرَّر من المحرّر كأي محتوى،
+ * ويحوّلها `scripts/sync-categories.mjs` إلى JSON قبل كل بناء.
  */
-export const toolCategories = [
-  { slug: "vector-stores", name: "قواعد المتّجهات", short: "تخزين المتّجهات والبحث فيها" },
-  { slug: "rag-frameworks", name: "أطر الاسترجاع", short: "بناء خطوط الاسترجاع المعزّز" },
-  { slug: "agent-frameworks", name: "أطر الوكلاء", short: "تنسيق الأدوات والخطوات" },
-  { slug: "evaluation", name: "التقييم والرصد", short: "قياس الجودة وتتبّع الانحدار" },
-  { slug: "serving", name: "التشغيل والاستدلال", short: "خدمة النماذج وضبط التكلفة" },
-  { slug: "security", name: "الأمن والحواجز", short: "الحدّ من الحقن والتسريب" },
-] as const;
+import data from "./tool-categories.data.json";
 
-export type ToolCategory = (typeof toolCategories)[number];
+export type ToolCategory = {
+  slug: string;
+  name: string;
+  short: string;
+  description: string;
+  order: number;
+};
+
+export const toolCategories: ToolCategory[] = data;
 
 export const toolCategoryBySlug = new Map<string, ToolCategory>(
   toolCategories.map((category) => [category.slug, category]),

@@ -11,8 +11,20 @@
 import { readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
-const DIR = path.join(process.cwd(), "content", "categories");
-const OUT = path.join(process.cwd(), "src", "config", "categories.data.json");
+const SETS = [
+  {
+    dir: path.join(process.cwd(), "content", "categories"),
+    out: path.join(process.cwd(), "src", "config", "categories.data.json"),
+    label: "تصنيفات المقالات",
+    withAccent: true,
+  },
+  {
+    dir: path.join(process.cwd(), "content", "tool-categories"),
+    out: path.join(process.cwd(), "src", "config", "tool-categories.data.json"),
+    label: "تصنيفات الأدوات",
+    withAccent: false,
+  },
+];
 
 /** محلّل مصغّر يكفي حقول التصنيف: نصّ، رقم، وقائمة بأسطر `- `. */
 function parse(raw) {
@@ -52,49 +64,55 @@ function unquote(value) {
     : v;
 }
 
-const files = (await readdir(DIR)).filter((f) => f.endsWith(".md"));
-const problems = [];
+for (const { dir, out, label, withAccent } of SETS) {
+  const files = (await readdir(dir)).filter((f) => f.endsWith(".md"));
+  const problems = [];
+  const entries = [];
 
-const categories = [];
-for (const file of files.sort()) {
-  const slug = file.replace(/\.md$/, "");
-  const { data, body } = parse(await readFile(path.join(DIR, file), "utf8"));
+  for (const file of files.sort()) {
+    const slug = file.replace(/\.md$/, "");
+    const { data, body } = parse(await readFile(path.join(dir, file), "utf8"));
 
-  const name = String(data.name ?? "").trim();
-  if (!name) problems.push(`${file}: بلا اسم`);
+    const name = String(data.name ?? "").trim();
+    if (!name) problems.push(`${file}: بلا اسم`);
 
-  // اللون يدخل مباشرةً في الأغلفة المولَّدة، فقيمة غير صالحة تُفسد الصورة.
-  let accent = String(data.accent ?? "").trim();
-  if (!/^#[0-9a-fA-F]{6}$/.test(accent)) {
-    if (accent) problems.push(`${file}: لون «${accent}» غير صالح — استُبدل بلون محايد`);
-    accent = "#6B7C93";
+    const order = Number(data.order);
+    const entry = {
+      slug: String(data.slug ?? slug).trim() || slug,
+      name,
+      short: String(data.short ?? name).trim() || name,
+      description: body,
+      order: Number.isFinite(order) ? order : 999,
+    };
+
+    if (withAccent) {
+      // اللون يدخل مباشرةً في الأغلفة المولَّدة، فقيمة غير صالحة تُفسد الصورة.
+      let accent = String(data.accent ?? "").trim();
+      if (!/^#[0-9a-fA-F]{6}$/.test(accent)) {
+        if (accent) problems.push(`${file}: لون «${accent}» غير صالح — استُبدل بلون محايد`);
+        accent = "#6B7C93";
+      }
+      entry.accent = accent;
+      entry.subtopics = Array.isArray(data.subtopics) ? data.subtopics : [];
+    }
+
+    entries.push(entry);
   }
 
-  const order = Number(data.order);
-  categories.push({
-    slug: String(data.slug ?? slug).trim() || slug,
-    name,
-    short: String(data.short ?? name).trim() || name,
-    description: body,
-    accent,
-    subtopics: Array.isArray(data.subtopics) ? data.subtopics : [],
-    order: Number.isFinite(order) ? order : 999,
-  });
+  entries.sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug));
+
+  const seen = new Set();
+  for (const c of entries) {
+    if (seen.has(c.slug)) problems.push(`تصنيف مكرّر: «${c.slug}»`);
+    seen.add(c.slug);
+  }
+
+  if (entries.length === 0) {
+    console.error(`✗ لا يوجد أي تصنيف في ${dir} — الموقع لا يقوم بلا تصنيف واحد على الأقل.`);
+    process.exit(1);
+  }
+
+  await writeFile(out, `${JSON.stringify(entries, null, 2)}\n`, "utf8");
+  for (const problem of problems) console.warn(`⚠︎ ${problem}`);
+  console.log(`✓ ${entries.length} من ${label}.`);
 }
-
-categories.sort((a, b) => a.order - b.order || a.slug.localeCompare(b.slug));
-
-const seen = new Set();
-for (const c of categories) {
-  if (seen.has(c.slug)) problems.push(`تصنيف مكرّر: «${c.slug}»`);
-  seen.add(c.slug);
-}
-
-if (categories.length === 0) {
-  console.error("✗ لا يوجد أي تصنيف في content/categories — الموقع لا يقوم بلا تصنيف واحد على الأقل.");
-  process.exit(1);
-}
-
-await writeFile(OUT, `${JSON.stringify(categories, null, 2)}\n`, "utf8");
-for (const problem of problems) console.warn(`⚠︎ ${problem}`);
-console.log(`✓ ${categories.length} تصنيفًا من content/categories.`);

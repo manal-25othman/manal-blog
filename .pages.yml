@@ -188,6 +188,48 @@ content:
           إلزامي: قسم «## الأسئلة الشائعة» وقسم «## المراجع»، وقسم يحدّد حدود
           الحلّ («متى لا يصلح…»). راجع docs/EDITOR.md.
 
+  # ─── تصنيفات الأدوات ──────────────────────────────────────────
+  # أقسام دليل الأدوات. إضافة ملف هنا تضيف قسمًا جديدًا وخيارًا في حقل
+  # تصنيف الأداة. الدليل موجّه لأدوات بناء أنظمة الذكاء الاصطناعي، فأضيفي
+  # قسمًا فقط حين يكون له أكثر من أداة واحدة تنتمي إليه.
+  - name: tool-categories
+    label: تصنيفات الأدوات
+    type: collection
+    path: content/tool-categories
+    format: yaml-frontmatter
+    filename: '{fields.slug}.md'
+    view:
+      fields: [name, slug, order]
+      primary: name
+      sort: [order, name]
+    fields:
+      - name: name
+        label: اسم القسم
+        type: string
+        required: true
+
+      - name: slug
+        label: المعرّف اللاتيني
+        type: string
+        required: true
+        pattern:
+          regex: '^[a-z0-9-]+$'
+          message: >-
+            حروف إنجليزية صغيرة وأرقام وشرطات فقط. مثال «أدوات التصميم» ←
+            design-tools
+        description: لا تغيّريه بعد إسناد أدوات إليه — الأدوات تشير إليه بالاسم.
+
+      - name: order
+        label: ترتيب العرض
+        type: number
+        required: true
+        description: الأصغر أوّلًا. اترك فجوات (١٠، ٢٠، ٣٠…).
+
+      - name: body
+        label: وصف القسم
+        type: text
+        description: سطر يشرح ما يجمعه القسم. يظهر تحت اسمه في مرشّحات الدليل.
+
   # ─── الأدوات ──────────────────────────────────────────────────
   - name: tools
     label: الأدوات
@@ -234,16 +276,16 @@ content:
 
       - name: category
         label: التصنيف
-        type: select
+        type: reference
         required: true
         options:
-          values:
-            - { value: vector-stores, label: قواعد المتّجهات }
-            - { value: rag-frameworks, label: أطر الاسترجاع }
-            - { value: agent-frameworks, label: أطر الوكلاء }
-            - { value: evaluation, label: التقييم والرصد }
-            - { value: serving, label: التشغيل والاستدلال }
-            - { value: security, label: الأمن والحواجز }
+          collection: tool-categories
+          value: '{fields.slug}'
+          label: '{fields.name}'
+          search: [name, slug]
+        description: >-
+          القائمة تُقرأ من «تصنيفات الأدوات» مباشرةً، فالتصنيف الذي تضيفينه
+          هناك يظهر هنا فورًا.
 
       - name: license
         label: الترخيص

@@ -118,6 +118,25 @@ collections:
           hint: "إلزامي: قسم «## الأسئلة الشائعة» وقسم «## المراجع»، وقسم يحدّد حدود الحلّ",
         }
 
+  - name: tool-categories
+    label: تصنيفات الأدوات
+    label_singular: قسم
+    folder: content/tool-categories
+    create: true
+    slug: "{{fields.slug}}"
+    sortable_fields: [order, name]
+    fields:
+      - { name: name, label: اسم القسم, widget: string }
+      - {
+          name: slug,
+          label: المعرّف اللاتيني,
+          widget: string,
+          pattern: ["^[a-z0-9-]+$", "حروف إنجليزية صغيرة وأرقام وشرطات فقط. مثال «أدوات التصميم» ← design-tools"],
+          hint: "لا تغيّريه بعد إسناد أدوات إليه",
+        }
+      - { name: order, label: ترتيب العرض, widget: number, value_type: int, hint: "الأصغر أوّلًا" }
+      - { name: body, label: وصف القسم, widget: text, hint: "سطر يشرح ما يجمعه القسم" }
+
   - name: tools
     label: الأدوات
     label_singular: أداة
@@ -138,19 +157,15 @@ collections:
           hint: "تصير الصفحة /tools/<المعرّف>. لا تغيّريه بعد النشر",
         }
       - { name: description, label: الوصف, widget: text, hint: "سطر واحد: ما تفعله الأداة، لا لماذا هي رائعة" }
+      # القائمة تُقرأ من مجموعة «تصنيفات الأدوات» مباشرةً.
       - {
           name: category,
           label: التصنيف,
-          widget: select,
-          options:
-            [
-              { label: "قواعد المتّجهات", value: vector-stores },
-              { label: "أطر الاسترجاع", value: rag-frameworks },
-              { label: "أطر الوكلاء", value: agent-frameworks },
-              { label: "التقييم والرصد", value: evaluation },
-              { label: "التشغيل والاستدلال", value: serving },
-              { label: "الأمن والحواجز", value: security },
-            ],
+          widget: relation,
+          collection: tool-categories,
+          value_field: slug,
+          search_fields: [name, slug],
+          display_fields: [name],
         }
       - {
           name: license,

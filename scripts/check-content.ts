@@ -7,7 +7,7 @@ import path from "node:path";
 
 import { parseFrontmatter } from "../src/lib/frontmatter";
 import { categoryBySlug } from "../src/config/categories";
-import { toolCategories } from "../src/config/tool-categories";
+import { toolCategoryBySlug } from "../src/config/tool-categories";
 import { todayIso } from "../src/lib/publication";
 
 const DIR = path.join(process.cwd(), "content", "articles");
@@ -77,19 +77,17 @@ for (const file of files) {
 }
 
 /**
- * تصنيفات المقالات صارت محتوى في `content/categories/`، ويقرأها المحرّران
- * بالإسناد لا بقائمة منسوخة — فالفحص هنا يتأكّد أن الإسناد باقٍ. لو عاد
- * أحدهم إلى قائمة ثابتة، رجع الخلل الذي أخفى ثمانية عشر مقالًا عن المحرّر.
- *
- * تصنيفات الأدوات تبقى في الشيفرة لأنها بنية الدليل لا محتواه، فتُقارن نصًّا.
+ * التصنيفان — تصنيفات المقالات وأقسام الأدوات — صارا محتوى، ويقرأهما
+ * المحرّران بالإسناد لا بقائمة منسوخة. الفحص هنا يتأكّد أن الإسناد باقٍ:
+ * لو عاد أحدهم إلى قائمة ثابتة، رجع الخلل الذي أخفى ثمانية عشر مقالًا.
  */
 function checkEditorConfigs() {
   const configs = [
-    { file: ".pages.yml", label: "Pages CMS", ref: /collection:\s*categories/ },
-    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمج", ref: /collection:\s*categories/ },
+    { file: ".pages.yml", label: "Pages CMS" },
+    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمج" },
   ];
 
-  for (const { file, label, ref } of configs) {
+  for (const { file, label } of configs) {
     const full = path.join(process.cwd(), file);
     if (!fs.existsSync(full)) {
       errors.push(`${label}: ملف الإعدادات ${file} مفقود`);
@@ -97,21 +95,21 @@ function checkEditorConfigs() {
     }
     const text = fs.readFileSync(full, "utf8");
 
-    if (!ref.test(text)) {
-      errors.push(`${label} (${file}): حقل تصنيف المقال لا يُسند إلى مجموعة «categories»`);
-    }
-    if (!/(name:\s*categories|- name: categories)/.test(text)) {
-      errors.push(`${label} (${file}): مجموعة «التصنيفات» غير معرّفة — لن تُضاف تصنيفات من المحرّر`);
-    }
-    for (const slug of toolCategories.map((c) => c.slug)) {
-      if (!new RegExp(`value:\\s*"?${slug}"?\\s*[,}\\n]`).test(text)) {
-        errors.push(`${label} (${file}): تصنيف الأدوات «${slug}» غير مدرج`);
+    for (const [collection, what] of [
+      ["categories", "تصنيفات المقالات"],
+      ["tool-categories", "أقسام الأدوات"],
+    ]) {
+      if (!new RegExp(`collection:\\s*${collection}\\b`).test(text)) {
+        errors.push(`${label} (${file}): حقل التصنيف لا يُسند إلى مجموعة «${collection}» (${what})`);
+      }
+      if (!new RegExp(`name:\\s*${collection}\\s*$`, "m").test(text)) {
+        errors.push(`${label} (${file}): مجموعة «${what}» غير معرّفة — لن تُضاف من المحرّر`);
       }
     }
   }
 }
 
-/** كل تصنيف يشير إليه مقال موجود فعلًا، وكل تصنيف موجود صالح. */
+/** كل تصنيف يشير إليه مقال أو أداة موجود فعلًا، وكل تصنيف موجود صالح. */
 function checkCategoryFiles() {
   const dir = path.join(process.cwd(), "content", "categories");
   if (!fs.existsSync(dir)) {
@@ -132,6 +130,33 @@ function checkCategoryFiles() {
       errors.push(`categories/${file}: اللون «${String(data.accent ?? "")}» غير صالح`);
     }
     if (!body.trim()) errors.push(`categories/${file}: بلا وصف`);
+  }
+
+  const toolDir = path.join(process.cwd(), "content", "tool-categories");
+  if (!fs.existsSync(toolDir)) {
+    errors.push("مجلّد content/tool-categories مفقود — دليل الأدوات لا يقوم بلا أقسام");
+  } else {
+    for (const file of fs.readdirSync(toolDir).filter((f) => f.endsWith(".md"))) {
+      const { data, body } = parseFrontmatter(fs.readFileSync(path.join(toolDir, file), "utf8"));
+      const slug = String(data.slug ?? "").trim();
+      if (slug !== file.replace(/\.md$/, "")) {
+        errors.push(`tool-categories/${file}: المعرّف «${slug}» لا يطابق اسم الملف`);
+      }
+      if (!String(data.name ?? "").trim()) errors.push(`tool-categories/${file}: بلا اسم`);
+      if (!body.trim()) errors.push(`tool-categories/${file}: بلا وصف`);
+    }
+  }
+
+  // أداة تشير إلى قسم محذوف: الدليل يعرضها «غير مصنّفة».
+  const toolsDir = path.join(process.cwd(), "content", "tools");
+  if (fs.existsSync(toolsDir)) {
+    for (const file of fs.readdirSync(toolsDir).filter((f) => f.endsWith(".md"))) {
+      const { data } = parseFrontmatter(fs.readFileSync(path.join(toolsDir, file), "utf8"));
+      const slug = String(data.category ?? "").trim();
+      if (!toolCategoryBySlug.has(slug)) {
+        errors.push(`tools/${file}: القسم «${slug}» غير موجود في content/tool-categories`);
+      }
+    }
   }
 
   // تصنيف حُذف وما زالت مقالاته تشير إليه: الموقع يعرضها «غير مصنّف».

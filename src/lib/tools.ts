@@ -80,9 +80,13 @@ function stringList(value: unknown): string[] {
 }
 
 function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
+  // تصنيف محذوف من المحرّر لا يُسقط البناء: المدخل يُعرض «غير مصنّف»
+  // ويُطبع التحذير، و`npm run check:content` يرفض الحالة صراحةً.
   const category = String(data.category ?? "");
   if (!toolCategoryBySlug.has(category)) {
-    throw new Error(`الأداة «${slug}» تشير إلى تصنيف غير معرّف: «${category}»`);
+    console.warn(
+      `⚠︎ الأداة «${slug}»: تصنيف «${category}» غير معرّف — عُرضت «غير مصنّفة». راجعي content/tool-categories.`,
+    );
   }
 
   const license = String(data.license ?? "") as ToolLicense;

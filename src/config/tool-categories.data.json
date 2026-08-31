@@ -1,0 +1,44 @@
+[
+  {
+    "slug": "vector-stores",
+    "name": "قواعد المتّجهات",
+    "short": "قواعد المتّجهات",
+    "description": "تخزين المتّجهات والبحث فيها",
+    "order": 10
+  },
+  {
+    "slug": "rag-frameworks",
+    "name": "أطر الاسترجاع",
+    "short": "أطر الاسترجاع",
+    "description": "بناء خطوط الاسترجاع المعزّز",
+    "order": 20
+  },
+  {
+    "slug": "agent-frameworks",
+    "name": "أطر الوكلاء",
+    "short": "أطر الوكلاء",
+    "description": "تنسيق الأدوات والخطوات",
+    "order": 30
+  },
+  {
+    "slug": "evaluation",
+    "name": "التقييم والرصد",
+    "short": "التقييم والرصد",
+    "description": "قياس الجودة وتتبّع الانحدار",
+    "order": 40
+  },
+  {
+    "slug": "serving",
+    "name": "التشغيل والاستدلال",
+    "short": "التشغيل والاستدلال",
+    "description": "خدمة النماذج وضبط التكلفة",
+    "order": 50
+  },
+  {
+    "slug": "security",
+    "name": "الأمن والحواجز",
+    "short": "الأمن والحواجز",
+    "description": "الحدّ من الحقن والتسريب",
+    "order": 60
+  }
+]
