@@ -241,9 +241,9 @@ content:
     format: yaml-frontmatter
     filename: '{fields.slug}.md'
     view:
-      fields: [name, category, license, published]
+      fields: [name, category, order, status]
       primary: name
-      sort: [name, published]
+      sort: [order, name]
     fields:
       - name: name
         label: الاسم بالعربية
@@ -424,6 +424,28 @@ content:
         type: string
         list: true
         required: false
+
+      - name: order
+        label: ترتيب العرض
+        type: number
+        required: false
+        description: >-
+          الأصغر يظهر أوّلًا. اتركيه فارغًا فتأخذ الأداة ٥٠٠، والأدوات
+          المتساوية تُرتَّب أبجديًّا. لإبراز أداة في المقدّمة اكتبي ١٠ أو ٢٠،
+          ولتأخيرها اكتبي ٩٠٠. اتركي فجوات ليسهل الإدراج بينها لاحقًا.
+
+      - name: status
+        label: حالة النشر
+        type: select
+        required: false
+        options:
+          values:
+            - { value: '', label: 'منشورة (حسب التاريخ)' }
+            - { value: 'scheduled', label: 'مجدوَلة — لا تظهر قبل تاريخها' }
+            - { value: 'draft', label: 'مخفيّة — لا تظهر إطلاقًا' }
+        description: >-
+          «مخفيّة» تُبقي المدخل في المستودع ولا تعرضه للقارئ: تختفي من
+          الدليل ومن صفحتها ومن خريطة الموقع، وتبقى محفوظة لتعيديها متى شئتِ.
 
       - name: published
         label: تاريخ النشر

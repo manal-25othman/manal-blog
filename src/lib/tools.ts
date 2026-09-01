@@ -68,6 +68,11 @@ export type ToolMeta = {
   relatedArticles: string[];
   published: string;
   updated?: string;
+  /**
+   * ترتيب العرض في الدليل؛ الأصغر أوّلًا. القيمة الافتراضية ٥٠٠ تترك مجالًا
+   * للإبراز فوقها والتأخير تحتها بلا إعادة ترقيم البقيّة.
+   */
+  order: number;
   status: PublicationStatus;
 };
 
@@ -164,6 +169,7 @@ function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
     goodFor: stringList(data.goodFor),
     limits: stringList(data.limits),
     relatedArticles: stringList(data.relatedArticles),
+    order: Number.isFinite(Number(data.order)) ? Number(data.order) : 500,
     published: String(data.published ?? ""),
     updated: data.updated ? String(data.updated) : undefined,
     status: resolveStatus(String(data.published ?? ""), data.status ? String(data.status) : undefined),
@@ -179,7 +185,8 @@ export function getEveryTool(): ToolMeta[] {
 export function getAllTools(): ToolMeta[] {
   return getEveryTool()
     .filter((tool) => isPubliclyVisible(tool.status))
-    .sort((a, b) => a.name.localeCompare(b.name, "ar"));
+    // الترتيب اليدوي أوّلًا، ثم الأبجدية العربية لما تساوى ترتيبه.
+    .sort((a, b) => a.order - b.order || a.name.localeCompare(b.name, "ar"));
 }
 
 export function getToolSlugs(): string[] {

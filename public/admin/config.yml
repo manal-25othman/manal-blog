@@ -236,6 +236,27 @@ collections:
         }
       - { name: goodFor, label: متى تناسبك, widget: list, default: [] }
       - { name: limits, label: متى لا تناسبك, widget: list, default: [], hint: "مطلوب — المدخل بلا حدود إعلان لا مراجعة" }
+      - {
+          name: order,
+          label: ترتيب العرض,
+          widget: number,
+          value_type: int,
+          required: false,
+          hint: "الأصغر أوّلًا. فارغًا = ٥٠٠. لإبرازها اكتبي ١٠ أو ٢٠، ولتأخيرها ٩٠٠",
+        }
+      - {
+          name: status,
+          label: حالة النشر,
+          widget: select,
+          required: false,
+          options:
+            [
+              { label: "منشورة (حسب التاريخ)", value: "" },
+              { label: "مجدوَلة — لا تظهر قبل تاريخها", value: scheduled },
+              { label: "مخفيّة — لا تظهر إطلاقًا", value: draft },
+            ],
+          hint: "«مخفيّة» تُبقي المدخل محفوظًا ولا تعرضه للقارئ",
+        }
       - { name: relatedArticles, label: مقالات مرتبطة (المسارات), widget: list, default: [], required: false }
       - { name: published, label: تاريخ النشر, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
       - { name: updated, label: تاريخ التحديث, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, required: false }

@@ -214,6 +214,17 @@ function checkToolFields() {
     const avail = String(data.availability ?? "");
     if (!availability.has(avail)) at(`الإتاحة «${avail}» غير معروفة`);
 
+    // ترتيب غير رقمي يمرّ صامتًا ويأخذ الافتراضي، فتختفي نيّة الإبراز.
+    const order = String(data.order ?? "").trim();
+    if (order && !Number.isFinite(Number(order))) {
+      at(`ترتيب العرض «${order}» ليس رقمًا`);
+    }
+
+    const status = String(data.status ?? "").trim();
+    if (status && !["draft", "scheduled"].includes(status)) {
+      at(`حالة النشر «${status}» غير معروفة`);
+    }
+
     // سعر رقمي في أي حقل: يصير الدليل قديمًا خلال أسابيع.
     for (const key of ["description", "strength", "caveat"]) {
       const value = String(data[key] ?? "");
