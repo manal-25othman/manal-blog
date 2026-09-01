@@ -14,7 +14,8 @@
     "check:content": "tsx scripts/check-content.ts",
     "cms": "node scripts/sync-cms.mjs",
     "prelaunch": "tsx scripts/prelaunch.ts",
-    "categories": "node scripts/sync-categories.mjs"
+    "categories": "node scripts/sync-categories.mjs",
+    "draft": "tsx scripts/import-draft.ts"
   },
   "dependencies": {
     "next": "15.5.23",
