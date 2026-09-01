@@ -2,7 +2,7 @@
 name: فينيكس
 nameLatin: Arize Phoenix
 slug: phoenix
-description: أداة رصد وتتبّع مفتوحة المصدر: تعرض أثر كل استدعاء ومقاطعه المسترجَعة وتكلفته وكمونه.
+description: "أداة رصد وتتبّع مفتوحة المصدر: تعرض أثر كل استدعاء ومقاطعه المسترجَعة وتكلفته وكمونه."
 category: evaluation
 license: open-source
 hosting: both

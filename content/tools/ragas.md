@@ -2,7 +2,7 @@
 name: راغاس
 nameLatin: Ragas
 slug: ragas
-description: إطار تقييم متخصّص في أنظمة الاسترجاع المعزّز: يقيس دقّة الاسترجاع وأمانة الإجابة لمصادرها.
+description: "إطار تقييم متخصّص في أنظمة الاسترجاع المعزّز: يقيس دقّة الاسترجاع وأمانة الإجابة لمصادرها."
 category: evaluation
 license: open-source
 hosting: self-hosted

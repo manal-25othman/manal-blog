@@ -2,7 +2,7 @@
 name: هايستاك
 nameLatin: Haystack
 slug: haystack
-description: إطار خطوط أنابيب صريح: كل مرحلة مكوّن معرَّف بمدخلاته ومخرجاته، فيسهل تتبّعها واختبارها.
+description: "إطار خطوط أنابيب صريح: كل مرحلة مكوّن معرَّف بمدخلاته ومخرجاته، فيسهل تتبّعها واختبارها."
 category: rag-frameworks
 license: open-source
 hosting: both

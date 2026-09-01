@@ -2,7 +2,7 @@
 name: نيمو غاردريلز
 nameLatin: NeMo Guardrails
 slug: nemo-guardrails
-description: مجموعة أدوات من إنفيديا لتقييد مسار الحوار: ما يجوز للنظام أن يناقشه وما يجب أن يرفضه.
+description: "مجموعة أدوات من إنفيديا لتقييد مسار الحوار: ما يجوز للنظام أن يناقشه وما يجب أن يرفضه."
 category: security
 license: open-source
 hosting: self-hosted
@@ -32,7 +32,7 @@ goodFor:
   - إضافة فحص على المدخل والمخرج معًا
 limits:
   - القواعد الحوارية تُلتفّ عليها بصياغات غير متوقّعة
-  - طبقة إضافية على كل طلب: كمون وتكلفة
+  - "طبقة إضافية على كل طلب: كمون وتكلفة"
 relatedArticles:
   - prompt-injection-defense
   - owasp-llm-top10

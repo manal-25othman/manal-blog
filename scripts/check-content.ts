@@ -167,6 +167,45 @@ function checkCategoryFiles() {
   }
 }
 
+/**
+ * ترويسة يقبلها محلّلنا المبسّط ويرفضها محلّل YAML الحقيقي تعطّل المحرّر
+ * بالكامل: يعرض «Nested mappings are not allowed» ولا يفتح الملف. حدث هذا
+ * مع ستّة مدخلات وصفُها يحوي نقطتين، فصار الفحص جزءًا من البوّابة.
+ */
+function checkFrontmatterQuoting() {
+  const dirs = ["articles", "tools", "categories", "tool-categories", "pages"];
+
+  for (const dir of dirs) {
+    const full = path.join(process.cwd(), "content", dir);
+    if (!fs.existsSync(full)) continue;
+
+    for (const file of fs.readdirSync(full).filter((f) => f.endsWith(".md"))) {
+      const raw = fs.readFileSync(path.join(full, file), "utf8");
+      if (!raw.startsWith("---\n")) continue;
+      const head = raw.slice(4, raw.indexOf("\n---", 3));
+
+      head.split("\n").forEach((line, i) => {
+        const pair = /^([A-Za-z_][\w-]*):\s*(.+)$/.exec(line);
+        const item = /^\s+-\s+(.+)$/.exec(line);
+        const value = (pair?.[2] ?? item?.[1] ?? "").trim();
+        if (!value) return;
+
+        const quoted = value.startsWith('"') && value.endsWith('"');
+        const inlineList = value.startsWith("[") && value.endsWith("]");
+        if (quoted || inlineList) return;
+
+        // «: » داخل قيمة غير مقتبسة هو ما يكسر محلّل YAML.
+        if (value.includes(": ") || value.endsWith(":")) {
+          errors.push(
+            `${dir}/${file} (سطر ${i + 2}): قيمة تحوي نقطتين بلا اقتباس — تعطّل المحرّر. ضعيها بين علامتَي تنصيص.`,
+          );
+        }
+      });
+    }
+  }
+}
+
+checkFrontmatterQuoting();
 checkEditorConfigs();
 checkCategoryFiles();
 

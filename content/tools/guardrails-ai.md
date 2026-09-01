@@ -2,7 +2,7 @@
 name: غاردريلز إيه‌آي
 nameLatin: Guardrails AI
 slug: guardrails-ai
-description: إطار للتحقّق من مخرجات النموذج قبل تسليمها: مخطَّط، ومحتوى، وقواعد قابلة للتعريف.
+description: "إطار للتحقّق من مخرجات النموذج قبل تسليمها: مخطَّط، ومحتوى، وقواعد قابلة للتعريف."
 category: security
 license: open-source
 hosting: self-hosted

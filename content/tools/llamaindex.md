@@ -2,7 +2,7 @@
 name: لاما إندكس
 nameLatin: LlamaIndex
 slug: llamaindex
-description: إطار عمل لبناء خطوط الاسترجاع: تحميل المصادر، تقطيعها، فهرستها، ثم استرجاعها وإعادة ترتيبها.
+description: "إطار عمل لبناء خطوط الاسترجاع: تحميل المصادر، تقطيعها، فهرستها، ثم استرجاعها وإعادة ترتيبها."
 category: rag-frameworks
 license: open-source
 hosting: both
