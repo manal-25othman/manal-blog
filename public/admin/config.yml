@@ -16,8 +16,12 @@ backend:
   base_url: https://isnadblog.com
   auth_endpoint: api/oauth/github
 
-# مسودّات وتحرير قبل النشر عبر طلبات دمج على GitHub
-publish_mode: editorial_workflow
+# لا `publish_mode: editorial_workflow` هنا عن قصد.
+# مع سير العمل التحريري لا يكتب المحرّر على `main` إطلاقًا: كل حفظ يفتح طلب
+# دمج على فرع `cms/…` ينتظر ضغطة «نشر» من لوحة سير العمل. المالكة تحفظ
+# فترى الموقع لم يتغيّر، فتظنّ أن الحفظ سقط — وقد حدث ذلك فعلًا: ست تعديلات
+# بقيت حبيسة طلبات دمج مفتوحة. المحرّرة الوحيدة هنا هي المالكة، فلا معنى
+# لمراجعة تنتظر نفسها. الحفظ يذهب إلى `main` مباشرةً.
 
 locale: ar
 media_folder: public/uploads

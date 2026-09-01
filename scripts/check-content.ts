@@ -272,7 +272,10 @@ function checkFrontmatterQuoting() {
         const value = (pair?.[2] ?? item?.[1] ?? "").trim();
         if (!value) return;
 
-        const quoted = value.startsWith('"') && value.endsWith('"');
+        // المحرّر يكتب اقتباسًا مفردًا، وهو صالح في YAML ويفكّه محلّلنا.
+        const quoted =
+          (value.startsWith('"') && value.endsWith('"')) ||
+          (value.startsWith("'") && value.endsWith("'"));
         const inlineList = value.startsWith("[") && value.endsWith("]");
         if (quoted || inlineList) return;
 
@@ -316,6 +319,85 @@ function checkToolImages() {
 }
 
 checkToolImages();
+
+/**
+ * روابط داخلية كُتبت مطلقة إلى موقع آخر.
+ *
+ * النصّ الذي يُصاغ في أداة ذكاء اصطناعي ثم يُلصق هنا يعود أحيانًا وقد صارت
+ * روابطه النسبية مطلقة إلى نطاق تلك الأداة: `/tools` تصير
+ * `https://chatgpt.com/tools`. الرابط يبدو سليمًا في المحرّر ويعمل الضغط
+ * عليه، لكنه يُخرج القارئ من الموقع إلى صفحة غير موجودة. حدث هذا في صفحة
+ * «عن إسناد» بأربعة روابط، وهي الصفحة التي يُفترض أن تبني الثقة.
+ */
+function checkInternalLinks() {
+  const routes = new Set<string>();
+  const appDir = path.join(process.cwd(), "src", "app");
+
+  const walk = (dir: string, prefix: string) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (!entry.isDirectory() || entry.name.startsWith("(") || entry.name.startsWith("_")) continue;
+      const route = `${prefix}/${entry.name}`;
+      const full = path.join(dir, entry.name);
+      if (fs.existsSync(path.join(full, "page.tsx"))) {
+        // المسارات الديناميكية تُسجَّل بجذرها: /articles/[slug] ← /articles
+        routes.add(entry.name.startsWith("[") ? prefix || "/" : route);
+      }
+      walk(full, entry.name.startsWith("[") ? prefix : route);
+    }
+  };
+  if (fs.existsSync(appDir)) walk(appDir, "");
+
+  // الصفحات والمقالات والأدوات بأسمائها الفعلية.
+  for (const [dir, prefix] of [
+    ["pages", ""],
+    ["articles", "/articles"],
+    ["tools", "/tools"],
+    ["categories", "/categories"],
+  ] as const) {
+    const full = path.join(process.cwd(), "content", dir);
+    if (!fs.existsSync(full)) continue;
+    for (const file of fs.readdirSync(full).filter((f) => f.endsWith(".md"))) {
+      routes.add(`${prefix}/${file.replace(/\.md$/, "")}`);
+    }
+  }
+
+  const OURS = /(^|\.)isnadblog\.com$/;
+  const linkPattern = /\]\((https?:\/\/[^)\s]+)\)/g;
+
+  for (const dir of ["pages", "articles", "tools"]) {
+    const full = path.join(process.cwd(), "content", dir);
+    if (!fs.existsSync(full)) continue;
+
+    for (const file of fs.readdirSync(full).filter((f) => f.endsWith(".md"))) {
+      const text = fs.readFileSync(path.join(full, file), "utf8");
+
+      for (const match of text.matchAll(linkPattern)) {
+        let url: URL;
+        try {
+          url = new URL(match[1]);
+        } catch {
+          errors.push(`${dir}/${file}: رابط غير صالح «${match[1]}»`);
+          continue;
+        }
+
+        const route = url.pathname.replace(/\/$/, "");
+        if (!route || !routes.has(route)) continue;
+
+        if (OURS.test(url.hostname)) {
+          // نطاقنا مكتوبًا مطلقًا: يعمل، لكنه يكسر التصفّح المحلي والمعاينات.
+          warnings.push(`${dir}/${file}: «${match[1]}» اكتبيه نسبيًّا «${route}»`);
+        } else {
+          errors.push(
+            `${dir}/${file}: «${match[1]}» رابط داخلي كُتب إلى «${url.hostname}» — ` +
+              `يُخرج القارئ من الموقع إلى صفحة غير موجودة. الصواب «${route}»`,
+          );
+        }
+      }
+    }
+  }
+}
+
+checkInternalLinks();
 
 /**
  * الحقول التي تقوم عليها البطاقة والتفاصيل. الحقل الناقص لا يُسقط البناء —
