@@ -8,6 +8,24 @@ license: open-source
 hosting: self-hosted
 website: https://docs.vllm.ai
 repo: https://github.com/vllm-project/vllm
+kind: "محرّك خدمة النماذج"
+availability: free
+strength: "إنتاجية عالية مع طلبات متزامنة عبر إدارة ذاكرة الانتباه."
+caveat: "يتطلّب عتادًا مناسبًا وخبرة تشغيل."
+useCases:
+  - "خدمة نموذج مفتوح على عتاد خاص"
+  - "طلبات متزامنة عالية"
+  - "تحكّم كامل في مكان التشغيل"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "فرق البنية التحتية"
+keywords:
+  - "vllm"
+  - "خدمة"
+  - "serving"
+  - "إنتاجية"
+  - "gpu"
 goodFor:
   - خدمة نموذج مفتوح على عتاد خاص
   - الحاجة إلى إنتاجية عالية مع طلبات متزامنة

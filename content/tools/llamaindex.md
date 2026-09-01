@@ -9,6 +9,24 @@ hosting: both
 website: https://www.llamaindex.ai
 docs: https://docs.llamaindex.ai
 repo: https://github.com/run-llama/llama_index
+kind: "إطار بناء خطوط الاسترجاع"
+availability: free
+strength: "استراتيجيات تقطيع وفهرسة جاهزة تُقارَن قبل الالتزام بواحدة."
+caveat: "الجاهز يسرّع البداية ويؤجّل فهم ما يحدث تحته."
+useCases:
+  - "تحميل مصادر متنوّعة"
+  - "التقطيع والفهرسة"
+  - "الاسترجاع وإعادة الترتيب"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+keywords:
+  - "llamaindex"
+  - "llama"
+  - "فهرسة"
+  - "تقطيع"
+  - "rag"
+  - "استرجاع"
 goodFor:
   - تنوّع مصادر البيانات (PDF، قواعد بيانات، واجهات)
   - الحاجة إلى استراتيجيات تقطيع وفهرسة جاهزة للمقارنة

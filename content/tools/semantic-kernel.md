@@ -9,6 +9,23 @@ hosting: self-hosted
 website: https://learn.microsoft.com/semantic-kernel/
 docs: https://learn.microsoft.com/semantic-kernel/
 repo: https://github.com/microsoft/semantic-kernel
+kind: "حزمة تطوير للدمج"
+availability: free
+strength: "يدمج النموذج في تطبيق قائم بدل بناء خدمة منفصلة."
+caveat: "أقرب إلى منظومة مايكروسوفت منه إلى غيرها."
+useCases:
+  - "الدمج في تطبيقات دوت نت"
+  - "الدمج في بايثون وجافا"
+  - "التكامل مع خدمات أزور"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+keywords:
+  - "semantic kernel"
+  - "microsoft"
+  - "dotnet"
+  - "أزور"
+  - "دمج"
 goodFor:
   - فرق تعمل على منظومة ‎.NET
   - الحاجة إلى دمج النموذج في تطبيق قائم لا بناء خدمة منفصلة

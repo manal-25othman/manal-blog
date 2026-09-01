@@ -8,6 +8,24 @@ license: open-source
 hosting: self-hosted
 website: https://microsoft.github.io/presidio/
 repo: https://github.com/microsoft/presidio
+kind: "كشف البيانات الشخصية وإخفاؤها"
+availability: free
+strength: "ينظّف النصّ قبل إرساله إلى مزوّد خارجي أو تخزينه."
+caveat: "الكشف الآلي ليس كاملًا، ويحتاج ضبطًا للغة والسياق."
+useCases:
+  - "إخفاء البيانات قبل الإرسال"
+  - "تنظيف سجلّات المُوجّهات"
+  - "الامتثال لحماية البيانات"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "مسؤولو الامتثال"
+keywords:
+  - "presidio"
+  - "microsoft"
+  - "pii"
+  - "خصوصية"
+  - "إخفاء"
 goodFor:
   - إزالة البيانات الشخصية قبل إرسالها إلى مزوّد خارجي
   - تنظيف سجلّات المُوجّهات قبل تخزينها

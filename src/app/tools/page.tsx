@@ -7,9 +7,9 @@ import { absoluteUrl } from "@/config/site";
 import { getToolIndex } from "@/lib/tools";
 
 export const metadata: Metadata = {
-  title: "دليل أدوات الذكاء الاصطناعي",
+  title: "دليل أدوات الذكاء الاصطناعي الاحترافية",
   description:
-    "دليل مختصر لأدوات بناء أنظمة الذكاء الاصطناعي: قواعد المتّجهات، أطر الاسترجاع والوكلاء، أدوات التقييم والرصد، محرّكات الاستدلال، وحواجز الأمن — مع حدود كل أداة لا مزاياها فقط.",
+    "اكتشف أدوات الذكاء الاصطناعي للتصميم والفيديو والتسويق وكتابة المحتوى وإنشاء البرومبتات، واعرف متى تستخدم كل أداة ومتى لا تناسبك.",
   alternates: { canonical: "/tools" },
 };
 
@@ -19,7 +19,7 @@ export default function ToolsPage() {
   const collection = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "دليل أدوات الذكاء الاصطناعي",
+    name: "دليل أدوات الذكاء الاصطناعي الاحترافية",
     description: metadata.description,
     url: absoluteUrl("/tools"),
     inLanguage: "ar",
@@ -39,7 +39,7 @@ export default function ToolsPage() {
           متى تناسبك، ومتى لا تناسبك.
         </p>
         <p className="mt-3 text-sm leading-7 text-ink-faint">
-          لا نذكر أسعارًا لأنها تتغيّر أسرع من تحديث الصفحة؛ نذكر الترخيص وطريقة التشغيل، وهما
+          لا نذكر أسعارًا لأنها تتغيّر أسرع من تحديث الصفحة؛ نذكر الإتاحة وحالة المصدر، وهما
           أثبت. تحقّق من السعر في الموقع الرسمي لكل أداة.
         </p>
       </header>

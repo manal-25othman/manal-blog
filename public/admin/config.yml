@@ -167,15 +167,37 @@ collections:
           search_fields: [name, slug],
           display_fields: [name],
         }
+      - { name: formerName, label: الاسم السابق, widget: string, required: false, hint: "إن غيّرت الأداة اسمها — يظهر تحت الاسم ويُبحث به" }
+      - { name: kind, label: التصنيف الدقيق, widget: string, required: false, hint: "مثل «مولّد برومبتات» أو «قاعدة متّجهات»" }
+      - {
+          name: availability,
+          label: الإتاحة,
+          widget: select,
+          options:
+            [
+              { label: "مجانية", value: free },
+              { label: "مجانية محدودة", value: limited-free },
+              { label: "مدفوعة", value: paid },
+              { label: "حسب الاستخدام", value: usage-based },
+            ],
+          hint: "لا تكتبي سعرًا — السعر يتغيّر أسرع من تحديث الصفحة",
+        }
+      - { name: useCases, label: أبرز الاستخدامات, widget: list, default: [], hint: "ثلاثة إلى خمسة استخدامات ملموسة" }
+      - { name: audience, label: لمن تناسب, widget: list, default: [] }
+      - { name: strength, label: أبرز نقطة قوّة, widget: text, required: false }
+      - { name: caveat, label: أبرز قيد أو ملاحظة, widget: text, required: false }
+      - { name: keywords, label: كلمات البحث, widget: list, default: [], hint: "الاسم السابق والنطق العربي والمرادفات" }
       - {
           name: license,
-          label: الترخيص,
+          label: حالة المصدر,
           widget: select,
           options:
             [
               { label: "مفتوح المصدر", value: open-source },
+              { label: "مفتوح جزئيًّا", value: partially-open },
               { label: "مغلق المصدر", value: proprietary },
             ],
+          hint: "مفتوح الأوزان ليس مفتوح المصدر — لا تكتبي «مفتوح المصدر» إلا بترخيص معلن",
         }
       - {
           name: hosting,

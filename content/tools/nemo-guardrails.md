@@ -8,6 +8,24 @@ license: open-source
 hosting: self-hosted
 website: https://github.com/NVIDIA/NeMo-Guardrails
 repo: https://github.com/NVIDIA/NeMo-Guardrails
+kind: "تقييد مسار الحوار"
+availability: free
+strength: "يحصر النظام في نطاق موضوعي محدّد ويرفض ما خرج عنه."
+caveat: "التقييد بقواعد لا يغني عن اختبار محاولات الالتفاف عليه."
+useCases:
+  - "حصر النظام في نطاق موضوعي"
+  - "رفض فئات طلبات معرّفة"
+  - "فحص المدخل والمخرج"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "مهندسو الأمن"
+keywords:
+  - "nemo"
+  - "nvidia"
+  - "guardrails"
+  - "حواجز"
+  - "حوار"
 goodFor:
   - حصر النظام في نطاق موضوعي محدّد
   - رفض فئات طلبات معرّفة مسبقًا

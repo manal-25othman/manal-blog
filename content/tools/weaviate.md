@@ -9,6 +9,24 @@ hosting: both
 website: https://weaviate.io
 docs: https://weaviate.io/developers/weaviate
 repo: https://github.com/weaviate/weaviate
+kind: "قاعدة متّجهات بمخطّط صريح"
+availability: free
+strength: "تدمج البحث الدلالي والكلمي في استعلام واحد."
+caveat: "المخطّط الصريح يفرض انضباطًا يبطئ البداية."
+useCases:
+  - "البحث الهجين"
+  - "مخطّط بيانات صريح"
+  - "تشغيل ذاتي أو مُدار"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "مهندسو البيانات"
+keywords:
+  - "weaviate"
+  - "ويفييت"
+  - "هجين"
+  - "hybrid"
+  - "متجهات"
 goodFor:
   - الحاجة إلى بحث هجين (متّجهي + BM25) جاهز دون بناءٍ يدوي
   - مخطَّط بيانات واضح بعلاقات بين الأنواع

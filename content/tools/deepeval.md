@@ -8,6 +8,24 @@ license: open-source
 hosting: self-hosted
 website: https://github.com/confident-ai/deepeval
 repo: https://github.com/confident-ai/deepeval
+kind: "إطار اختبار للنماذج"
+availability: free
+strength: "يُدرج تقييم النموذج في خطّ التكامل المستمرّ مع بقيّة الاختبارات."
+caveat: "يحتاج مجموعة اختبار مكتوبة بعناية ليكون ذا معنى."
+useCases:
+  - "اختبارات وحدة للمُوجّهات"
+  - "منع انحدار الجودة بين الإصدارات"
+  - "كتابة مقاييس تقييم خاصّة"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "فرق الجودة"
+keywords:
+  - "deepeval"
+  - "تقييم"
+  - "اختبار"
+  - "ci"
+  - "انحدار"
 goodFor:
   - إدراج تقييم النموذج في خط CI مع بقيّة الاختبارات
   - منع انحدار جودة المُوجّهات بين الإصدارات

@@ -9,6 +9,23 @@ hosting: both
 website: https://www.langchain.com/langgraph
 docs: https://langchain-ai.github.io/langgraph/
 repo: https://github.com/langchain-ai/langgraph
+kind: "بناء الوكلاء كرسم ذي حالة"
+availability: free
+strength: "يوقف التنفيذ لانتظار موافقة بشرية ثم يستأنف من حيث توقّف."
+caveat: "الرسم ذو الحالة أثقل من حلقة بسيطة حين لا تحتاجين تفرّعًا."
+useCases:
+  - "مسارات بحلقات وتفرّعات"
+  - "نقاط توقّف لمراجعة بشرية"
+  - "حفظ حالة التنفيذ واستئنافها"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+keywords:
+  - "langgraph"
+  - "وكلاء"
+  - "agents"
+  - "حالة"
+  - "graph"
 goodFor:
   - مسارات تحتاج حلقات وتفرّعات لا خطًّا مستقيمًا
   - إيقاف التنفيذ لانتظار موافقة بشرية

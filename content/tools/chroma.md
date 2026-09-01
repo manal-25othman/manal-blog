@@ -9,6 +9,25 @@ hosting: both
 website: https://www.trychroma.com
 docs: https://docs.trychroma.com
 repo: https://github.com/chroma-core/chroma
+kind: "قاعدة متّجهات خفيفة"
+availability: free
+strength: "تبدأ العمل في دقائق بلا خادم منفصل."
+caveat: "ليست الخيار الأوّل لأحمال الإنتاج الكبيرة."
+useCases:
+  - "نماذج أوّلية للاسترجاع"
+  - "تجارب محلّية بلا بنية تحتية"
+  - "مجموعات صغيرة إلى متوسّطة"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "الباحثون"
+keywords:
+  - "chroma"
+  - "كروما"
+  - "vector"
+  - "متجهات"
+  - "استرجاع"
+  - "rag"
 goodFor:
   - نموذج أوّلي يحتاج استرجاعًا عاملًا خلال دقائق
   - مجموعات صغيرة إلى متوسطة

@@ -196,6 +196,48 @@ function checkToolImages() {
 
 checkToolImages();
 
+/**
+ * الحقول التي تقوم عليها البطاقة والتفاصيل. الحقل الناقص لا يُسقط البناء —
+ * البطاقة تُخفي قسمه — فلولا هذا الفحص لمرّ ناقصًا بلا أن يُرى.
+ */
+function checkToolFields() {
+  const dir = path.join(process.cwd(), "content", "tools");
+  if (!fs.existsSync(dir)) return;
+
+  const availability = new Set(["free", "limited-free", "paid", "usage-based"]);
+  const seenSites = new Map<string, string>();
+
+  for (const file of fs.readdirSync(dir).filter((f) => f.endsWith(".md"))) {
+    const { data } = parseFrontmatter(fs.readFileSync(path.join(dir, file), "utf8"));
+    const at = (msg: string) => errors.push(`tools/${file}: ${msg}`);
+
+    const avail = String(data.availability ?? "");
+    if (!availability.has(avail)) at(`الإتاحة «${avail}» غير معروفة`);
+
+    // سعر رقمي في أي حقل: يصير الدليل قديمًا خلال أسابيع.
+    for (const key of ["description", "strength", "caveat"]) {
+      const value = String(data[key] ?? "");
+      if (/[\d٠-٩]+\s*(\$|دولار|ريال|USD|شهري)/i.test(value)) {
+        at(`الحقل «${key}» يذكر سعرًا — استعملي حقل الإتاحة بدله`);
+      }
+    }
+
+    for (const key of ["useCases", "goodFor", "limits"]) {
+      if (!Array.isArray(data[key]) || (data[key] as string[]).length === 0) {
+        at(`الحقل «${key}» فارغ`);
+      }
+    }
+
+    // رابط مكرّر يعني على الأرجح مدخلًا مزدوجًا للأداة نفسها.
+    const site = String(data.website ?? "").replace(/\/+$/, "");
+    const owner = seenSites.get(site);
+    if (owner) at(`يشترك مع tools/${owner} في الرابط نفسه — مدخل مكرّر؟`);
+    else seenSites.set(site, file);
+  }
+}
+
+checkToolFields();
+
 console.log(`فُحص ${files.length} مقالًا.`);
 for (const warning of warnings) console.log(`⚠︎  ${warning}`);
 for (const error of errors) console.error(`✗  ${error}`);

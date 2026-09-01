@@ -9,6 +9,24 @@ hosting: both
 website: https://haystack.deepset.ai
 docs: https://docs.haystack.deepset.ai
 repo: https://github.com/deepset-ai/haystack
+kind: "إطار خطوط أنابيب صريح"
+availability: free
+strength: "كل مرحلة مكوّن معرَّف بمدخلاته ومخرجاته، فتُختبر وحدها."
+caveat: "الصراحة تعني كودًا أكثر في الحالات البسيطة."
+useCases:
+  - "أنظمة سؤال وجواب على وثائق"
+  - "خطوط استرجاع قابلة للاختبار"
+  - "استبدال مكوّن بلا أثر جانبي"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "فرق المنتجات"
+keywords:
+  - "haystack"
+  - "خط أنابيب"
+  - "pipeline"
+  - "rag"
+  - "استرجاع"
 goodFor:
   - فرق تريد خطًّا صريحًا قابلًا للاختبار مرحلةً مرحلة
   - أنظمة سؤال وجواب على وثائق مؤسسية

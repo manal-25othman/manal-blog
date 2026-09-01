@@ -9,6 +9,24 @@ hosting: self-hosted
 website: https://www.guardrailsai.com
 docs: https://www.guardrailsai.com/docs
 repo: https://github.com/guardrails-ai/guardrails
+kind: "حاجز تحقّق على المخرجات"
+availability: free
+strength: "يفرض مخطّطًا صارمًا على مخرجات النموذج قبل تسليمها."
+caveat: "يحمي من مخرج غير مطابق، لا من نموذج مخطئ في المضمون."
+useCases:
+  - "فرض مخطّط على المخرجات"
+  - "حجب أنماط قبل وصولها للمستخدم"
+  - "إعادة المحاولة عند فشل التحقّق"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "مهندسو الأمن"
+keywords:
+  - "guardrails"
+  - "حواجز"
+  - "تحقق"
+  - "مخطط"
+  - "أمان"
 goodFor:
   - فرض مخطَّط صارم على مخرجات النموذج
   - حجب أنماط محدّدة قبل وصولها للمستخدم

@@ -9,6 +9,24 @@ hosting: both
 website: https://phoenix.arize.com
 docs: https://arize.com/docs/phoenix
 repo: https://github.com/Arize-ai/phoenix
+kind: "رصد وتتبّع"
+availability: free
+strength: "يعرض أثر كل استدعاء ومقاطعه المسترجَعة وتكلفته وكمونه."
+caveat: "الرصد يكشف المشكلة ولا يصلحها."
+useCases:
+  - "تشخيص إجابة سيّئة عبر أثرها"
+  - "رصد الكمون والتكلفة"
+  - "التقييم على بيانات إنتاج"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "فرق التشغيل"
+keywords:
+  - "phoenix"
+  - "arize"
+  - "رصد"
+  - "تتبع"
+  - "observability"
 goodFor:
   - تشخيص سبب إجابة سيّئة عبر أثر التنفيذ كاملًا
   - رصد الكمون والتكلفة لكل خطوة

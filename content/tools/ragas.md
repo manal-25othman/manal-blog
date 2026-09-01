@@ -8,6 +8,24 @@ license: open-source
 hosting: self-hosted
 website: https://docs.ragas.io
 repo: https://github.com/explodinggradients/ragas
+kind: "تقييم أنظمة الاسترجاع"
+availability: free
+strength: "يفصل جودة الاسترجاع عن جودة التوليد فتعرفين أين الخلل."
+caveat: "المقاييس الآلية مؤشّر لا حكم نهائي."
+useCases:
+  - "قياس دقّة الاسترجاع"
+  - "كشف الإجابات غير المسنودة"
+  - "بناء مجموعة تقييم أولى"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "فرق الجودة"
+keywords:
+  - "ragas"
+  - "تقييم"
+  - "rag"
+  - "استرجاع"
+  - "أمانة"
 goodFor:
   - قياس جودة الاسترجاع منفصلًا عن جودة التوليد
   - كشف الإجابات غير المسنودة إلى المقاطع المسترجَعة

@@ -8,6 +8,24 @@ license: open-source
 hosting: self-hosted
 website: https://github.com/pgvector/pgvector
 repo: https://github.com/pgvector/pgvector
+kind: "امتداد متّجهات لبوستجرس"
+availability: free
+strength: "يبقي الاسترجاع داخل قاعدة البيانات القائمة بلا نظام إضافي."
+caveat: "يبلغ حدوده قبل قواعد المتّجهات المتخصّصة في الأحجام الكبيرة."
+useCases:
+  - "بحث تشابه داخل بوستجرس"
+  - "معاملات مع المتّجهات"
+  - "ملايين قليلة من المتّجهات"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "مهندسو البيانات"
+keywords:
+  - "pgvector"
+  - "postgres"
+  - "بوستجرس"
+  - "متجهات"
+  - "sql"
 goodFor:
   - فريق يشغّل PostgreSQL أصلًا ولا يريد نظامًا إضافيًّا
   - بيانات تحتاج معاملات (transactions) مع المتّجهات

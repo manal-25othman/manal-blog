@@ -287,14 +287,73 @@ content:
           القائمة تُقرأ من «تصنيفات الأدوات» مباشرةً، فالتصنيف الذي تضيفينه
           هناك يظهر هنا فورًا.
 
+      - name: formerName
+        label: الاسم السابق
+        type: string
+        required: false
+        description: إن غيّرت الأداة اسمها. يظهر تحت الاسم ويُبحث به.
+
+      - name: kind
+        label: التصنيف الدقيق
+        type: string
+        required: false
+        description: وصف قصير للنوع، مثل «مولّد برومبتات» أو «قاعدة متّجهات».
+
+      - name: availability
+        label: الإتاحة
+        type: select
+        required: true
+        options:
+          values:
+            - { value: free, label: مجانية }
+            - { value: limited-free, label: مجانية محدودة }
+            - { value: paid, label: مدفوعة }
+            - { value: usage-based, label: حسب الاستخدام }
+        description: >-
+          أربع حالات لا أرقام. لا تكتبي سعرًا: السعر يتغيّر أسرع من تحديث
+          الصفحة، فيصير الدليل قديمًا خلال أسابيع.
+
+      - name: useCases
+        label: أبرز الاستخدامات
+        type: text
+        list: true
+        description: ثلاثة إلى خمسة استخدامات ملموسة.
+
+      - name: audience
+        label: لمن تناسب
+        type: string
+        list: true
+
+      - name: strength
+        label: أبرز نقطة قوّة
+        type: text
+        required: false
+
+      - name: caveat
+        label: أبرز قيد أو ملاحظة
+        type: text
+        required: false
+
+      - name: keywords
+        label: كلمات البحث
+        type: string
+        list: true
+        description: >-
+          كلمات يبحث بها القارئ ولا ترد في الاسم أو الوصف: الاسم السابق،
+          والنطق العربي للاسم اللاتيني، والمرادفات.
+
       - name: license
-        label: الترخيص
+        label: حالة المصدر
         type: select
         required: true
         options:
           values:
             - { value: open-source, label: مفتوح المصدر }
+            - { value: partially-open, label: مفتوح جزئيًّا }
             - { value: proprietary, label: مغلق المصدر }
+        description: >-
+          «مفتوح جزئيًّا» لما تُتاح أوزان نموذجه دون شيفرة منصّته. لا تكتبي
+          «مفتوح المصدر» إلا بترخيص معلن — مفتوح الأوزان ليس مفتوح المصدر.
 
       - name: hosting
         label: طريقة التشغيل

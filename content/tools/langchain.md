@@ -9,6 +9,23 @@ hosting: both
 website: https://www.langchain.com
 docs: https://python.langchain.com
 repo: https://github.com/langchain-ai/langchain
+kind: "إطار ربط عام"
+availability: free
+strength: "واجهات موحّدة تتيح تبديل مزوّد النموذج بلا إعادة كتابة."
+caveat: "طبقة التجريد تُخفي تفاصيل قد تحتاج رؤيتها عند التشخيص."
+useCases:
+  - "ربط النماذج بالأدوات ومصادر البيانات"
+  - "تركيب خطوات متعدّدة"
+  - "استعمال تكاملات جاهزة"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+keywords:
+  - "langchain"
+  - "لانج تشين"
+  - "إطار"
+  - "تكاملات"
+  - "llm"
 goodFor:
   - الحاجة إلى تبديل مزوّد النموذج دون إعادة كتابة
   - تركيب خطوات متعدّدة (استرجاع، أدوات، تنسيق)

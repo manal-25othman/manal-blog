@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ToolLogo } from "@/components/tool-logo";
 import { absoluteUrl, siteConfig } from "@/config/site";
 import {
+  availabilityLabels,
   hostingLabels,
   licenseLabels,
   toolCategoryBySlug,
@@ -107,6 +108,9 @@ export default async function ToolPage({ params }: PageProps) {
             </Link>
           )}
           <span className="rounded-md bg-surface-soft px-2 py-1 text-xs text-ink-faint">
+            {availabilityLabels[tool.availability]}
+          </span>
+          <span className="rounded-md bg-surface-soft px-2 py-1 text-xs text-ink-faint">
             {licenseLabels[tool.license]}
           </span>
           <span className="rounded-md bg-surface-soft px-2 py-1 text-xs text-ink-faint">
@@ -127,6 +131,11 @@ export default async function ToolPage({ params }: PageProps) {
             <p dir="ltr" className="mt-1 text-sm text-ink-faint">
               {tool.nameLatin}
             </p>
+            {tool.formerName && (
+              <p className="mt-1 text-xs text-ink-faint">
+                المعروفة سابقًا باسم <span dir="ltr">{tool.formerName}</span>
+              </p>
+            )}
           </div>
         </div>
         <p className="mt-4 text-lg leading-9 text-ink-muted">{tool.description}</p>
@@ -176,10 +185,48 @@ export default async function ToolPage({ params }: PageProps) {
 
       <div className="prose mt-10" dangerouslySetInnerHTML={{ __html: tool.html }} />
 
-      <section className="mt-10 grid gap-5 sm:grid-cols-2">
+      {tool.useCases.length > 0 && (
+        <section className="mt-10">
+          <PointList title="أبرز الاستخدامات" items={tool.useCases} tone="signal" />
+        </section>
+      )}
+
+      <section className="mt-6 grid gap-5 sm:grid-cols-2">
         <PointList title="متى تناسبك" items={tool.goodFor} tone="signal" />
         <PointList title="متى لا تناسبك" items={tool.limits} tone="amber" />
       </section>
+
+      {(tool.strength || tool.caveat || tool.audience.length > 0) && (
+        <section className="mt-6 grid gap-5 rounded-2xl border border-line bg-surface p-6 sm:grid-cols-2">
+          {tool.strength && (
+            <div>
+              <h2 className="font-display text-sm font-bold text-ink">نقطة القوّة</h2>
+              <p className="mt-2 text-sm leading-7 text-ink-muted">{tool.strength}</p>
+            </div>
+          )}
+          {tool.caveat && (
+            <div>
+              <h2 className="font-display text-sm font-bold text-ink">أبرز قيد</h2>
+              <p className="mt-2 text-sm leading-7 text-ink-muted">{tool.caveat}</p>
+            </div>
+          )}
+          {tool.audience.length > 0 && (
+            <div className="sm:col-span-2">
+              <h2 className="font-display text-sm font-bold text-ink">تناسب</h2>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                {tool.audience.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-md bg-surface-soft px-2 py-1 text-xs text-ink-faint"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {articles.length > 0 && (
         <section className="mt-10 rounded-2xl border border-line bg-surface p-6">

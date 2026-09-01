@@ -9,6 +9,24 @@ hosting: both
 website: https://qdrant.tech
 docs: https://qdrant.tech/documentation/
 repo: https://github.com/qdrant/qdrant
+kind: "قاعدة متّجهات إنتاجية"
+availability: free
+strength: "ترشيح دقيق بالبيانات الوصفية قبل البحث لا بعده."
+caveat: "التشغيل الذاتي يعني مسؤولية النسخ والتحجيم عليك."
+useCases:
+  - "فهارس بملايين المتّجهات"
+  - "ترشيح بالبيانات الوصفية"
+  - "تشغيل ذاتي أو خدمة مُدارة"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "مهندسو البيانات"
+keywords:
+  - "qdrant"
+  - "كوادرانت"
+  - "rust"
+  - "متجهات"
+  - "بحث"
 goodFor:
   - فهارس بحجم ملايين المتّجهات على خادم واحد
   - الحاجة إلى ترشيح دقيق بالبيانات الوصفية قبل البحث

@@ -9,6 +9,24 @@ hosting: self-hosted
 website: https://ollama.com
 docs: https://github.com/ollama/ollama
 repo: https://github.com/ollama/ollama
+kind: "تشغيل النماذج محلّيًّا"
+availability: free
+strength: "يشغّل النماذج المفتوحة بأمر واحد بلا تكلفة استدعاء."
+caveat: "الأداء محكوم بعتاد جهازك لا بخدمة سحابية."
+useCases:
+  - "التطوير المحلّي"
+  - "بيانات لا يجوز خروجها من الجهاز"
+  - "تجربة عدّة نماذج بسرعة"
+audience:
+  - "مهندسو الأنظمة"
+  - "المطوّرون"
+  - "الباحثون"
+keywords:
+  - "ollama"
+  - "أولاما"
+  - "محلي"
+  - "local"
+  - "نماذج مفتوحة"
 goodFor:
   - التطوير المحلي بلا تكلفة استدعاء
   - بيانات لا يجوز خروجها من الجهاز

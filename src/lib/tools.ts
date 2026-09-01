@@ -7,9 +7,11 @@ import { parseFrontmatter } from "./frontmatter";
 import { renderMarkdown } from "./markdown";
 import { isPubliclyVisible, resolveStatus, type PublicationStatus } from "./publication";
 import {
+  availabilityLabels,
   hostingLabels,
   licenseLabels,
   toolCategoryBySlug,
+  type ToolAvailability,
   type ToolHosting,
   type ToolLicense,
 } from "@/config/tool-categories";
@@ -22,8 +24,24 @@ export type ToolMeta = {
   /** الاسم كما يُكتب في موقع الأداة — لا نترجم أسماء المنتجات. */
   nameLatin: string;
   description: string;
+  /** المجال الرئيسي — واحد لا أكثر، حتى يبقى الترشيح ذا معنى. */
   category: string;
+  /** التصنيف الدقيق داخل المجال: «قاعدة متّجهات»، «مولّد برومبتات»… */
+  kind?: string;
+  /** أبرز الاستخدامات، ولمن تناسب، ونقطة القوّة وأبرز قيد. */
+  useCases: string[];
+  audience: string[];
+  strength?: string;
+  caveat?: string;
+  /**
+   * كلمات يبحث بها القارئ ولا ترد في الاسم أو الوصف — الاسم السابق
+   * والمرادفات والنطق العربي للاسم اللاتيني.
+   */
+  keywords: string[];
+  /** الاسم الذي عُرفت به قبل تغييره، إن وُجد. يظهر ويُبحَث به. */
+  formerName?: string;
   license: ToolLicense;
+  availability: ToolAvailability;
   hosting: ToolHosting;
   /** الموقع الرسمي للأداة. لا يُدرَج مدخل بلا رابط رسمي. */
   website: string;
@@ -92,6 +110,16 @@ function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
   const license = String(data.license ?? "") as ToolLicense;
   const hosting = String(data.hosting ?? "") as ToolHosting;
   if (!(license in licenseLabels)) throw new Error(`الأداة «${slug}»: ترخيص غير معروف.`);
+
+  // الإتاحة حقل جديد؛ المدخل القديم بلا قيمة يُعامَل «حسب الاستخدام»
+  // بدل إسقاط البناء، ويرفضه `check:content` صراحةً.
+  const rawAvailability = String(data.availability ?? "").trim();
+  const availability = (
+    rawAvailability in availabilityLabels ? rawAvailability : "usage-based"
+  ) as ToolAvailability;
+  if (rawAvailability && rawAvailability !== availability) {
+    console.warn(`⚠︎ الأداة «${slug}»: إتاحة غير معروفة «${rawAvailability}».`);
+  }
   if (!(hosting in hostingLabels)) throw new Error(`الأداة «${slug}»: طريقة تشغيل غير معروفة.`);
 
   const website = String(data.website ?? "");
@@ -125,6 +153,14 @@ function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
     docs: data.docs ? String(data.docs) : undefined,
     repo: data.repo ? String(data.repo) : undefined,
     tiktok: data.tiktok ? String(data.tiktok) : undefined,
+    kind: data.kind ? String(data.kind) : undefined,
+    formerName: data.formerName ? String(data.formerName) : undefined,
+    availability,
+    useCases: stringList(data.useCases),
+    audience: stringList(data.audience),
+    strength: data.strength ? String(data.strength) : undefined,
+    caveat: data.caveat ? String(data.caveat) : undefined,
+    keywords: stringList(data.keywords),
     goodFor: stringList(data.goodFor),
     limits: stringList(data.limits),
     relatedArticles: stringList(data.relatedArticles),
@@ -196,6 +232,17 @@ export function getToolIndex() {
     hasTiktok: Boolean(tool.tiktok),
     logo: tool.logo,
     logoAlt: tool.logoAlt,
+    kind: tool.kind,
+    formerName: tool.formerName,
+    availability: tool.availability,
+    website: tool.website,
+    useCases: tool.useCases,
+    goodFor: tool.goodFor,
+    limits: tool.limits,
+    audience: tool.audience,
+    strength: tool.strength,
+    caveat: tool.caveat,
+    keywords: tool.keywords,
   }));
 }
 
