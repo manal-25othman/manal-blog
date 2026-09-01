@@ -220,6 +220,10 @@ function checkToolFields() {
       at(`ترتيب العرض «${order}» ليس رقمًا`);
     }
 
+    if (data.hidden !== undefined && typeof data.hidden !== "boolean") {
+      at(`«إخفاء من الموقع» يجب أن يكون نعم أو لا`);
+    }
+
     const status = String(data.status ?? "").trim();
     if (status && !["draft", "scheduled"].includes(status)) {
       at(`حالة النشر «${status}» غير معروفة`);

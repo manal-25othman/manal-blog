@@ -245,17 +245,11 @@ collections:
           hint: "الأصغر أوّلًا. فارغًا = ٥٠٠. لإبرازها اكتبي ١٠ أو ٢٠، ولتأخيرها ٩٠٠",
         }
       - {
-          name: status,
-          label: حالة النشر,
-          widget: select,
-          required: false,
-          options:
-            [
-              { label: "منشورة (حسب التاريخ)", value: "" },
-              { label: "مجدوَلة — لا تظهر قبل تاريخها", value: scheduled },
-              { label: "مخفيّة — لا تظهر إطلاقًا", value: draft },
-            ],
-          hint: "«مخفيّة» تُبقي المدخل محفوظًا ولا تعرضه للقارئ",
+          name: hidden,
+          label: إخفاء من الموقع,
+          widget: boolean,
+          default: false,
+          hint: "تختفي من الدليل والبحث وجوجل، ويبقى المدخل محفوظًا لتعيديه متى شئتِ",
         }
       - { name: relatedArticles, label: مقالات مرتبطة (المسارات), widget: list, default: [], required: false }
       - { name: published, label: تاريخ النشر, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }

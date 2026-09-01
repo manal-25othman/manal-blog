@@ -241,7 +241,7 @@ content:
     format: yaml-frontmatter
     filename: '{fields.slug}.md'
     view:
-      fields: [name, category, order, status]
+      fields: [name, category, order, hidden]
       primary: name
       sort: [order, name]
     fields:
@@ -434,18 +434,13 @@ content:
           المتساوية تُرتَّب أبجديًّا. لإبراز أداة في المقدّمة اكتبي ١٠ أو ٢٠،
           ولتأخيرها اكتبي ٩٠٠. اتركي فجوات ليسهل الإدراج بينها لاحقًا.
 
-      - name: status
-        label: حالة النشر
-        type: select
-        required: false
-        options:
-          values:
-            - { value: '', label: 'منشورة (حسب التاريخ)' }
-            - { value: 'scheduled', label: 'مجدوَلة — لا تظهر قبل تاريخها' }
-            - { value: 'draft', label: 'مخفيّة — لا تظهر إطلاقًا' }
+      - name: hidden
+        label: إخفاء من الموقع
+        type: boolean
+        default: false
         description: >-
-          «مخفيّة» تُبقي المدخل في المستودع ولا تعرضه للقارئ: تختفي من
-          الدليل ومن صفحتها ومن خريطة الموقع، وتبقى محفوظة لتعيديها متى شئتِ.
+          حين تُفعَّل، تختفي الأداة من الدليل ومن صفحتها ومن البحث ومن خريطة
+          الموقع — ويبقى المدخل محفوظًا هنا لتعيديه متى شئتِ. لا يُحذف شيء.
 
       - name: published
         label: تاريخ النشر

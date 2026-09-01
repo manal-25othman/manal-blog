@@ -172,7 +172,17 @@ function toMeta(slug: string, data: Record<string, unknown>): ToolMeta {
     order: Number.isFinite(Number(data.order)) ? Number(data.order) : 500,
     published: String(data.published ?? ""),
     updated: data.updated ? String(data.updated) : undefined,
-    status: resolveStatus(String(data.published ?? ""), data.status ? String(data.status) : undefined),
+    /**
+     * الإخفاء مفتاح لا قائمة: القائمة التي خيارها الأول قيمته فارغة لا
+     * تُحفظ في كل محرّر، والمفتاح لا يحتمل هذا الالتباس. تبقى `status`
+     * مدعومة لمن كتبها يدويًّا ولحالة «مجدوَلة».
+     */
+    status: data.hidden === true
+      ? "draft"
+      : resolveStatus(
+          String(data.published ?? ""),
+          data.status ? String(data.status) : undefined,
+        ),
   };
 }
 
