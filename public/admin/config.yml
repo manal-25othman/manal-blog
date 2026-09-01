@@ -168,12 +168,7 @@ collections:
         label: التصنيف
         widget: select
         options:
-          - { label: "قواعد المتّجهات", value: vector-stores }
-          - { label: "أطر الاسترجاع", value: rag-frameworks }
           - { label: "أطر الوكلاء", value: agent-frameworks }
-          - { label: "التقييم والرصد", value: evaluation }
-          - { label: "التشغيل والاستدلال", value: serving }
-          - { label: "الأمن والحواجز", value: security }
           - { label: "البحث وصناعة المحتوى", value: research-content }
           - { label: "إنشاء البرومبتات", value: prompting }
           - { label: "التصميم والمحتوى المرئي", value: design-tools }

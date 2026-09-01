@@ -289,12 +289,7 @@ content:
           values:
             # ⟨مولَّد: tool-categories⟩ — لا تحرّري بين العلامتين؛ يعيد
             # `npm run categories` كتابتها من المحتوى.
-            - { value: vector-stores, label: "قواعد المتّجهات" }
-            - { value: rag-frameworks, label: "أطر الاسترجاع" }
             - { value: agent-frameworks, label: "أطر الوكلاء" }
-            - { value: evaluation, label: "التقييم والرصد" }
-            - { value: serving, label: "التشغيل والاستدلال" }
-            - { value: security, label: "الأمن والحواجز" }
             - { value: research-content, label: "البحث وصناعة المحتوى" }
             - { value: prompting, label: "إنشاء البرومبتات" }
             - { value: design-tools, label: "التصميم والمحتوى المرئي" }
