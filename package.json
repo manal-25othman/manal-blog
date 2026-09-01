@@ -31,15 +31,17 @@
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
+    "@sveltia/cms": "^0.193.1",
     "@tailwindcss/postcss": "^4",
+    "@types/js-yaml": "^4.0.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.23",
+    "js-yaml": "^4.3.2",
     "tailwindcss": "^4",
     "tsx": "^4.20.3",
-    "typescript": "^5",
-    "@sveltia/cms": "^0.193.1"
+    "typescript": "^5"
   }
 }

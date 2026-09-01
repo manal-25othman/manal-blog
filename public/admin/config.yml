@@ -75,17 +75,19 @@ collections:
           pattern: ['^.{80,200}$', 'المطلوب بين ٨٠ و٢٠٠ حرف'],
           hint: "يظهر في نتائج البحث وبطاقة المقال",
         }
-      # القائمة تُقرأ من مجموعة «التصنيفات» مباشرةً، فالتصنيف الجديد يظهر
-      # هنا فورًا بلا تعديل هذا الملف.
-      - {
-          name: category,
-          label: التصنيف,
-          widget: relation,
-          collection: categories,
-          value_field: slug,
-          search_fields: [name, slug],
-          display_fields: [name],
-        }
+      # ⟨مولَّد: article-categories⟩ — لا تحرّري بين العلامتين.
+      - name: category
+        label: التصنيف
+        widget: select
+        options:
+          - { label: "الأساسيات", value: basics }
+          - { label: "الاسترجاع المعزّز (RAG)", value: rag }
+          - { label: "الوكلاء والأدوات", value: agents }
+          - { label: "التقييم والقياس", value: evaluation }
+          - { label: "الاستدلال والتكلفة", value: inference }
+          - { label: "أمن تطبيقات LLM", value: security }
+          - { label: "الحوكمة والامتثال", value: governance }
+      # ⟨/مولَّد⟩
       - { name: tags, label: الوسوم, widget: list, default: [], hint: "٣–٦ وسوم" }
       - { name: published, label: تاريخ النشر, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
       - {
@@ -157,16 +159,24 @@ collections:
           hint: "تصير الصفحة /tools/<المعرّف>. لا تغيّريه بعد النشر",
         }
       - { name: description, label: الوصف, widget: text, hint: "سطر واحد: ما تفعله الأداة، لا لماذا هي رائعة" }
-      # القائمة تُقرأ من مجموعة «تصنيفات الأدوات» مباشرةً.
-      - {
-          name: category,
-          label: التصنيف,
-          widget: relation,
-          collection: tool-categories,
-          value_field: slug,
-          search_fields: [name, slug],
-          display_fields: [name],
-        }
+      # ⟨مولَّد: tool-categories⟩ — لا تحرّري بين العلامتين.
+      - name: category
+        label: التصنيف
+        widget: select
+        options:
+          - { label: "قواعد المتّجهات", value: vector-stores }
+          - { label: "أطر الاسترجاع", value: rag-frameworks }
+          - { label: "أطر الوكلاء", value: agent-frameworks }
+          - { label: "التقييم والرصد", value: evaluation }
+          - { label: "التشغيل والاستدلال", value: serving }
+          - { label: "الأمن والحواجز", value: security }
+          - { label: "البحث وصناعة المحتوى", value: research-content }
+          - { label: "إنشاء البرومبتات", value: prompting }
+          - { label: "التصميم والمحتوى المرئي", value: design-tools }
+          - { label: "صناعة الفيديو", value: video }
+          - { label: "التسويق", value: marketing }
+          - { label: "الكتابة وتحسين محركات البحث", value: writing-seo }
+      # ⟨/مولَّد⟩
       - { name: formerName, label: الاسم السابق, widget: string, required: false, hint: "إن غيّرت الأداة اسمها — يظهر تحت الاسم ويُبحث به" }
       - { name: kind, label: التصنيف الدقيق, widget: string, required: false, hint: "مثل «مولّد برومبتات» أو «قاعدة متّجهات»" }
       - {

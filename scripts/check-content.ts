@@ -5,6 +5,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
+import yaml from "js-yaml";
+
 import { parseFrontmatter } from "../src/lib/frontmatter";
 import { categoryBySlug } from "../src/config/categories";
 import { toolCategoryBySlug } from "../src/config/tool-categories";
@@ -77,33 +79,113 @@ for (const file of files) {
 }
 
 /**
- * التصنيفان — تصنيفات المقالات وأقسام الأدوات — صارا محتوى، ويقرأهما
- * المحرّران بالإسناد لا بقائمة منسوخة. الفحص هنا يتأكّد أن الإسناد باقٍ:
- * لو عاد أحدهم إلى قائمة ثابتة، رجع الخلل الذي أخفى ثمانية عشر مقالًا.
+ * إعدادات المحرّرين. تُقرأ بمحلّل YAML حقيقي لا بتعبير نمطي: الخلل الذي
+ * أوقف الحفظ مرّتين كان في بنية الملف نفسه، لا في نصّه. ثم يُقارن حقل
+ * التصنيف بالتصنيفات الموجودة على القرص طرفًا بطرف — فالتصنيف الذي يغيب
+ * عن القائمة لا يُرى: المحرّرة تفتح المقال فلا تجد تصنيفه، والحفظ يسقط.
  */
 function checkEditorConfigs() {
   const configs = [
-    { file: ".pages.yml", label: "Pages CMS" },
-    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمج" },
+    { file: ".pages.yml", label: "Pages CMS", root: "content" },
+    { file: path.join("public", "admin", "config.yml"), label: "المحرّر المدمّج", root: "collections" },
   ];
 
-  for (const { file, label } of configs) {
+  /** المجموعة التي يُختار منها ← التصنيفات المتاحة فعلًا على القرص. */
+  const expected: Array<[string, string, Set<string>]> = [
+    ["articles", "تصنيفات المقالات", new Set(categoryBySlug.keys())],
+    ["tools", "أقسام الأدوات", new Set(toolCategoryBySlug.keys())],
+  ];
+
+  for (const { file, label, root } of configs) {
     const full = path.join(process.cwd(), file);
     if (!fs.existsSync(full)) {
       errors.push(`${label}: ملف الإعدادات ${file} مفقود`);
       continue;
     }
-    const text = fs.readFileSync(full, "utf8");
 
-    for (const [collection, what] of [
-      ["categories", "تصنيفات المقالات"],
-      ["tool-categories", "أقسام الأدوات"],
-    ]) {
-      if (!new RegExp(`collection:\\s*${collection}\\b`).test(text)) {
-        errors.push(`${label} (${file}): حقل التصنيف لا يُسند إلى مجموعة «${collection}» (${what})`);
+    let doc: unknown;
+    try {
+      doc = yaml.load(fs.readFileSync(full, "utf8"));
+    } catch (error) {
+      errors.push(`${label} (${file}): الملف ليس YAML صالحًا — المحرّر لن يفتح. ${(error as Error).message}`);
+      continue;
+    }
+
+    const collections = (doc as Record<string, unknown>)?.[root];
+    if (!Array.isArray(collections)) {
+      errors.push(`${label} (${file}): لا توجد مجموعات تحت «${root}»`);
+      continue;
+    }
+
+    const byName = new Map<string, Record<string, unknown>>();
+    for (const entry of collections) {
+      if (entry && typeof entry === "object" && "name" in entry) {
+        byName.set(String((entry as Record<string, unknown>).name), entry as Record<string, unknown>);
       }
-      if (!new RegExp(`name:\\s*${collection}\\s*$`, "m").test(text)) {
-        errors.push(`${label} (${file}): مجموعة «${what}» غير معرّفة — لن تُضاف من المحرّر`);
+    }
+
+    // مجموعتا التصنيفات نفسهما: بدونهما لا تستطيع المحرّرة إضافة تصنيف.
+    for (const source of ["categories", "tool-categories"]) {
+      if (!byName.has(source)) {
+        errors.push(`${label} (${file}): مجموعة «${source}» غير معرّفة — لن تُضاف تصنيفات من المحرّر`);
+      }
+    }
+
+    for (const [collection, what, slugs] of expected) {
+      const owner = byName.get(collection);
+      if (!owner) {
+        errors.push(`${label} (${file}): مجموعة «${collection}» غير معرّفة`);
+        continue;
+      }
+
+      const fields = Array.isArray(owner.fields) ? (owner.fields as Record<string, unknown>[]) : [];
+      const field = fields.find((f) => f && f.name === "category");
+      if (!field) {
+        errors.push(`${label} (${file}): «${collection}» بلا حقل تصنيف`);
+        continue;
+      }
+
+      // النوع في Pages CMS اسمه type، وفي المحرّر المدمّج widget.
+      const kind = String(field.type ?? field.widget ?? "");
+      if (kind !== "select") {
+        errors.push(
+          `${label} (${file}): حقل تصنيف «${collection}» نوعه «${kind}» لا «select» — ` +
+            `الأنواع المرتبطة بمجموعة أخرى أسقطت الحفظ من قبل`,
+        );
+        continue;
+      }
+
+      // options قائمة مباشرة في المحرّر المدمّج، وتحت options.values في Pages CMS.
+      const raw = Array.isArray(field.options)
+        ? field.options
+        : ((field.options as Record<string, unknown>)?.values ?? []);
+      if (!Array.isArray(raw)) {
+        errors.push(`${label} (${file}): خيارات تصنيف «${collection}» ليست قائمة`);
+        continue;
+      }
+
+      const listed = new Set(
+        raw.map((option) =>
+          option && typeof option === "object"
+            ? String((option as Record<string, unknown>).value ?? "")
+            : String(option),
+        ),
+      );
+
+      const missing = [...slugs].filter((slug) => !listed.has(slug));
+      const extra = [...listed].filter((slug) => !slugs.has(slug));
+
+      if (missing.length) {
+        errors.push(
+          `${label} (${file}): ${what} — «${missing.join("، ")}» غير مدرج في القائمة. ` +
+            `شغّلي \`npm run categories\``,
+        );
+      }
+      if (extra.length) {
+        errors.push(
+          `${label} (${file}): ${what} — «${extra.join("، ")}» مدرج في القائمة ولا ملف له. ` +
+            `شغّلي \`npm run categories\``,
+        );
       }
     }
   }

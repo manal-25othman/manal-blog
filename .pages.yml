@@ -124,16 +124,23 @@ content:
 
       - name: category
         label: التصنيف
-        type: reference
+        type: select
         required: true
         options:
-          collection: categories
-          value: '{fields.slug}'
-          label: '{fields.name}'
-          search: [name, slug]
+          values:
+            # ⟨مولَّد: article-categories⟩ — لا تحرّري بين العلامتين؛ يعيد
+            # `npm run categories` كتابتها من المحتوى.
+            - { value: basics, label: "الأساسيات" }
+            - { value: rag, label: "الاسترجاع المعزّز (RAG)" }
+            - { value: agents, label: "الوكلاء والأدوات" }
+            - { value: evaluation, label: "التقييم والقياس" }
+            - { value: inference, label: "الاستدلال والتكلفة" }
+            - { value: security, label: "أمن تطبيقات LLM" }
+            - { value: governance, label: "الحوكمة والامتثال" }
+            # ⟨/مولَّد⟩
         description: >-
-          القائمة تُقرأ من «التصنيفات» مباشرةً، فالتصنيف الذي تضيفينه هناك
-          يظهر هنا فورًا بلا تعديل إعدادات.
+          القائمة مولَّدة من «التصنيفات»: أضيفي تصنيفًا هناك ثم شغّلي
+          `npm run categories` (أو ادفعي أي تغيير) فتتحدّث هنا تلقائيًّا.
 
       - name: tags
         label: الوسوم
@@ -276,16 +283,28 @@ content:
 
       - name: category
         label: التصنيف
-        type: reference
+        type: select
         required: true
         options:
-          collection: tool-categories
-          value: '{fields.slug}'
-          label: '{fields.name}'
-          search: [name, slug]
+          values:
+            # ⟨مولَّد: tool-categories⟩ — لا تحرّري بين العلامتين؛ يعيد
+            # `npm run categories` كتابتها من المحتوى.
+            - { value: vector-stores, label: "قواعد المتّجهات" }
+            - { value: rag-frameworks, label: "أطر الاسترجاع" }
+            - { value: agent-frameworks, label: "أطر الوكلاء" }
+            - { value: evaluation, label: "التقييم والرصد" }
+            - { value: serving, label: "التشغيل والاستدلال" }
+            - { value: security, label: "الأمن والحواجز" }
+            - { value: research-content, label: "البحث وصناعة المحتوى" }
+            - { value: prompting, label: "إنشاء البرومبتات" }
+            - { value: design-tools, label: "التصميم والمحتوى المرئي" }
+            - { value: video, label: "صناعة الفيديو" }
+            - { value: marketing, label: "التسويق" }
+            - { value: writing-seo, label: "الكتابة وتحسين محركات البحث" }
+            # ⟨/مولَّد⟩
         description: >-
-          القائمة تُقرأ من «تصنيفات الأدوات» مباشرةً، فالتصنيف الذي تضيفينه
-          هناك يظهر هنا فورًا.
+          القائمة مولَّدة من «تصنيفات الأدوات»: أضيفي تصنيفًا هناك ثم شغّلي
+          `npm run categories` (أو ادفعي أي تغيير) فتتحدّث هنا تلقائيًّا.
 
       - name: formerName
         label: الاسم السابق

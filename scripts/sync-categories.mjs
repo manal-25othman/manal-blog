@@ -64,6 +64,74 @@ function unquote(value) {
     : v;
 }
 
+/**
+ * يكتب قوائم التصنيف في إعدادات المحرّرَين بين علامتين.
+ *
+ * القائمة المنسوخة يدويًّا تنفصل عن المحتوى بصمت — حدث ذلك مع «الأساسيات»
+ * فاختفت ثمانية عشر مقالًا من المحرّر. والإسناد الديناميكي (`reference`)
+ * لم يعمل عمليًّا فمنع الحفظ أصلًا. فالتوليد هو الحلّ: صيغة `select`
+ * بسيطة يفهمها المحرّران، ومصدرها المحتوى لا نسخة منه.
+ */
+async function writeEditorField(file, marker, lines, indent) {
+  const full = path.join(process.cwd(), file);
+  const text = await readFile(full, "utf8");
+  const open = `\u27e8مولَّد: ${marker}\u27e9`;
+  const close = "\u27e8/مولَّد\u27e9";
+  const start = text.indexOf(open);
+  const end = text.indexOf(close, start);
+  if (start === -1 || end === -1) {
+    console.warn(`\u26a0\ufe0e ${file}: علامتا «${marker}» مفقودتان.`);
+    return;
+  }
+  const from = text.lastIndexOf("\n", start) + 1;
+  const to = text.indexOf("\n", end) + 1;
+  const block = [
+    `${indent}# ${open} — لا تحرّري بين العلامتين.`,
+    ...lines.map((l) => `${indent}${l}`),
+    `${indent}# ${close}`,
+  ].join("\n");
+  await writeFile(full, `${text.slice(0, from)}${block}\n${text.slice(to)}`, "utf8");
+  console.log(`\u2713 ${file} — حقل «${marker}».`);
+}
+
+/**
+ * يكتب قوائم التصنيف في إعدادات المحرّرَين بين علامتين.
+ *
+ * القائمة المنسوخة يدويًّا تنفصل عن المحتوى بصمت — حدث ذلك مع «الأساسيات»
+ * فاختفت ثمانية عشر مقالًا من المحرّر. والإسناد الديناميكي (`reference`)
+ * لم يعمل عمليًّا فمنع الحفظ. فالتوليد هو الحلّ: صيغة `select` بسيطة
+ * يفهمها المحرّران، ومصدرها المحتوى لا نسخة منه.
+ */
+async function writeEditorOptions(file, marker, entries, render, indent) {
+  const full = path.join(process.cwd(), file);
+  let text = await readFile(full, "utf8");
+
+  const open = `\u27e8مولَّد: ${marker}\u27e9`;
+  const close = "\u27e8/مولَّد\u27e9";
+  const start = text.indexOf(open);
+  const end = text.indexOf(close, start);
+  if (start === -1 || end === -1) {
+    console.warn(`\u26a0\ufe0e ${file}: علامتا «${marker}» مفقودتان — لم تُحدَّث القائمة.`);
+    return;
+  }
+
+  // من بداية سطر علامة الفتح إلى نهاية سطر علامة الإغلاق.
+  const from = text.lastIndexOf("\n", start) + 1;
+  const to = text.indexOf("\n", end) + 1;
+
+  const block = [
+    `${indent}# ${open} — لا تحرّري بين العلامتين؛ يعيد`,
+    `${indent}# \`npm run categories\` كتابتها من المحتوى.`,
+    ...entries.map((c) => `${indent}${render(c)}`),
+    `${indent}# ${close}`,
+  ].join("\n");
+
+  await writeFile(full, `${text.slice(0, from)}${block}\n${text.slice(to)}`, "utf8");
+  console.log(`\u2713 ${file} — قائمة «${marker}» (${entries.length}).`);
+}
+
+const written = {};
+
 for (const { dir, out, label, withAccent } of SETS) {
   const files = (await readdir(dir)).filter((f) => f.endsWith(".md"));
   const problems = [];
@@ -112,7 +180,38 @@ for (const { dir, out, label, withAccent } of SETS) {
     process.exit(1);
   }
 
+  written[withAccent ? "articles" : "tools"] = entries;
   await writeFile(out, `${JSON.stringify(entries, null, 2)}\n`, "utf8");
   for (const problem of problems) console.warn(`⚠︎ ${problem}`);
   console.log(`✓ ${entries.length} من ${label}.`);
+}
+
+// ── قوائم المحرّرَين ──────────────────────────────────────────
+const yamlQuote = (v) => `"${String(v).replace(/"/g, "«")}"`;
+
+for (const [key, marker] of [["articles", "article-categories"], ["tools", "tool-categories"]]) {
+  const entries = written[key] ?? [];
+
+  await writeEditorOptions(
+    ".pages.yml",
+    marker,
+    entries,
+    (c) => `- { value: ${c.slug}, label: ${yamlQuote(c.name)} }`,
+    " ".repeat(12),
+  );
+
+  // المحرّر المدمج يريد الحقل كاملًا ببنية كتلية: خيارات مضمّنة داخل
+  // عنصر تسلسل تكسر التحليل، وهو ما أسقط الملف في أوّل محاولة.
+  await writeEditorField(
+    path.join("public", "admin", "config.yml"),
+    marker,
+    [
+      "- name: category",
+      "  label: التصنيف",
+      "  widget: select",
+      "  options:",
+      ...entries.map((c) => `    - { label: ${yamlQuote(c.name)}, value: ${c.slug} }`),
+    ],
+    " ".repeat(6),
+  );
 }
