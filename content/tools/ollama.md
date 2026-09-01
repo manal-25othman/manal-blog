@@ -38,7 +38,7 @@ limits:
 relatedArticles:
   - quantization-guide
   - inference-cost-optimization
-hidden: true
+hidden: false
 published: 2026-08-23
 updated: 2026-09-01
 ---
