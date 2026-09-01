@@ -78,6 +78,20 @@ export function ToolsExplorer({ tools }: { tools: ToolCard[] }) {
     [],
   );
 
+  /**
+   * لا يُعرض مرشِّح لا يطابق شيئًا: الخيار الذي يعطي صفرًا دائمًا خيارٌ ميت
+   * يربك القارئ. تُحسب القيم الموجودة فعلًا، فيظهر المرشِّح من تلقائه حين
+   * تُضاف أوّل أداة تحمله.
+   */
+  const present = useMemo(
+    () => ({
+      categories: new Set(tools.map((tool) => tool.category)),
+      licenses: new Set(tools.map((tool) => tool.license)),
+      availabilities: new Set(tools.map((tool) => tool.availability)),
+    }),
+    [tools],
+  );
+
   const indexed = useMemo(
     () =>
       tools.map((tool) => ({
@@ -134,7 +148,9 @@ export function ToolsExplorer({ tools }: { tools: ToolCard[] }) {
             <Chip active={category === ALL} onClick={() => setCategory(ALL)}>
               الكل
             </Chip>
-            {toolCategories.map((item) => (
+            {toolCategories
+              .filter((item) => present.categories.has(item.slug))
+              .map((item) => (
               <Chip
                 key={item.slug}
                 active={category === item.slug}
@@ -150,7 +166,9 @@ export function ToolsExplorer({ tools }: { tools: ToolCard[] }) {
               <Chip active={availability === ALL} onClick={() => setAvailability(ALL)}>
                 الكل
               </Chip>
-              {(Object.keys(availabilityLabels) as ToolAvailability[]).map((key) => (
+              {(Object.keys(availabilityLabels) as ToolAvailability[])
+                .filter((key) => present.availabilities.has(key))
+                .map((key) => (
                 <Chip
                   key={key}
                   active={availability === key}
@@ -165,7 +183,9 @@ export function ToolsExplorer({ tools }: { tools: ToolCard[] }) {
               <Chip active={license === ALL} onClick={() => setLicense(ALL)}>
                 الكل
               </Chip>
-              {(Object.keys(licenseLabels) as ToolLicense[]).map((key) => (
+              {(Object.keys(licenseLabels) as ToolLicense[])
+                .filter((key) => present.licenses.has(key))
+                .map((key) => (
                 <Chip key={key} active={license === key} onClick={() => setLicense(key)}>
                   {licenseLabels[key]}
                 </Chip>

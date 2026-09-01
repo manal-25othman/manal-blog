@@ -1,8 +1,7 @@
 ---
-name: "ماجنيفيك"
-nameLatin: "Magnific"
-formerName: "Freepik AI"
-slug: magnific
+name: "فريبيك للذكاء الاصطناعي"
+nameLatin: "Freepik AI"
+slug: freepik-ai
 description: "منصّة إبداعية تجمع إنشاء الصور والفيديو والصوت وتحسين جودة الوسائط في مكان واحد."
 category: design-tools
 kind: "منصّة إبداعية متكاملة"
@@ -32,6 +31,7 @@ keywords:
   - "magnific"
   - "freepik"
   - "فريبيك"
+  - "ماجنيفيك"
   - "تصميم"
   - "صور"
   - "upscale"

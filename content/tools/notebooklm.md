@@ -1,7 +1,6 @@
 ---
-name: "جيميناي نوتبوك"
-nameLatin: "Gemini Notebook"
-formerName: "NotebookLM"
+name: "نوتبوك إل إم"
+nameLatin: "NotebookLM"
 slug: notebooklm
 description: "مساعد يحلّل الملفات والمصادر التي ترفعها أنت، فيلخّصها ويقارن بينها ويستخرج منها الأفكار."
 category: research-content
@@ -31,6 +30,7 @@ audience:
 keywords:
   - "notebooklm"
   - "gemini notebook"
+  - "جيميناي"
   - "نوتبوك"
   - "تلخيص"
   - "مصادر"
