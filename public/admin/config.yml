@@ -13,7 +13,7 @@ backend:
   # نقطة الاستيثاق مبنيّة داخل الموقع نفسه (src/app/api/oauth) — لا وسيط خارجي.
   # ⚠ هذه القيمة يجب أن تساوي نطاق الموقع المنشور بالضبط.
   #   غيّريها هنا عند ربط النطاق الخاص، وإلّا أعاد GitHub التوجيه إلى عنوان خاطئ.
-  base_url: https://manal-blog.vercel.app
+  base_url: https://isnadblog.com
   auth_endpoint: api/oauth/github
 
 # مسودّات وتحرير قبل النشر عبر طلبات دمج على GitHub

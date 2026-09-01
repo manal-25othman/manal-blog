@@ -4,7 +4,7 @@
  */
 
 /** النطاق الافتراضي حين لا تُضبط البيئة أو تُضبط بقيمة لا تصلح. */
-const FALLBACK_URL = "https://manal-blog.vercel.app";
+const FALLBACK_URL = "https://isnadblog.com";
 
 /**
  * يقرأ نطاق الموقع من البيئة ويصحّحه.
