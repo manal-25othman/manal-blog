@@ -2,31 +2,32 @@
 name: أولاما
 nameLatin: Ollama
 slug: ollama
-description: أداة لتشغيل النماذج المفتوحة محليًّا بأمر واحد، مع واجهة محلية متوافقة مع واجهات شائعة.
+description: أداة لتشغيل النماذج المفتوحة محليًّا بأمر واحد، مع واجهة محلية
+  متوافقة مع واجهات شائعة.
 category: serving
+kind: تشغيل النماذج محلّيًّا
+availability: free
+useCases:
+  - التطوير المحلّي
+  - بيانات لا يجوز خروجها من الجهاز
+  - تجربة عدّة نماذج بسرعة
+audience:
+  - مهندسو الأنظمة
+  - المطوّرون
+  - الباحثون
+strength: يشغّل النماذج المفتوحة بأمر واحد بلا تكلفة استدعاء.
+caveat: الأداء محكوم بعتاد جهازك لا بخدمة سحابية.
+keywords:
+  - ollama
+  - أولاما
+  - محلي
+  - local
+  - نماذج مفتوحة
 license: open-source
 hosting: self-hosted
 website: https://ollama.com
 docs: https://github.com/ollama/ollama
 repo: https://github.com/ollama/ollama
-kind: "تشغيل النماذج محلّيًّا"
-availability: free
-strength: "يشغّل النماذج المفتوحة بأمر واحد بلا تكلفة استدعاء."
-caveat: "الأداء محكوم بعتاد جهازك لا بخدمة سحابية."
-useCases:
-  - "التطوير المحلّي"
-  - "بيانات لا يجوز خروجها من الجهاز"
-  - "تجربة عدّة نماذج بسرعة"
-audience:
-  - "مهندسو الأنظمة"
-  - "المطوّرون"
-  - "الباحثون"
-keywords:
-  - "ollama"
-  - "أولاما"
-  - "محلي"
-  - "local"
-  - "نماذج مفتوحة"
 goodFor:
   - التطوير المحلي بلا تكلفة استدعاء
   - بيانات لا يجوز خروجها من الجهاز
@@ -37,9 +38,10 @@ limits:
 relatedArticles:
   - quantization-guide
   - inference-cost-optimization
+hidden: true
 published: 2026-08-23
+updated: 2026-09-01
 ---
-
 تشغيل النماذج المفتوحة على جهازك بأمر واحد — أسرع طريق إلى تجربة محلية بلا تكلفة استدعاء.
 
 ## ما الذي تقدّمه
@@ -56,3 +58,4 @@ published: 2026-08-23
 
 - [الموقع الرسمي](https://ollama.com)
 - [التوثيق](https://github.com/ollama/ollama)
+
