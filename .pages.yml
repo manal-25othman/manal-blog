@@ -137,6 +137,7 @@ content:
             - { value: inference, label: "الاستدلال والتكلفة" }
             - { value: security, label: "أمن تطبيقات LLM" }
             - { value: governance, label: "الحوكمة والامتثال" }
+            - { value: human-impact, label: "الذكاء الاصطناعي والإنسان" }
             # ⟨/مولَّد⟩
         description: >-
           القائمة مولَّدة من «التصنيفات»: أضيفي تصنيفًا هناك ثم شغّلي

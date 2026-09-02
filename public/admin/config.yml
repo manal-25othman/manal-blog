@@ -91,6 +91,7 @@ collections:
           - { label: "الاستدلال والتكلفة", value: inference }
           - { label: "أمن تطبيقات LLM", value: security }
           - { label: "الحوكمة والامتثال", value: governance }
+          - { label: "الذكاء الاصطناعي والإنسان", value: human-impact }
       # ⟨/مولَّد⟩
       - { name: tags, label: الوسوم, widget: list, default: [], hint: "٣–٦ وسوم" }
       - { name: published, label: تاريخ النشر, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD }
