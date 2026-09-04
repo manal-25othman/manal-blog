@@ -477,6 +477,49 @@ content:
 
   # ─── الصفحات ──────────────────────────────────────────────────
   # كل صفحة ملف مستقل لأن مسارها مرتبط بالكود: لا تُنشأ صفحات جديدة من هنا.
+  # ─── نصوص الواجهة ─────────────────────────────────────────────
+  # نصوص مكتوبة في الصفحات نفسها لا في المقالات. تُقرأ وقت البناء، فكل
+  # حفظ هنا يغيّر ما يراه القارئ على الرئيسية وتحت كل مقال.
+  - name: settings
+    label: نصوص الموقع
+    type: group
+    items:
+      - name: settings_home
+        label: الصفحة الرئيسية
+        type: file
+        path: content/settings/home.md
+        format: yaml-frontmatter
+        fields:
+          - { name: badge, label: الشارة العلوية, type: string, required: true, description: السطر الصغير فوق العنوان }
+          - { name: titleTop, label: العنوان — السطر الأول, type: string, required: true }
+          - { name: titleAccent, label: العنوان — السطر الملوّن, type: string, required: true }
+          - { name: lead, label: الفقرة الافتتاحية, type: text, required: true }
+          - { name: primaryCta, label: زر أساسي, type: string, required: true }
+          - { name: secondaryCta, label: زر ثانوي, type: string, required: true }
+          - { name: statArticles, label: عنوان رقم المقالات, type: string, required: true, description: الرقم نفسه محسوب آليًّا — هذا وصفه فقط }
+          - { name: statCategories, label: عنوان رقم التصنيفات, type: string, required: true }
+          - { name: statReferences, label: عنوان رقم المراجع, type: string, required: true }
+          - { name: trustNote, label: سطر المصداقية, type: text, required: true }
+          - { name: scopeLabel, label: عنوان لوحة النطاق, type: string, required: true }
+          - { name: principlesTitle, label: عنوان قسم المبادئ, type: string, required: true }
+          - name: body
+            label: المبادئ
+            type: rich-text
+            description: >-
+              كل مبدأ عنوان بثلاث علامات (### العنوان) تتبعه فقرة. أضيفي أو
+              احذفي ما تشائين — الصفحة تعرض ما تكتبينه هنا.
+
+      - name: settings_author
+        label: عن الكاتبة
+        type: file
+        path: content/settings/author.md
+        format: yaml-frontmatter
+        description: يظهر تحت كل مقال وفي صفحة «عن إسناد» وفي بيانات جوجل المهيكلة.
+        fields:
+          - { name: name, label: الاسم, type: string, required: true }
+          - { name: role, label: الصفة, type: string, required: true }
+          - { name: body, label: السيرة, type: text, required: true }
+
   - name: pages
     label: الصفحات
     type: group

@@ -9,6 +9,7 @@ import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { absoluteUrl, configuredProfiles, siteConfig } from "@/config/site";
+import { getAuthor } from "@/lib/site-copy";
 import { CONSENT_BOOTSTRAP } from "@/lib/consent";
 
 // العناوين: هندسي حادّ الحواف. المتن: محايد مريح في القراءة الطويلة.
@@ -41,8 +42,8 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  authors: [{ name: siteConfig.author.name, url: absoluteUrl("/about") }],
-  creator: siteConfig.author.name,
+  authors: [{ name: getAuthor().name, url: absoluteUrl("/about") }],
+  creator: getAuthor().name,
   publisher: siteConfig.name,
   keywords: [
     "الذكاء الاصطناعي",

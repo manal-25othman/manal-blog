@@ -323,6 +323,58 @@ function checkToolImages() {
 checkToolImages();
 
 /**
+ * نصوص الواجهة. الحقل الذي يُفرَّغ من المحرّر لا يُسقط البناء — القيمة
+ * الاحتياطية تسدّ مكانه — فيمرّ صامتًا: الرئيسية تعرض نصًّا عامًّا بدل ما
+ * كتبته المالكة، ولا يكتشفه أحد. فيُرفض الفراغ هنا قبل أن يصل.
+ */
+function checkSiteCopy() {
+  const required: Array<[string, string[], boolean]> = [
+    [
+      "home",
+      [
+        "badge", "titleTop", "titleAccent", "lead", "primaryCta", "secondaryCta",
+        "statArticles", "statCategories", "statReferences", "trustNote",
+        "scopeLabel", "principlesTitle",
+      ],
+      true, // يحتاج مبادئ في المتن
+    ],
+    ["author", ["name", "role"], true], // يحتاج سيرة في المتن
+  ];
+
+  for (const [file, fields, needsBody] of required) {
+    const full = path.join(process.cwd(), "content", "settings", `${file}.md`);
+    if (!fs.existsSync(full)) {
+      errors.push(`settings/${file}.md مفقود — نصوص الواجهة تعود إلى قيم عامّة`);
+      continue;
+    }
+    const { data, body } = parseFrontmatter(fs.readFileSync(full, "utf8"));
+    for (const field of fields) {
+      if (!String(data[field] ?? "").trim()) {
+        errors.push(`settings/${file}.md: حقل «${field}» فارغ — يظهر للقارئ نصًّا احتياطيًّا`);
+      }
+    }
+    if (needsBody && !body.trim()) {
+      errors.push(`settings/${file}.md: المتن فارغ`);
+    }
+  }
+
+  // المبادئ تُقرأ من المتن بصيغة «### عنوان» ثم فقرة.
+  const home = path.join(process.cwd(), "content", "settings", "home.md");
+  if (fs.existsSync(home)) {
+    const { body } = parseFrontmatter(fs.readFileSync(home, "utf8"));
+    const principles = body.split(/^###\s+/m).slice(1).filter((block) => {
+      const [head, ...rest] = block.split("\n");
+      return head.trim() && rest.join("\n").trim();
+    });
+    if (principles.length === 0) {
+      errors.push("settings/home.md: لا مبادئ في المتن — قسم «كيف نكتب هنا» يظهر فارغًا");
+    }
+  }
+}
+
+checkSiteCopy();
+
+/**
  * روابط داخلية كُتبت مطلقة إلى موقع آخر.
  *
  * النصّ الذي يُصاغ في أداة ذكاء اصطناعي ثم يُلصق هنا يعود أحيانًا وقد صارت

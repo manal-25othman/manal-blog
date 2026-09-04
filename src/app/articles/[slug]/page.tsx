@@ -10,6 +10,7 @@ import { NewsletterCta } from "@/components/newsletter-cta";
 import { TableOfContents } from "@/components/table-of-contents";
 import { categoryBySlug } from "@/config/categories";
 import { absoluteUrl, siteConfig } from "@/config/site";
+import { getAuthor } from "@/lib/site-copy";
 import { getArticle, getArticleSlugs, getRelatedArticles } from "@/lib/articles";
 import { formatDate } from "@/lib/format";
 import { getToolsForArticle } from "@/lib/tools";
@@ -38,7 +39,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description: article.description,
       publishedTime: article.published,
       modifiedTime: article.updated ?? article.published,
-      authors: [siteConfig.author.name],
+      authors: [getAuthor().name],
       tags: article.tags,
     },
     twitter: { card: "summary_large_image", title: article.title, description: article.description },
@@ -69,8 +70,8 @@ export default async function ArticlePage({ params }: PageProps) {
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
     author: {
       "@type": "Person",
-      name: siteConfig.author.name,
-      jobTitle: siteConfig.author.role,
+      name: getAuthor().name,
+      jobTitle: getAuthor().role,
       url: absoluteUrl("/about"),
     },
     publisher: {
@@ -139,7 +140,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
         <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-y border-line py-4 text-sm text-ink-muted numerals-latn">
           <Link href="/about" className="font-medium text-ink hover:text-signal" rel="author">
-            {siteConfig.author.name}
+            {getAuthor().name}
           </Link>
           <span aria-hidden="true">·</span>
           <span>
@@ -194,8 +195,8 @@ export default async function ArticlePage({ params }: PageProps) {
           <aside className="mt-10 rounded-2xl border border-line bg-surface p-6">
             <h2 className="font-display text-base font-bold text-ink">عن الكاتبة</h2>
             <p className="mt-2 text-sm leading-7 text-ink-muted">
-              <span className="font-medium text-ink">{siteConfig.author.name}</span> —{" "}
-              {siteConfig.author.role}. {siteConfig.author.bio}
+              <span className="font-medium text-ink">{getAuthor().name}</span> —{" "}
+              {getAuthor().role}. {getAuthor().bio}
             </p>
             <Link href="/about" className="mt-3 inline-block text-sm font-medium text-signal hover:underline">
               اقرأ المزيد عن إسناد ←

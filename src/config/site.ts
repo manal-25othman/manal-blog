@@ -59,12 +59,12 @@ export const siteConfig = {
    */
   email: (process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "").trim(),
   editorialEmail: (process.env.NEXT_PUBLIC_EDITORIAL_EMAIL ?? "").trim(),
-  author: {
-    name: "منال عثمان",
-    role: "مهندسة أنظمة ذكاء اصطناعي تطبيقية",
-    bio: "تعمل على نقل الأنظمة المبنيّة على النماذج اللغوية من دفتر التجارب إلى الإنتاج: الاسترجاع، التقييم، والتكلفة. تكتب في إسناد ما تختبره فعلًا، وتنشر القياس مع النتيجة.",
-    url: "/about",
-  },
+  /**
+   * سيرة الكاتبة انتقلت إلى `content/settings/author.md` لتحرّرها المالكة
+   * من `/admin`. تُقرأ بـ`getAuthor()` في `src/lib/site-copy.ts`، ولا
+   * تُكتب هنا كي لا يكون لها مصدران يتباعدان.
+   */
+  authorUrl: "/about",
   /**
    * حسابات الموقع. تُقرأ من البيئة ولا تُكتب هنا بقيم مُفترضة: رابط حساب
    * غير موجود يضرّ الثقة ويكسر `sameAs` في البيانات المهيكلة. غير المضبوط

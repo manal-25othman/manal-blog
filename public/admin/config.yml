@@ -266,6 +266,36 @@ collections:
       - { name: updated, label: تاريخ التحديث, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, required: false }
       - { name: body, label: المتن, widget: markdown }
 
+  # نصوص الواجهة: تُقرأ وقت البناء، فكل حفظ يغيّر ما يراه القارئ.
+  - name: settings
+    label: نصوص الموقع
+    files:
+      - name: home
+        label: الصفحة الرئيسية
+        file: content/settings/home.md
+        fields:
+          - { name: badge, label: الشارة العلوية, widget: string }
+          - { name: titleTop, label: "العنوان — السطر الأول", widget: string }
+          - { name: titleAccent, label: "العنوان — السطر الملوّن", widget: string }
+          - { name: lead, label: الفقرة الافتتاحية, widget: text }
+          - { name: primaryCta, label: زر أساسي, widget: string }
+          - { name: secondaryCta, label: زر ثانوي, widget: string }
+          - { name: statArticles, label: عنوان رقم المقالات, widget: string, hint: "الرقم محسوب آليًّا — هذا وصفه" }
+          - { name: statCategories, label: عنوان رقم التصنيفات, widget: string }
+          - { name: statReferences, label: عنوان رقم المراجع, widget: string }
+          - { name: trustNote, label: سطر المصداقية, widget: text }
+          - { name: scopeLabel, label: عنوان لوحة النطاق, widget: string }
+          - { name: principlesTitle, label: عنوان قسم المبادئ, widget: string }
+          - { name: body, label: المبادئ, widget: markdown, hint: "كل مبدأ: ### العنوان ثم فقرة" }
+
+      - name: author
+        label: عن الكاتبة
+        file: content/settings/author.md
+        fields:
+          - { name: name, label: الاسم, widget: string }
+          - { name: role, label: الصفة, widget: string }
+          - { name: body, label: السيرة, widget: text }
+
   - name: pages
     label: الصفحات
     label_singular: صفحة

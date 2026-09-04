@@ -5,6 +5,7 @@ import { NewsletterCta } from "@/components/newsletter-cta";
 import { categories } from "@/config/categories";
 import { siteConfig } from "@/config/site";
 import { formatNumber } from "@/lib/format";
+import { getHomeCopy } from "@/lib/site-copy";
 import {
   getAllArticles,
   getArticlesByCategory,
@@ -13,6 +14,7 @@ import {
 } from "@/lib/articles";
 
 export default function HomePage() {
+  const copy = getHomeCopy();
   const all = getAllArticles();
   const referenceCount = getReferenceCount();
   const featured = getFeaturedArticles(2);
@@ -29,17 +31,16 @@ export default function HomePage() {
             <div>
               <p className="inline-flex items-center gap-2 rounded-full border border-signal-line bg-signal-soft px-3 py-1 text-xs font-medium text-signal">
                 <span className="h-1.5 w-1.5 rounded-full bg-signal" aria-hidden="true" />
-                مدونة عربية متخصصة — بلا أخبار وبلا مبالغات
+                {copy.badge}
               </p>
 
               <h1 className="mt-6 font-display text-[2.1rem] font-bold leading-[1.45] text-ink text-balance md:text-[2.7rem]">
-                هندسة أنظمة الذكاء الاصطناعي
-                <span className="block text-signal">بالقياس لا بالانطباع.</span>
+                {copy.titleTop}
+                <span className="block text-signal">{copy.titleAccent}</span>
               </h1>
 
               <p className="mt-6 max-w-xl text-[1.05rem] leading-9 text-ink-muted">
-                كل ما تحتاجه لنقل نظام مبنيّ على نموذج لغوي من دفتر التجارب إلى الإنتاج: الاسترجاع
-                المعزّز، الوكلاء، التقييم، اقتصاد الاستدلال، والأمن — بمراجع أوّلية وكود يعمل.
+                {copy.lead}
               </p>
 
               <div className="mt-8 flex flex-wrap gap-3">
@@ -47,31 +48,31 @@ export default function HomePage() {
                   href="/articles"
                   className="rounded-xl bg-signal px-6 py-3 text-sm font-semibold text-white transition hover:bg-signal-hover"
                 >
-                  ابدأ من المقالات
+                  {copy.primaryCta}
                 </Link>
                 <Link
                   href="/newsletter"
                   className="rounded-xl border border-line bg-surface px-6 py-3 text-sm font-semibold text-ink transition hover:border-signal-line hover:text-signal"
                 >
-                  اشترك في النشرة
+                  {copy.secondaryCta}
                 </Link>
               </div>
 
               {/* ثلاثة أرقام، وكلّها محسوبة من ملفات المحتوى وقت البناء. لا رقم مكتوب باليد. */}
               <dl className="mt-10 grid gap-6 border-t border-line pt-7 sm:grid-cols-3">
-                <Stat value={formatNumber(all.length)} label="مقالًا تقنيًّا منشورًا" />
-                <Stat value={formatNumber(categories.length)} label="تصنيفات هندسية" />
-                <Stat value={formatNumber(referenceCount)} label="مرجعًا في قوائم المصادر" />
+                <Stat value={formatNumber(all.length)} label={copy.statArticles} />
+                <Stat value={formatNumber(categories.length)} label={copy.statCategories} />
+                <Stat value={formatNumber(referenceCount)} label={copy.statReferences} />
               </dl>
 
               <p className="mt-5 text-sm leading-7 text-ink-faint">
-                الادعاءات التقنية الجوهرية مدعومة بمصادر أوّلية أو قياسات قابلة للتحقق.
+                {copy.trustNote}
               </p>
             </div>
 
             {/* لوحة النطاق: تعطي الواجهة ثِقلًا بصريًّا وتقول ما يغطّيه الموقع في نظرة */}
             <aside className="rounded-2xl border border-line bg-bg p-6 shadow-[var(--shadow-card)] lg:p-7">
-              <p className="text-xs font-medium tracking-widest text-ink-faint">نطاق التغطية</p>
+              <p className="text-xs font-medium tracking-widest text-ink-faint">{copy.scopeLabel}</p>
               <ul className="mt-4 flex flex-col divide-y divide-line">
                 {categories.map((category, index) => (
                   <li key={category.slug}>
@@ -156,19 +157,13 @@ export default function HomePage() {
       {/* ---------- الثقة ---------- */}
       <section className="border-y border-line bg-surface">
         <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-          <h2 className="font-display text-2xl font-bold text-ink">كيف نكتب هنا</h2>
+          <h2 className="font-display text-2xl font-bold text-ink">{copy.principlesTitle}</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <Principle title="المصدر الأوّلي أولًا">
-              كل رقم أو ادعاء غير بديهي يُسنَد إلى ورقة بحثية أو توثيق رسمي أو قياس منشور — لا إلى
-              مدونة تنقل عن مدونة.
-            </Principle>
-            <Principle title="القياس قبل الرأي">
-              لا نقول «أفضل» بلا رقم. كل مقارنة تذكر البيانات والإصدار وطريقة القياس حتى تعيد
-              إنتاجها بنفسك.
-            </Principle>
-            <Principle title="حدود الحل معلنة">
-              في كل مقال قسم «متى لا يصلح هذا الحل». الهندسة اختيار مقايضات، لا بحث عن حلٍّ سحري.
-            </Principle>
+            {copy.principles.map((principle) => (
+              <Principle key={principle.title} title={principle.title}>
+                {principle.body}
+              </Principle>
+            ))}
           </div>
           <p className="mt-8 text-sm text-ink-muted">
             التفاصيل الكاملة في{" "}
