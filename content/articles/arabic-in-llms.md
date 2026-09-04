@@ -1,18 +1,24 @@
 ---
-title: "من يكتب لنا؟"
-slug: "arabic-in-llms"
-seoTitle: "العربية في النماذج اللغوية: أقل من ١٪ من البيانات"
-description: "العربية أقل من ١٪ من بيانات الويب وأكثر من ٤٠٠ مليون متحدث. ماذا يعني ذلك للنماذج التي تجيبنا؟"
+title: من يكتب لنا؟
+seoTitle: 'العربية في النماذج اللغوية: أقل من ١٪ من البيانات'
+description: العربية أقل من ١٪ من بيانات الويب وأكثر من ٤٠٠ مليون متحدث. ماذا يعني ذلك للنماذج التي تجيبنا؟
 category: human-impact
-tags: [اللغة العربية, تحيّز ثقافي, نماذج لغوية]
+tags:
+  - اللغة العربية
+  - تحيّز ثقافي
+  - نماذج لغوية
 published: 2026-09-04
-status: draft
+status: ''
+updated: ''
+featured: false
 takeaways:
-  - "حصّة العربية أقل من ١٪ بثلاثة مقاييس مختلفة للويب وبيانات التدريب المفتوحة، بينما يتحدّثها أكثر من ٤٠٠ مليون إنسان."
-  - "التقطيع ضريبة مزدوجة: النص العربي يحتاج نحو ثلاثة أضعاف الرموز، فيصير أغلى وأبطأ ويتّسع النموذج لثلث ما يتّسع له بالإنجليزية."
-  - "التحيّز الثقافي أخطر من ضعف اللغة: حتى في سؤال عربي بسياق عربي صريح مالت النماذج إلى الكيانات الغربية في ٤٠٪ إلى ٦٥٪ من الحالات — والنماذج العربية أحادية اللغة منها."
+  - حصّة العربية أقل من ١٪ بثلاثة مقاييس مختلفة للويب وبيانات التدريب المفتوحة، بينما يتحدّثها أكثر من ٤٠٠ مليون إنسان.
+  - 'التقطيع ضريبة مزدوجة: النص العربي يحتاج نحو ثلاثة أضعاف الرموز، فيصير أغلى وأبطأ ويتّسع النموذج لثلث ما يتّسع له بالإنجليزية.'
+  - 'التحيّز الثقافي أخطر من ضعف اللغة: حتى في سؤال عربي بسياق عربي صريح مالت النماذج إلى الكيانات الغربية في ٤٠٪ إلى ٦٥٪ من الحالات — والنماذج العربية أحادية اللغة منها.'
+slug: arabic-in-llms
 ---
-*العربية في زمن النماذج اللغوية*
+
+_العربية في زمن النماذج اللغوية_
 
 يتحدث العربية أكثر من **٤٠٠ مليون إنسان** يومياً، وفق اليونسكو والأمم المتحدة. وهذه هي حصّتها من العالم الذي تتعلّم منه الآلات:
 
@@ -89,33 +95,37 @@ takeaways:
 
 السؤال في عنوان هذا المقال ليس بلاغياً. **من يكتب لنا؟** الجواب اليوم: من كتب على الإنترنت بالإنجليزية. والجواب بعد عشر سنوات يُكتب الآن.
 
----
+***
 
 ## الأسئلة الشائعة
 
 ### ما حصّة العربية في بيانات تدريب GPT وClaude وGemini؟
+
 لا أحد يعرف. لا تنشر أيٌّ من هذه الشركات تركيب بياناتها، فأي رقم يُتداول عن ذلك غير مُسنَد. الأرقام المذكورة هنا تخصّ الويب ومدوّنات تدريب مفتوحة، لا النماذج المغلقة.
 
 ### لماذا يكلّف النص العربي أكثر من الإنجليزي؟
+
 لأن الرموز هي وحدة الحساب: بها يُقاس الثمن وطول السياق وزمن الاستجابة. وقياس منشور وجد أن مقطّع نماذج GPT يحتاج نحو ثلاثة أضعاف الرموز للنص العربي نفسه.
 
 ### هل النماذج العربية أفضل في اللهجات؟
+
 الفجوة قائمة فيها أيضًا. في اختبار على ١٩ نموذجًا مفتوحًا، نزل المعدّل من ٥١٫٩٪ بالفصحى إلى ٤٧٫٧٪ باللهجات، وأدناها المغربية. والمشكلة الأوسع أن أغلب المقارنات المتاحة منشورة من الجهات المطوّرة نفسها.
 
 ## المراجع
+
 1. اليونسكو والأمم المتحدة — اليوم العالمي للغة العربية (أكثر من ٤٠٠ مليون متحدث). [unesco.org](https://www.unesco.org/en/world-arabic-language-day)
-2. W3Techs — *Usage statistics of content languages for websites* (سبتمبر ٢٠٢٦). [w3techs.com](https://w3techs.com/technologies/overview/content_language)
+2. W3Techs — _Usage statistics of content languages for websites_ (سبتمبر ٢٠٢٦). [w3techs.com](https://w3techs.com/technologies/overview/content_language)
 3. Common Crawl — إحصاءات اللغات، أرشيف CC-MAIN-2026-34. [commoncrawl.github.io](https://commoncrawl.github.io/cc-crawl-statistics/plots/languages)
-4. Nguyen, T. et al. — *CulturaX* (٦٫٣ تريليون رمز، ١٦٧ لغة). [huggingface.co](https://huggingface.co/datasets/uonlp/CulturaX) · [arxiv.org](https://arxiv.org/abs/2309.09400)
-5. Petrov, A. et al. — *Language Model Tokenizers Introduce Unfairness Between Languages*, **NeurIPS 2023**. [arxiv.org](https://arxiv.org/abs/2305.15425)
-6. Ahia, O. et al. — *Do All Languages Cost the Same?*, **EMNLP 2023**. [aclanthology.org](https://aclanthology.org/2023.emnlp-main.614/)
-7. Sengupta, N. et al. — *Jais and Jais-chat* (التقرير التقني، Inception + MBZUAI + Cerebras). [arxiv.org](https://arxiv.org/abs/2308.16149)
-8. Altakrori, M., Habash, N., Freihat, A. et al. — *DialectalArabicMMLU* (**مسودة على arXiv**). [arxiv.org](https://arxiv.org/pdf/2510.27543)
+4. Nguyen, T. et al. — _CulturaX_ (٦٫٣ تريليون رمز، ١٦٧ لغة). [huggingface.co](https://huggingface.co/datasets/uonlp/CulturaX) · [arxiv.org](https://arxiv.org/abs/2309.09400)
+5. Petrov, A. et al. — _Language Model Tokenizers Introduce Unfairness Between Languages_, **NeurIPS 2023**. [arxiv.org](https://arxiv.org/abs/2305.15425)
+6. Ahia, O. et al. — _Do All Languages Cost the Same?_, **EMNLP 2023**. [aclanthology.org](https://aclanthology.org/2023.emnlp-main.614/)
+7. Sengupta, N. et al. — _Jais and Jais-chat_ (التقرير التقني، Inception + MBZUAI + Cerebras). [arxiv.org](https://arxiv.org/abs/2308.16149)
+8. Altakrori, M., Habash, N., Freihat, A. et al. — _DialectalArabicMMLU_ (**مسودة على arXiv**). [arxiv.org](https://arxiv.org/pdf/2510.27543)
 9. Nacar, O. — تقييم مجتمعي لنموذج ALLaM عبر واجهة HUMAIN Chat (**مسودة، عيّنة صغيرة، تحكيم آلي**). [arxiv.org](https://arxiv.org/html/2508.17378v1)
-10. Naous, T., Ryan, M. J., Ritter, A., & Xu, W. — *Having Beer after Prayer? Measuring Cultural Bias in Large Language Models*, **ACL 2024** (أفضل ورقة ذات أثر اجتماعي). [aclanthology.org](https://aclanthology.org/2024.acl-long.862/)
+10. Naous, T., Ryan, M. J., Ritter, A., & Xu, W. — _Having Beer after Prayer? Measuring Cultural Bias in Large Language Models_, **ACL 2024** (أفضل ورقة ذات أثر اجتماعي). [aclanthology.org](https://aclanthology.org/2024.acl-long.862/)
 11. Ashraf, Y. et al. — تقييم سلامة النماذج في السياق العربي (٥٧٩٩ سؤالاً). [arxiv.org](https://arxiv.org/html/2410.17040)
-12. Alwajih, F. et al. — *Palm: A Culturally Inclusive Arabic Instruction Dataset*, **ACL 2025**. [aclanthology.org](https://aclanthology.org/2025.acl-long.1579/)
-13. ويكيبيديا — *List of Wikipedias* (أغسطس ٢٠٢٦). [en.wikipedia.org](https://en.wikipedia.org/wiki/List_of_Wikipedias)
+12. Alwajih, F. et al. — _Palm: A Culturally Inclusive Arabic Instruction Dataset_, **ACL 2025**. [aclanthology.org](https://aclanthology.org/2025.acl-long.1579/)
+13. ويكيبيديا — _List of Wikipedias_ (أغسطس ٢٠٢٦). [en.wikipedia.org](https://en.wikipedia.org/wiki/List_of_Wikipedias)
 14. Habash — فصل منشور لدى Springer عن المجلات العلمية الناطقة بالعربية (٢٠٢٥). [link.springer.com](https://link.springer.com/chapter/10.1007/978-3-031-87550-2_39)
 
-*تنبيه منهجي: نِسب «حصة العربية» الثلاث في مطلع المقال تقيس أشياء مختلفة (مواقع، صفحات مزحوفة، رموز في مدوّنة تدريب مفتوحة) وليست بديلاً بعضها عن بعض. ولا تُنشر تركيبة بيانات النماذج الكبرى المغلقة، فلا يوجد رقم موثوق لحصة العربية فيها.*
+_تنبيه منهجي: نِسب «حصة العربية» الثلاث في مطلع المقال تقيس أشياء مختلفة (مواقع، صفحات مزحوفة، رموز في مدوّنة تدريب مفتوحة) وليست بديلاً بعضها عن بعض. ولا تُنشر تركيبة بيانات النماذج الكبرى المغلقة، فلا يوجد رقم موثوق لحصة العربية فيها._
