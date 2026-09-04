@@ -49,14 +49,31 @@ export type HomeCopy = {
   principles: Principle[];
 };
 
+/**
+ * يزيل تشديد الماركداون من عنوان المبدأ.
+ *
+ * العنوان يُعرض نصًّا خامًّا لا ماركداون، والمحرّرة تكتب في حقل يقبل
+ * الماركداون — فكتبت `### **القياس قبل الرأي**` فظهرت النجمات للقارئ.
+ * وهي كتابة مشروعة في محرّر ماركداون، فالخلل في القراءة لا في الكتابة.
+ */
+function stripEmphasis(text: string): string {
+  let out = text.trim().replace(/\s*#+\s*$/, "");
+  let previous: string;
+  do {
+    previous = out;
+    out = out.replace(/(\*\*|__|\*|_)(.+?)\1/g, "$2");
+  } while (out !== previous);
+  return out.trim();
+}
+
 /** المبادئ تُكتب في المتن `### عنوان` ثم فقرة — المحلّل لا يقرأ الكائنات المتشعّبة. */
 export function parsePrinciples(body: string): Principle[] {
   return body
-    .split(/^###\s+/m)
+    .split(/^#{2,4}\s+/m)
     .slice(1)
     .map((block) => {
       const [head, ...rest] = block.split("\n");
-      return { title: head.trim(), body: rest.join("\n").trim() };
+      return { title: stripEmphasis(head), body: rest.join("\n").trim() };
     })
     .filter((p) => p.title && p.body);
 }
