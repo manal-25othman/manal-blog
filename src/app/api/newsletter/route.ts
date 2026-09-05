@@ -14,6 +14,16 @@ export const dynamic = "force-dynamic";
 const PROVIDER_ENDPOINT = process.env.NEWSLETTER_ENDPOINT ?? "";
 const PROVIDER_TOKEN = process.env.NEWSLETTER_API_KEY ?? "";
 
+/**
+ * المزوّدون يختلفون في تفصيلتين تكسران الطلب بلا رسالة مفهومة:
+ * كلمة الاستيثاق في الترويسة، واسم حقل البريد في الجسم. مثلًا
+ * MailerLite يطلب `Bearer` و`email`، وButtondown يطلب `Token`
+ * و`email_address`. فبدل حصر الموقع في مزوّد واحد، يُضبطان بمتغيّرين
+ * وتبقى القيم الافتراضية هي الأشيع.
+ */
+const AUTH_SCHEME = (process.env.NEWSLETTER_AUTH_SCHEME ?? "Bearer").trim();
+const EMAIL_FIELD = (process.env.NEWSLETTER_EMAIL_FIELD ?? "email").trim();
+
 function json(body: unknown, status: number, headers: Record<string, string> = {}) {
   return Response.json(body, { status, headers: { "Cache-Control": "no-store", ...headers } });
 }
@@ -58,15 +68,19 @@ export async function POST(request: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(PROVIDER_TOKEN ? { Authorization: `Bearer ${PROVIDER_TOKEN}` } : {}),
+        ...(PROVIDER_TOKEN ? { Authorization: `${AUTH_SCHEME} ${PROVIDER_TOKEN}` } : {}),
       },
-      body: JSON.stringify({ email }),
+      body: JSON.stringify({ [EMAIL_FIELD]: email }),
       signal: AbortSignal.timeout(8000),
     });
 
     if (!upstream.ok) {
       // لا نُسرّب جسم ردّ المزوّد إلى المتصفّح؛ قد يحمل تفاصيل حساب.
-      console.error("newsletter upstream failed", upstream.status);
+      // الحالة وحدها لا تكفي للتشخيص: 401 يعني مفتاحًا أو كلمة استيثاق
+      // خاطئة، و422 يعني اسم حقل بريد لا يعرفه المزوّد.
+      console.error(
+        `newsletter upstream failed: ${upstream.status} — endpoint=${PROVIDER_ENDPOINT} scheme=${AUTH_SCHEME} field=${EMAIL_FIELD}`,
+      );
       return json(
         { ok: false, reason: "upstream", message: "تعذّر تسجيل الاشتراك الآن." },
         502,
