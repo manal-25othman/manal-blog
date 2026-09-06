@@ -16,7 +16,14 @@ function loadFont(): Buffer {
  * محرّك صور المشاركة يرصف الكلمات من اليسار لليمين ولا يعيد ترتيب النص العربي.
  * لذلك نقسّم العنوان إلى أسطر بأنفسنا ونعكس كلمات كل سطر، فيظهر بترتيب
  * القراءة الصحيح. كل سطر يُرسم منفردًا حتى لا يلتفّ تلقائيًّا فيختلّ الترتيب.
+ *
+ * والفصل بمسافة غير فاصلة (U+00A0) لا بمسافة عادية: المحرّك يقيس المسافة
+ * العادية بخطّ احتياطي لا بخطّ العنوان، فتخرج فجوات عريضة غير منتظمة بين
+ * الكلمات. المسافة غير الفاصلة تأتي من الخطّ نفسه فينضبط التباعد. جُرّبت
+ * أربع مسافات وقُورنت الصور: العادية متباعدة، والشعرية ملتصقة، وهذه أصحّها.
  */
+const WORD_SPACE = "\u00A0";
+
 function toRtlLines(text: string, maxChars: number): string[] {
   const lines: string[] = [];
   let current: string[] = [];
@@ -24,14 +31,14 @@ function toRtlLines(text: string, maxChars: number): string[] {
 
   for (const word of text.split(/\s+/)) {
     if (length + word.length + (current.length ? 1 : 0) > maxChars && current.length) {
-      lines.push(current.reverse().join(" "));
+      lines.push(current.reverse().join(WORD_SPACE));
       current = [];
       length = 0;
     }
     current.push(word);
     length += word.length + (current.length > 1 ? 1 : 0);
   }
-  if (current.length) lines.push(current.reverse().join(" "));
+  if (current.length) lines.push(current.reverse().join(WORD_SPACE));
 
   return lines;
 }
@@ -88,7 +95,7 @@ export function renderOgImage({ title, eyebrow }: { title: string; eyebrow: stri
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18, alignItems: "flex-end" }}>
           <span style={{ color: "#2AB7C4", fontSize: 27 }}>
-            {toRtlLines(eyebrow, 60).join(" ")}
+            {toRtlLines(eyebrow, 60).join(WORD_SPACE)}
           </span>
           {lines.map((line) => (
             <span
@@ -103,7 +110,7 @@ export function renderOgImage({ title, eyebrow }: { title: string; eyebrow: stri
 
         <div style={{ display: "flex", alignItems: "center", gap: 18, alignSelf: "flex-end" }}>
           <span style={{ color: "#94a3b8", fontSize: 22 }}>
-            {toRtlLines("بالقياس لا بالانطباع", 60).join(" ")}
+            {toRtlLines("بالقياس لا بالانطباع", 60).join(WORD_SPACE)}
           </span>
           <div style={{ width: 88, height: 6, background: "#0E7C86", borderRadius: 999 }} />
         </div>

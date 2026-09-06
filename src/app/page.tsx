@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ArticleCard, FeatureCard } from "@/components/article-card";
@@ -218,7 +219,30 @@ function Principle({ title, children }: { title: string; children: React.ReactNo
   );
 }
 
-export const metadata = {
+/**
+ * عنوان الرئيسية. كان يُعرَّف في `title` وحده، فيرث `og:title` و`twitter:title`
+ * عنوانَ الجذر الأقصر — فيختلف ما يقرؤه محرّك البحث عمّا تعرضه لينكدإن
+ * للرابط نفسه. مصدر واحد يمنع التباعد.
+ */
+const HOME_TITLE = `${siteConfig.name} — هندسة أنظمة الذكاء الاصطناعي التطبيقية بالعربية`;
+
+export const metadata: Metadata = {
+  title: HOME_TITLE,
+  description: siteConfig.description,
   alternates: { canonical: "/" },
-  title: `${siteConfig.name} — هندسة أنظمة الذكاء الاصطناعي التطبيقية بالعربية`,
+  openGraph: {
+    type: "website",
+    locale: "ar_AR",
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: HOME_TITLE,
+    description: siteConfig.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: HOME_TITLE,
+    description: siteConfig.description,
+  },
+  // صورة المشاركة لا تُذكر هنا عمدًا: `src/app/opengraph-image.tsx` يحقنها
+  // Next.js تلقائيًّا برابط مطلق ومقاسها. ذكرها هنا يكرّر الوسم.
 };
