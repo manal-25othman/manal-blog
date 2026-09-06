@@ -8,7 +8,7 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { JsonLd } from "@/components/json-ld";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
-import { absoluteUrl, configuredProfiles, siteConfig } from "@/config/site";
+import { OG_IMAGE, absoluteUrl, configuredProfiles, siteConfig } from "@/config/site";
 import { getAuthor } from "@/lib/site-copy";
 import { CONSENT_BOOTSTRAP } from "@/lib/consent";
 
@@ -66,11 +66,13 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: `${siteConfig.name} — هندسة أنظمة الذكاء الاصطناعي التطبيقية`,
     description: siteConfig.description,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteConfig.name} — هندسة أنظمة الذكاء الاصطناعي التطبيقية`,
     description: siteConfig.description,
+    images: [OG_IMAGE],
   },
   robots: {
     index: true,

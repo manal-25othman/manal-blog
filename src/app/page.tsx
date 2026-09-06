@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ArticleCard, FeatureCard } from "@/components/article-card";
 import { NewsletterCta } from "@/components/newsletter-cta";
 import { categories } from "@/config/categories";
-import { siteConfig } from "@/config/site";
+import { OG_IMAGE, siteConfig } from "@/config/site";
 import { formatNumber } from "@/lib/format";
 import { getHomeCopy } from "@/lib/site-copy";
 import {
@@ -237,12 +237,12 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     title: HOME_TITLE,
     description: siteConfig.description,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: HOME_TITLE,
     description: siteConfig.description,
+    images: [OG_IMAGE],
   },
-  // صورة المشاركة لا تُذكر هنا عمدًا: `src/app/opengraph-image.tsx` يحقنها
-  // Next.js تلقائيًّا برابط مطلق ومقاسها. ذكرها هنا يكرّر الوسم.
 };

@@ -100,3 +100,22 @@ export function configuredProfiles(): string[] {
 export function absoluteUrl(path = "/"): string {
   return new URL(path, siteConfig.url).toString();
 }
+
+/**
+ * صورة المشاركة الافتراضية — ملف ثابت في `public/`، لا مسار يُولَّد عند الطلب.
+ *
+ * كانت تُولَّد من `app/opengraph-image.tsx`: دالّة بلا خادم برابط فيه معامل
+ * استعلام، ترسم الصورة وتقرأ ملف الخطّ في أوّل طلب بارد. وزاحف الشبكات
+ * الاجتماعية ينتظر مدّة قصيرة ثم يتخلّى عن الصورة، فتظهر البطاقة بلا صورة.
+ * الملف الثابت يُقدَّم فورًا.
+ *
+ * ويُصدَّر من هنا لأن تعريف `openGraph` في صفحة يستبدل تعريف الجذر كاملًا
+ * لا يدمجه — فالصفحة التي تعرّف `openGraph` بلا `images` تفقد صورتها
+ * صامتةً. المصدر الواحد يمنع ذلك.
+ */
+export const OG_IMAGE = {
+  url: absoluteUrl("/og.png"),
+  width: 1200,
+  height: 630,
+  alt: `${siteConfig.name} — هندسة أنظمة الذكاء الاصطناعي التطبيقية`,
+} as const;
