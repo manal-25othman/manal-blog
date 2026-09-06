@@ -1,4 +1,5 @@
 import { categoryBySlug } from "@/config/categories";
+import { siteConfig } from "@/config/site";
 import { getArticle, getArticleSlugs } from "@/lib/articles";
 import { OG_SIZE, renderOgImage } from "@/lib/og";
 
@@ -17,5 +18,7 @@ export default async function ArticleOgImage({ params }: { params: Promise<{ slu
   return renderOgImage({
     eyebrow: categoryBySlug.get(article?.category ?? "")?.name ?? "إسناد",
     title: article?.title ?? "إسناد",
+    // سطر الموقع الثابت — العنوان هنا عنوان المقال لا نصّ الرئيسية.
+    footer: siteConfig.tagline,
   });
 }

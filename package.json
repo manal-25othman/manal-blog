@@ -4,9 +4,9 @@
   "private": true,
   "description": "إسناد — مدونة تقنية متخصصة في هندسة أنظمة الذكاء الاصطناعي التطبيقية",
   "scripts": {
-    "predev": "node scripts/sync-categories.mjs && node scripts/sync-cms.mjs",
+    "predev": "node scripts/sync-categories.mjs && node scripts/sync-cms.mjs && tsx --tsconfig scripts/tsconfig.og.json scripts/generate-og.tsx",
     "dev": "next dev",
-    "prebuild": "node scripts/sync-categories.mjs && node scripts/sync-cms.mjs",
+    "prebuild": "node scripts/sync-categories.mjs && node scripts/sync-cms.mjs && tsx --tsconfig scripts/tsconfig.og.json scripts/generate-og.tsx",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -15,7 +15,8 @@
     "cms": "node scripts/sync-cms.mjs",
     "prelaunch": "tsx scripts/prelaunch.ts",
     "categories": "node scripts/sync-categories.mjs",
-    "draft": "tsx scripts/import-draft.ts"
+    "draft": "tsx scripts/import-draft.ts",
+    "og": "tsx --tsconfig scripts/tsconfig.og.json scripts/generate-og.tsx"
   },
   "dependencies": {
     "next": "15.5.23",

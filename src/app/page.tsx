@@ -220,29 +220,36 @@ function Principle({ title, children }: { title: string; children: React.ReactNo
 }
 
 /**
- * عنوان الرئيسية. كان يُعرَّف في `title` وحده، فيرث `og:title` و`twitter:title`
- * عنوانَ الجذر الأقصر — فيختلف ما يقرؤه محرّك البحث عمّا تعرضه لينكدإن
- * للرابط نفسه. مصدر واحد يمنع التباعد.
+ * بيانات الرئيسية الوصفية تُشتقّ من `content/settings/home.md` — الملف نفسه
+ * الذي تحرّره المالكة.
+ *
+ * كانت مكتوبة في الكود، فلمّا صارت الرئيسية قابلة للتحرير انفصلت البطاقة
+ * المنشورة عن الصفحة: الموقع يقول شيئًا وما يظهر في لينكدإن يقول غيره.
+ * وهذا أضرّ من بطاقة بلا صورة، لأن القارئ يرى وعدًا ثم يفتح صفحة تخالفه.
  */
-const HOME_TITLE = `${siteConfig.name} — هندسة أنظمة الذكاء الاصطناعي التطبيقية بالعربية`;
+export function generateMetadata(): Metadata {
+  const copy = getHomeCopy();
+  const title = `${siteConfig.name} — ${copy.titleTop.replace(/\s*[.]\s*$/, "")}`;
+  const description = copy.lead;
 
-export const metadata: Metadata = {
-  title: HOME_TITLE,
-  description: siteConfig.description,
-  alternates: { canonical: "/" },
-  openGraph: {
-    type: "website",
-    locale: "ar_AR",
-    url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: HOME_TITLE,
-    description: siteConfig.description,
-    images: [OG_IMAGE],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: HOME_TITLE,
-    description: siteConfig.description,
-    images: [OG_IMAGE],
-  },
-};
+  return {
+    title,
+    description,
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      locale: "ar_AR",
+      url: siteConfig.url,
+      siteName: siteConfig.name,
+      title,
+      description,
+      images: [OG_IMAGE],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [OG_IMAGE],
+    },
+  };
+}

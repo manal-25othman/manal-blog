@@ -24,23 +24,44 @@ function loadFont(): Buffer {
  */
 const WORD_SPACE = "\u00A0";
 
-function toRtlLines(text: string, maxChars: number): string[] {
-  const lines: string[] = [];
+function wrap(words: string[], maxChars: number): string[][] {
+  const lines: string[][] = [];
   let current: string[] = [];
   let length = 0;
 
-  for (const word of text.split(/\s+/)) {
+  for (const word of words) {
     if (length + word.length + (current.length ? 1 : 0) > maxChars && current.length) {
-      lines.push(current.reverse().join(WORD_SPACE));
+      lines.push(current);
       current = [];
       length = 0;
     }
     current.push(word);
     length += word.length + (current.length > 1 ? 1 : 0);
   }
-  if (current.length) lines.push(current.reverse().join(WORD_SPACE));
+  if (current.length) lines.push(current);
 
   return lines;
+}
+
+function toRtlLines(text: string, maxChars: number): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  if (!words.length) return [];
+
+  // الرصف الجشع يترك كلمة وحيدة في السطر الأخير («فعلًا» تحت عنوان كامل).
+  // فيُعاد الرصف على عرض أضيق يوزّع الكلمات على العدد نفسه من الأسطر.
+  let lines = wrap(words, maxChars);
+  if (lines.length > 1) {
+    const total = words.join(" ").length;
+    for (let width = Math.ceil(total / lines.length); width <= maxChars; width += 1) {
+      const balanced = wrap(words, width);
+      if (balanced.length === lines.length) {
+        lines = balanced;
+        break;
+      }
+    }
+  }
+
+  return lines.map((line) => [...line].reverse().join(WORD_SPACE));
 }
 
 /** شعار الاستلزام المنطقي مرسومًا بالعناصر — الرمز نفسه غير موجود في الخط. */
@@ -65,10 +86,19 @@ function Mark() {
   );
 }
 
-export function renderOgImage({ title, eyebrow }: { title: string; eyebrow: string }) {
+export function renderOgImage({
+  title,
+  eyebrow,
+  footer,
+}: {
+  title: string;
+  eyebrow: string;
+  /** سطر الأسفل. صار معطًى لا ثابتًا كي لا يتجمّد على شعار قديم. */
+  footer: string;
+}) {
   const font = loadFont();
   // الإسكندرية خطّ عريض؛ العرض المتاح ~١٠٤٨px، فنحسب أطول سطر يسعه المقاس.
-  const fontSize = title.length > 58 ? 46 : 54;
+  const fontSize = title.length > 58 ? 42 : title.length > 30 ? 48 : 54;
   const lines = toRtlLines(title, Math.floor(1048 / (fontSize * 0.62)));
 
   return new ImageResponse(
@@ -94,9 +124,11 @@ export function renderOgImage({ title, eyebrow }: { title: string; eyebrow: stri
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 18, alignItems: "flex-end" }}>
-          <span style={{ color: "#2AB7C4", fontSize: 27 }}>
-            {toRtlLines(eyebrow, 60).join(WORD_SPACE)}
-          </span>
+          {toRtlLines(eyebrow, 46).map((line) => (
+            <span key={line} style={{ color: "#2AB7C4", fontSize: 27, whiteSpace: "nowrap" }}>
+              {line}
+            </span>
+          ))}
           {lines.map((line) => (
             <span
               key={line}
@@ -110,7 +142,7 @@ export function renderOgImage({ title, eyebrow }: { title: string; eyebrow: stri
 
         <div style={{ display: "flex", alignItems: "center", gap: 18, alignSelf: "flex-end" }}>
           <span style={{ color: "#94a3b8", fontSize: 22 }}>
-            {toRtlLines("بالقياس لا بالانطباع", 60).join(WORD_SPACE)}
+            {toRtlLines(footer, 60).join(WORD_SPACE)}
           </span>
           <div style={{ width: 88, height: 6, background: "#0E7C86", borderRadius: 999 }} />
         </div>
