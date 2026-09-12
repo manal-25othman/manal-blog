@@ -9,7 +9,7 @@ tags:
   - الحوكمة
   - إعادة تصميم الأدوار
 published: 2026-09-09
-status: draft
+status: ''
 updated: ''
 featured: false
 takeaways:
