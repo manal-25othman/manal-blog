@@ -178,7 +178,7 @@ export default async function ArticlePage({ params }: PageProps) {
           <div className="prose mt-10" dangerouslySetInnerHTML={{ __html: article.html }} />
 
           {/* موضع إعلاني بعد المتن — قبل المراجع لا داخل القراءة */}
-          <AdSlot minHeight={250} label="مساحة إعلانية — نهاية المقال" />
+          <AdSlot minHeight={250} />
 
           <div className="mt-10 flex flex-wrap gap-2">
             {article.tags.map((tag) => (
@@ -206,7 +206,7 @@ export default async function ArticlePage({ params }: PageProps) {
 
         <aside className="flex flex-col gap-6">
           <TableOfContents headings={article.headings} />
-          <AdSlot minHeight={600} label="مساحة إعلانية جانبية" />
+          <AdSlot minHeight={600} />
         </aside>
       </div>
 

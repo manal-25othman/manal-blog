@@ -5,27 +5,21 @@ type AdSlotProps = {
   slot?: string;
   /** ارتفاع محجوز مسبقًا — يمنع انهيار CLS عند تحميل الإعلان. */
   minHeight?: number;
-  label?: string;
 };
 
 /**
  * مساحة إعلانية محجوزة الأبعاد. قبل ضبط `NEXT_PUBLIC_ADSENSE_CLIENT`
- * تُعرض كمساحة صامتة، فلا يظهر للزائر إطار فارغ ولا يُحمَّل سكربت.
+ * لا تُصيَّر شيئًا البتّة.
+ *
+ * كانت تعرض إطارًا متقطّعًا مكتوبًا فيه «تُفعَّل بعد قبول أدسنس». والنيّة
+ * كانت حجز الارتفاع منعًا لقفزة التخطيط، لكن الأثر أن كل مقال يحمل
+ * صندوقين فارغين يقرؤهما الزائر — ومراجع أدسنس — على أنهما موضع إعلان
+ * معطّل أو موقع تحت الإنشاء، وكلاهما سبب رفض. لا إعلان يعني لا أثر.
  */
-export function AdSlot({ slot, minHeight = 280, label = "مساحة إعلانية" }: AdSlotProps) {
+export function AdSlot({ slot, minHeight = 280 }: AdSlotProps) {
   const client = siteConfig.adsense.client;
 
-  if (!client || !slot) {
-    return (
-      <div
-        aria-hidden="true"
-        style={{ minHeight }}
-        className="my-10 grid place-items-center rounded-2xl border border-dashed border-line text-xs text-ink-faint"
-      >
-        {label} — تُفعَّل بعد قبول أدسنس
-      </div>
-    );
-  }
+  if (!client || !slot) return null;
 
   return (
     <div className="my-10" style={{ minHeight }}>
