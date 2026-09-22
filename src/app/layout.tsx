@@ -55,6 +55,9 @@ export const metadata: Metadata = {
     "هندسة الذكاء الاصطناعي",
     "أمن تطبيقات LLM",
   ],
+  // علامة تحقّق أدسنس. `other` يصيّرها وسمًا في <head> على كل صفحة، بلا
+  // سكربت وبلا اشتراط موافقة — فيجدها زاحف جوجل في أول زيارة.
+  other: { "google-adsense-account": siteConfig.adsense.account },
   alternates: {
     canonical: "/",
     types: { "application/rss+xml": [{ url: "/rss.xml", title: `${siteConfig.name} — RSS` }] },
