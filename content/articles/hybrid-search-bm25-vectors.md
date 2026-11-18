@@ -5,6 +5,7 @@ description: "ما أثبته تقييم BEIR عن ضعف النماذج الك�
 category: rag
 tags: [البحث الهجين, BM25, إعادة الترتيب, RAG, الاسترجاع]
 published: 2026-06-30
+updated: 2026-11-18
 featured: false
 takeaways:
   - "BEIR فحص نماذج الاسترجاع على ١٨ مجموعة خارج نطاق تدريبها، وبقي BM25 خطّ أساس يصعب هزمه — وهذه حالة مستنداتك المؤسسية بالضبط."
@@ -28,6 +29,14 @@ takeaways:
 | لغة مختلطة عربي/إنجليزي | «كيف أستخدم embeddings مع العربية؟» | الدمج |
 
 BM25 يرجّح تطابق الكلمات بتكرارها وندرتها وطول المستند. لا يعرف أن «إلغاء» و«إيقاف» متقاربتان، لكنه يعرف يقينًا أن `ERR-4021` وردت هنا ولم ترد هناك. النماذج الكثيفة تعرف العكس تمامًا. الجمع بينهما ليس حلًّا وسطًا، بل تغطية لعيبين متعاكسين.
+
+## BM25 مع العربية يحتاج مساعدة
+
+BM25 يطابق الكلمات حرفيًّا، والعربية تلصق بالكلمة أداة التعريف وحروف العطف والضمائر. فـ«الإجازات» و«إجازته» و«وبالإجازة» ثلاث كلمات مختلفة عنده، ولو أن السؤال عن الموضوع نفسه.
+
+الحلّ المجرَّب منذ أكثر من عشرين سنة هو التطبيع مع «الجذع الخفيف» (Light Stemming): إزالة السوابق واللواحق الشائعة دون محاولة الوصول إلى الجذر. وجدت لاركي وزميلاها أن هذا النوع يحقّق استرجاعًا جيدًا جدًّا دون تحليل صرفي صحيح، وأن أفضل جذع خفيف تفوّق في الاسترجاع العابر للغات على مجذّع صرفي يحاول استخراج الجذر [7]. والمجذّع الخفيف ومُطبِّع العربية متاحان جاهزين في Lucene، ومنها في Elasticsearch وSolr [8].
+
+والبديل الأحدث: نموذج BGE-M3 ينتج إلى جانب المتجه الكثيف أوزانًا لكل رمز (تمثيلًا متفرّقًا) تؤدي دورًا شبيهًا بالمطابقة الحرفية، من نموذج واحد [9].
 
 ## الدمج بالرتبة لا بالدرجة
 
@@ -104,3 +113,6 @@ merged = rrf([vector_results, bm25_results])[:20]
 4. Nogueira, R. & Cho, K. *Passage Re-ranking with BERT*. [arXiv:1901.04085](https://arxiv.org/abs/1901.04085)
 5. Anthropic. *Introducing Contextual Retrieval*. [anthropic.com](https://www.anthropic.com/news/contextual-retrieval)
 6. Karpukhin, V. et al. *Dense Passage Retrieval for Open-Domain Question Answering*. [arXiv:2004.04906](https://arxiv.org/abs/2004.04906)
+7. Larkey, L., Ballesteros, L. & Connell, M. *Improving Stemming for Arabic Information Retrieval: Light Stemming and Co-occurrence Analysis*. SIGIR 2002. [ciir-publications.cs.umass.edu](https://ciir-publications.cs.umass.edu/pub/web/getpdf.php?id=249)
+8. Apache Lucene. *ArabicNormalizer* (source and documentation). [code.yawk.at](https://code.yawk.at/org.apache.lucene/lucene-analyzers-common/8.2.0/org/apache/lucene/analysis/ar/ArabicNormalizer.java)
+9. Chen, J. et al. *BGE M3-Embedding: Multi-Lingual, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation*. 2024. [arXiv:2402.03216](https://arxiv.org/abs/2402.03216)

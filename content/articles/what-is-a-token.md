@@ -6,6 +6,7 @@ description: "شرح دقيق للرمز (Token) في النماذج اللغو�
 category: basics
 tags: [ما هو token, tokenization, تكلفة API, العربية في النماذج اللغوية]
 published: 2026-08-25
+updated: 2026-11-18
 featured: false
 takeaways:
   - "الرمز ليس كلمة، بل جزء من كلمة قد يكون حرفًا واحدًا أو عدة أحرف"
@@ -40,6 +41,20 @@ takeaways:
 | الإنجليزية | نحو ١٫٣ | معظم الكلمات الشائعة رمز واحد |
 | العربية بترميز إنجليزي | بين ٢٫٥ و٤ | تقسيم إلى أحرف أو بايتات |
 | العربية بترميز مخصّص | بين ١ و١٫٥ | ترميز مصمَّم للعربية يقلّص الفارق |
+
+## أرقام منشورة على مقاطِع معروفة
+
+قاست دراسة جامعة أكسفورد (NeurIPS 2023) طول النصّ نفسه بالرموز في لغات مختلفة، فكان النصّ العربي مقارنةً بمقابله الإنجليزي:
+
+| المقطِّع | طول النصّ العربي بالرموز مقارنة بالإنجليزي |
+|---|---|
+| GPT-2 | نحو ٤٫٤ أضعاف |
+| مقطِّع ChatGPT وGPT-4 (cl100k) | نحو ٣ أضعاف |
+| مقطِّعات متعدّدة اللغات (XLM-RoBERTa وBLOOM) | نحو ١٫١ إلى ١٫٢ ضعف |
+
+ووجدت الدراسة نفسها أن مقطِّع ArabicBERT يعامل خمسًا وعشرين لهجة عربية تقريبًا مثل الفصحى في عدد الرموز. أي أن المشكلة في البيانات التي دُرّب عليها المقطِّع، لا في اللغة نفسها.
+
+والفجوة تضيق مع المقطِّعات الأحدث. عند إطلاق GPT-4o في مايو ٢٠٢٤ عرضت OpenAI جملة عربية نزل عدد رموزها في المقطِّع الجديد من ٥٣ إلى ٢٦، أي إلى النصف تقريبًا. لكنه مثال بجملة واحدة من الشركة نفسها، لا قياس على نصوص متنوّعة.
 
 ## أثر ذلك على التكلفة
 
@@ -88,3 +103,4 @@ takeaways:
 3. Sennrich, R. et al. *Neural Machine Translation of Rare Words with Subword Units*. [arXiv](https://arxiv.org/abs/1508.07909)
 4. OpenAI. *tiktoken — BPE tokeniser*. [github.com](https://github.com/openai/tiktoken)
 5. Hugging Face. *Summary of the tokenizers*. [huggingface.co](https://huggingface.co/docs/transformers/tokenizer_summary)
+6. OpenAI. *Hello GPT-4o* (قسم Language tokenization). مايو ٢٠٢٤. [openai.com](https://openai.com/index/hello-gpt-4o/)
